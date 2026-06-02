@@ -1,0 +1,14 @@
+Welcome to Beatmatch!
+
+This is the first release of the Beatmatch DJ booking marketplace for iOS.
+
+What's included in v1.0:
+• Browse and discover DJs by genre and location
+• Instant booking requests with real-time status updates
+• In-app messaging between DJs and venues
+• Mix Store — preview, purchase, and download DJ sets for offline playback
+• DJ subscription plans (Starter, Pro, Elite) with Apple In-App Purchase
+• Push notifications for booking requests, messages, and event reminders
+• Beautiful dark-themed interface built for music professionals
+
+We're just getting started — more features, more DJs, more music coming soon. Follow us and leave a review to help other users find Beatmatch.

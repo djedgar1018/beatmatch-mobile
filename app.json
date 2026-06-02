@@ -9,7 +9,20 @@
     "userInterfaceStyle": "dark",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ten18.beatmatch"
+      "bundleIdentifier": "com.ten18.beatmatch",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Beatmatch may access your microphone for voice messages",
+        "NSCameraUsageDescription": "Beatmatch uses your camera to update your profile photo",
+        "NSPhotoLibraryUsageDescription": "Beatmatch accesses your photos for your DJ portfolio"
+      },
+      "entitlements": {
+        "com.apple.developer.in-app-payments": [
+          "com.ten18.beatmatch.starter",
+          "com.ten18.beatmatch.pro",
+          "com.ten18.beatmatch.elite"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -35,7 +48,8 @@
           "icon": "./assets/icon.png",
           "color": "#7c3aed"
         }
-      ]
+      ],
+      "expo-iap"
     ],
     "experiments": {
       "typedRoutes": true

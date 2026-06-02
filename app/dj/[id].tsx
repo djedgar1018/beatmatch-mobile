@@ -146,6 +146,29 @@ export default function DJDetailScreen() {
             </View>
           )}
 
+          {/* Mix Store */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Mix Store</Text>
+            <TouchableOpacity
+              style={styles.portfolioCard}
+              onPress={() =>
+                router.push({
+                  pathname: '/mixes',
+                  params: { djId: dj.userId, djName: dj.stageName },
+                })
+              }
+            >
+              <View style={[styles.portfolioThumb, { backgroundColor: `${Colors.gold}20` }]}>
+                <Text style={{ fontSize: 28 }}>🎧</Text>
+              </View>
+              <View style={styles.portfolioInfo}>
+                <Text style={styles.portfolioTitle}>Browse {dj.stageName}'s Mixes</Text>
+                <Text style={styles.portfolioSub}>Preview & purchase full DJ sets</Text>
+              </View>
+              <Text style={styles.portfolioChevron}>›</Text>
+            </TouchableOpacity>
+          </View>
+
           {/* Portfolio placeholder */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Portfolio</Text>
