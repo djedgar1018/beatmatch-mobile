@@ -1,36 +1,45 @@
-Beat Jump — The DJ Booking Marketplace
+BEAT JUMP — Book DJs. Get Booked. Get Paid.
 
-Find, book, and collaborate with world-class DJs for any event — all from your phone.
+Beat Jump is the DJ booking marketplace built for the culture. Whether you're a DJ looking for your next gig or a venue searching for the perfect sound — Beat Jump connects you directly. No middlemen. No redirects. No $10/month just to search.
 
-DISCOVER LOCAL DJS
-Browse hundreds of DJs near you by genre, location, and hourly rate. From intimate lounges to massive festivals, Beat Jump connects you with the perfect DJ for every occasion. Filter by Hip-Hop, R&B, House, Techno, Afrobeats, Latin, EDM, and more.
+── FOR DJs ──
+• Get discovered by venues and event planners in your city
+• Manage booking requests in one place — accept, decline, counter
+• Auto-generated contracts protect you every time
+• Get paid directly via Stripe — 80% goes to you
+• Sell your mixes as downloadable tracks with the Mix Store
+• Showcase your TikTok videos directly on your profile
+• Three subscription tiers unlock featured placement and analytics
 
-INSTANT BOOKING
-Send booking requests directly to DJs with your event details — date, duration, venue, and budget. Get real-time confirmations and manage every booking from one place.
+── FOR VENUES & EVENT PLANNERS ──
+• Browse verified DJs by genre, location, rate, and availability
+• Send booking requests in seconds — no account needed to browse
+• Real-time messaging with DJs before you commit
+• Digital contracts signed in-app — no paperwork
+• Track all your bookings in one dashboard
 
-REAL-TIME MESSAGING
-Communicate with DJs before, during, and after your event. Discuss set lists, equipment needs, and logistics all in one thread. No more missed emails or unanswered calls.
+── WHY BEAT JUMP ──
+Other apps link you to Upwork or Fiverr and call it a day. Beat Jump owns the entire booking flow — from discovery to contract to payment — so you never leave the app wondering if your gig is confirmed.
 
-CONTRACT MANAGEMENT
-Every booking is documented. Track the status of your requests — pending, accepted, completed — with full transparency for both DJs and venues.
+• Direct booking — not an aggregator
+• Instant messaging between DJ and venue
+• Digital contracts auto-generated per booking
+• Stripe-powered payouts for DJs
+• Mix Store for passive income
+• Built by a working DJ, for working DJs
 
-MIX STORE
-Buy and download full DJ sets directly from the artists you love. Preview 30-second clips before purchasing, then download and play your mixes offline anytime. Build your personal library of exclusive sets.
+── MIX STORE ──
+DJs can upload and sell their recorded mixes directly to fans and venues. Set your price, choose your clip for preview, and earn passive income between gigs.
 
-FOR DJS — GROW YOUR BRAND
-Beat Jump Pro subscriptions give DJs the tools to stand out:
-• Starter ($29/mo) — Up to 5 booking requests per month, basic profile listing
-• Pro ($79/mo) — Unlimited bookings, featured placement, analytics dashboard, priority support
-• Elite ($149/mo) — Everything in Pro plus top-of-search placement, dedicated account manager, custom branding, and early access to new features
+── SUBSCRIPTION TIERS (DJs) ──
+• Starter ($29/month) — Profile listing, booking management, messaging
+• Pro ($79/month) — Featured placement, advanced analytics, priority support
+• Elite ($149/month) — Top placement, Mix Store unlimited, verified badge
 
-PUSH NOTIFICATIONS
-Never miss a booking request or message. Get instant notifications for new booking requests, accepted bookings, messages, and 24-hour event reminders.
+Note: All payments for bookings and mixes are processed on our secure web platform. Subscription management available through App Store Account Settings.
 
-BEAUTIFUL & FAST
-Beat Jump features a sleek dark interface designed for DJs and music industry professionals. Browse, book, and message with blazing-fast performance on any iPhone.
+TERMS & PRIVACY
+Privacy Policy: https://beat-match-production.up.railway.app/privacy
+Terms of Use: https://beat-match-production.up.railway.app/terms
 
----
-
-Whether you're planning a corporate event, birthday party, wedding, or club night — Beat Jump makes it effortless to find and book the right DJ. Download free and get started today.
-
-Subscriptions are optional and designed for professional DJs who want to grow their business on the platform.
+Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Payment charged to Apple ID at confirmation of purchase. Manage subscriptions in App Store Account Settings.
