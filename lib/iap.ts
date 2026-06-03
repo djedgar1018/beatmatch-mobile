@@ -1,3 +1,4 @@
+export type SubscriptionTier = 'starter' | 'pro' | 'elite' | 'free';
 // IAP stub - Mix-Match uses reader app model
 // Subscriptions are managed on the web platform
 // This file is a placeholder for future IAP implementation

@@ -29,7 +29,7 @@ export type NotificationType =
   | 'message'
   | 'booking_reminder';
 
-export interface Mix-MatchNotificationData {
+export interface MixMatchNotificationData {
   type: NotificationType;
   bookingId?: string;
   conversationId?: string;
@@ -110,7 +110,7 @@ async function savePushTokenToServer(token: string): Promise<void> {
 // ---------------------------------------------------------------------------
 
 export function getNavigationTargetForNotification(
-  data: Mix-MatchNotificationData
+  data: MixMatchNotificationData
 ): { pathname: string; params?: Record<string, string> } | null {
   switch (data.type) {
     case 'booking_request':
