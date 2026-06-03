@@ -1,54 +1,17 @@
-App Store Review Notes — Mix-Match
+DEMO ACCOUNT:
+Email: djedgar00@gmail.com
+Password: Edgar2026
 
-Thank you for reviewing Mix-Match!
+This is a DJ profile with full access to all features including:
+- Browse DJs (Discover tab)
+- Booking management (Bookings tab)
+- Real-time messaging (Messages tab)
+- DJ profile and portfolio (Profile tab)
+- Settings and subscription info (More tab)
 
-DEMO CREDENTIALS
-----------------
-Email:    reviewer@mix-match.io
-Password: Mix-MatchReview2024!
+No payment is required to test the booking request flow. Tap any DJ → "Book DJ" to see the booking form.
 
-USER TYPE: Select "Venue" on the sign-up screen to browse DJs and send booking requests.
-To view the DJ experience, select "DJ" and you can set up a profile, respond to bookings, and manage subscriptions.
+The Mix Store allows DJs to sell downloadable audio mixes. Purchases redirect to the secure web platform (reader app model — no in-app payments).
 
-FEATURES TO TEST
-----------------
-1. DISCOVER (Home tab)
-   - Browse the DJ listing — search by name or filter by genre
-   - Tap a DJ card to open their full profile
-
-2. DJ PROFILE
-   - Scroll to see bio, genres, and stats
-   - Tap "Mix Store" to see the mix purchase flow (demo mixes shown if no API data)
-   - Tap "Book [DJ Name]" to submit a booking request
-
-3. BOOKINGS (Bookings tab)
-   - View pending requests and upcoming bookings
-   - Tap a booking for full details
-
-4. MESSAGES (Messages tab)
-   - View conversation threads and send messages
-
-5. SUBSCRIPTIONS (More tab)
-   - Three subscription tiers: Starter ($29), Pro ($79), Elite ($149)
-   - Plans use Apple In-App Purchase (auto-renewable subscriptions)
-   - Tap "Restore Purchases" to restore prior subscriptions
-   - Legal disclosure text is shown per App Store guidelines
-
-6. MIX STORE (from DJ profile)
-   - Preview 30-second clips (requires previewUrl on server)
-   - "Buy & Download" opens external Stripe checkout (reader app exemption per App Store guidelines — users pay on the web, content available in app)
-   - After purchase, users download the file to device for offline playback
-
-7. LIBRARY (from Mix Store after download)
-   - Offline audio playback with scrubber, skip controls
-
-NOTES FOR REVIEWER
-------------------
-- In-app purchases require a Sandbox Apple ID for testing. The app correctly presents the StoreKit purchase sheet.
-- The Mix Store purchase flow uses the reader app exemption (Apple Developer Program License Agreement section 3.3.3): users complete payment on the web, then download purchased content within the app.
-- Push notifications require physical device; the demo account will receive test notifications upon booking events.
-- The app requires internet connectivity for initial login and data fetching; downloaded mixes play offline.
-
-API Base: https://beat-match-production.up.railway.app
-
-For any questions during review, contact: support@mix-match.io
+SUPPORT URL: https://mixmatch.app
+MARKETING URL: https://mixmatch.app

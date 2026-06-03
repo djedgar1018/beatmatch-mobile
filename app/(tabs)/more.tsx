@@ -27,8 +27,8 @@ export default function MoreScreen() {
     { icon: '📋', label: 'My Contracts', onPress: () => router.push('/contracts' as any) },
     { icon: '🎵', label: 'My Mix Library', onPress: () => router.push('/library' as any) },
     { icon: '🔔', label: 'Notification Settings', onPress: () => {} },
-    { icon: '🔒', label: 'Privacy Policy', onPress: () => Linking.openURL('https://beat-match-production.up.railway.app/privacy') },
-    { icon: '📄', label: 'Terms of Service', onPress: () => Linking.openURL('https://beat-match-production.up.railway.app/terms') },
+    { icon: '🔒', label: 'Privacy Policy', onPress: () => Linking.openURL('https://mixmatch.app/privacy') },
+    { icon: '📄', label: 'Terms of Service', onPress: () => Linking.openURL('https://mixmatch.app/terms') },
     { icon: '💬', label: 'Support', onPress: () => Linking.openURL('mailto:support@mixmatch.app') },
   ];
 

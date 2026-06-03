@@ -1,6 +1,6 @@
 MIX-MATCH — Book DJs. Get Booked. Get Paid.
 
-Mix-Match is the DJ booking marketplace built for the culture. Whether you're a DJ looking for your next gig or a venue searching for the perfect sound — Mix-Match connects you directly. No middlemen. No redirects. No $10/month just to search.
+Mix-Match is the DJ booking marketplace built for the culture. Whether you're a DJ looking for your next gig or a venue searching for the perfect sound — Mix-Match connects you directly. No middlemen. No redirects.
 
 ── FOR DJs ──
 • Get discovered by venues and event planners in your city
@@ -9,17 +9,16 @@ Mix-Match is the DJ booking marketplace built for the culture. Whether you're a 
 • Get paid directly via Stripe — 80% goes to you
 • Sell your mixes as downloadable tracks with the Mix Store
 • Showcase your TikTok videos directly on your profile
-• Three subscription tiers unlock featured placement and analytics
 
 ── FOR VENUES & EVENT PLANNERS ──
 • Browse verified DJs by genre, location, rate, and availability
-• Send booking requests in seconds — no account needed to browse
+• Send booking requests in seconds — free to request
 • Real-time messaging with DJs before you commit
 • Digital contracts signed in-app — no paperwork
 • Track all your bookings in one dashboard
 
 ── WHY MIX-MATCH ──
-Other apps link you to Upwork or Fiverr and call it a day. Mix-Match owns the entire booking flow — from discovery to contract to payment — so you never leave the app wondering if your gig is confirmed.
+Other apps link you elsewhere and call it a day. Mix-Match owns the entire booking flow — from discovery to contract to payment — so you never leave the app wondering if your gig is confirmed.
 
 • Direct booking — not an aggregator
 • Instant messaging between DJ and venue
@@ -29,17 +28,9 @@ Other apps link you to Upwork or Fiverr and call it a day. Mix-Match owns the en
 • Built by a working DJ, for working DJs
 
 ── MIX STORE ──
-DJs can upload and sell their recorded mixes directly to fans and venues. Set your price, choose your clip for preview, and earn passive income between gigs.
+DJs can upload and sell their recorded mixes directly to fans and venues. Set your price, choose your preview clip, and earn passive income between gigs.
 
-── SUBSCRIPTION TIERS (DJs) ──
-• Starter ($29/month) — Profile listing, booking management, messaging
-• Pro ($79/month) — Featured placement, advanced analytics, priority support
-• Elite ($149/month) — Top placement, Mix Store unlimited, verified badge
+Terms: https://mixmatch.app/terms
+Privacy: https://mixmatch.app/privacy
 
-Note: All payments for bookings and mixes are processed on our secure web platform. Subscription management available through App Store Account Settings.
-
-TERMS & PRIVACY
-Privacy Policy: https://beat-match-production.up.railway.app/privacy
-Terms of Use: https://beat-match-production.up.railway.app/terms
-
-Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Payment charged to Apple ID at confirmation of purchase. Manage subscriptions in App Store Account Settings.
+Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Manage in App Store Account Settings.
