@@ -15,7 +15,9 @@
     },
     "production": {
       "ios": {
-        "buildConfiguration": "Release"
+        "buildConfiguration": "Release",
+        "credentialsSource": "remote",
+        "autoIncrement": true
       }
     }
   },

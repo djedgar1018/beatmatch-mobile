@@ -14,7 +14,8 @@
       "infoPlist": {
         "NSMicrophoneUsageDescription": "Mix-Match may access your microphone for voice messages",
         "NSCameraUsageDescription": "Mix-Match uses your camera to update your profile photo",
-        "NSPhotoLibraryUsageDescription": "Mix-Match accesses your photos for your DJ portfolio"
+        "NSPhotoLibraryUsageDescription": "Mix-Match accesses your photos for your DJ portfolio",
+        "ITSAppUsesNonExemptEncryption": false
       },
       "entitlements": {
         "com.apple.developer.in-app-payments": [
