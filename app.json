@@ -31,7 +31,7 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.ten18.mix-match"
+      "package": "com.ten18.mixnmatch"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -47,7 +47,8 @@
           "icon": "./assets/icon.png",
           "color": "#7c3aed"
         }
-      ]
+      ],
+      "expo-video"
     ],
     "experiments": {
       "typedRoutes": true
