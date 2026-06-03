@@ -4,9 +4,9 @@ export type SubscriptionTier = 'starter' | 'pro' | 'elite' | 'free';
 // This file is a placeholder for future IAP implementation
 
 export const IAP_PRODUCTS = {
-  starter: 'com.ten18.mixmatch.starter',
-  pro: 'com.ten18.mixmatch.pro', 
-  elite: 'com.ten18.mixmatch.elite',
+  starter: 'com.ten18.mixnmatch.starter',
+  pro: 'com.ten18.mixnmatch.pro', 
+  elite: 'com.ten18.mixnmatch.elite',
 };
 
 export function useIAP() {
