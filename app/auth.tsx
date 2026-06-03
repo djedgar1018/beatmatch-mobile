@@ -95,7 +95,7 @@ export default function AuthScreen() {
               <View style={styles.logoCircle}>
                 <Text style={styles.logoIcon}>🎧</Text>
               </View>
-              <Text style={styles.brandName}>Beatmatch</Text>
+              <Text style={styles.brandName}>Beat Jump</Text>
               <Text style={styles.brandSub}>The DJ Booking Marketplace</Text>
             </View>
 

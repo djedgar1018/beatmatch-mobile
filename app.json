@@ -1,26 +1,26 @@
 {
   "expo": {
-    "name": "Beatmatch",
-    "slug": "beatmatch",
+    "name": "Beat Jump",
+    "slug": "beat-jump",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "beatmatch",
+    "scheme": "beat-jump",
     "userInterfaceStyle": "dark",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ten18.beatmatch",
+      "bundleIdentifier": "com.ten18.beatjump",
       "buildNumber": "1",
       "infoPlist": {
-        "NSMicrophoneUsageDescription": "Beatmatch may access your microphone for voice messages",
-        "NSCameraUsageDescription": "Beatmatch uses your camera to update your profile photo",
-        "NSPhotoLibraryUsageDescription": "Beatmatch accesses your photos for your DJ portfolio"
+        "NSMicrophoneUsageDescription": "Beat Jump may access your microphone for voice messages",
+        "NSCameraUsageDescription": "Beat Jump uses your camera to update your profile photo",
+        "NSPhotoLibraryUsageDescription": "Beat Jump accesses your photos for your DJ portfolio"
       },
       "entitlements": {
         "com.apple.developer.in-app-payments": [
-          "com.ten18.beatmatch.starter",
-          "com.ten18.beatmatch.pro",
-          "com.ten18.beatmatch.elite"
+          "com.ten18.beat-jump.starter",
+          "com.ten18.beat-jump.pro",
+          "com.ten18.beat-jump.elite"
         ]
       }
     },
@@ -32,7 +32,7 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.ten18.beatmatch"
+      "package": "com.ten18.beat-jump"
     },
     "web": {
       "favicon": "./assets/favicon.png",

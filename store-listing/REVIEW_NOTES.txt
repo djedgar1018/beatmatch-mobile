@@ -1,11 +1,11 @@
-App Store Review Notes — Beatmatch
+App Store Review Notes — Beat Jump
 
-Thank you for reviewing Beatmatch!
+Thank you for reviewing Beat Jump!
 
 DEMO CREDENTIALS
 ----------------
-Email:    reviewer@beatmatch.io
-Password: BeatmatchReview2024!
+Email:    reviewer@beat-jump.io
+Password: Beat JumpReview2024!
 
 USER TYPE: Select "Venue" on the sign-up screen to browse DJs and send booking requests.
 To view the DJ experience, select "DJ" and you can set up a profile, respond to bookings, and manage subscriptions.
@@ -51,4 +51,4 @@ NOTES FOR REVIEWER
 
 API Base: https://beat-match-production.up.railway.app
 
-For any questions during review, contact: support@beatmatch.io
+For any questions during review, contact: support@beat-jump.io

@@ -11,7 +11,7 @@ import { Colors } from '../constants/colors';
 import {
   registerForPushNotifications,
   getNavigationTargetForNotification,
-  type BeatmatchNotificationData,
+  type Beat JumpNotificationData,
 } from '../lib/notifications';
 
 const queryClient = new QueryClient({
@@ -72,7 +72,7 @@ function NotificationListener() {
     // Tap on notification — navigate to the relevant screen
     responseListener.current = Notifications.addNotificationResponseReceivedListener(
       (response) => {
-        const data = response.notification.request.content.data as BeatmatchNotificationData;
+        const data = response.notification.request.content.data as Beat JumpNotificationData;
         if (!data?.type) return;
 
         const target = getNavigationTargetForNotification(data);

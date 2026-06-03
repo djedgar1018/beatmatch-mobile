@@ -16,9 +16,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const BASE_URL = 'https://beat-match-production.up.railway.app';
 
 export const PRODUCT_IDS = {
-  starter: 'com.ten18.beatmatch.starter',
-  pro: 'com.ten18.beatmatch.pro',
-  elite: 'com.ten18.beatmatch.elite',
+  starter: 'com.ten18.beat-jump.starter',
+  pro: 'com.ten18.beat-jump.pro',
+  elite: 'com.ten18.beat-jump.elite',
 } as const;
 
 export type SubscriptionTier = keyof typeof PRODUCT_IDS;
