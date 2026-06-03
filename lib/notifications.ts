@@ -29,7 +29,7 @@ export type NotificationType =
   | 'message'
   | 'booking_reminder';
 
-export interface Beat JumpNotificationData {
+export interface Mix-MatchNotificationData {
   type: NotificationType;
   bookingId?: string;
   conversationId?: string;
@@ -62,8 +62,8 @@ export async function registerForPushNotifications(): Promise<string | null> {
 
     // Android channel setup
     if (Platform.OS === 'android') {
-      await Notifications.setNotificationChannelAsync('beat-jump', {
-        name: 'Beat Jump',
+      await Notifications.setNotificationChannelAsync('mix-match', {
+        name: 'Mix-Match',
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
         lightColor: '#7c3aed',
@@ -110,7 +110,7 @@ async function savePushTokenToServer(token: string): Promise<void> {
 // ---------------------------------------------------------------------------
 
 export function getNavigationTargetForNotification(
-  data: Beat JumpNotificationData
+  data: Mix-MatchNotificationData
 ): { pathname: string; params?: Record<string, string> } | null {
   switch (data.type) {
     case 'booking_request':

@@ -1,6 +1,6 @@
-BEAT JUMP — Book DJs. Get Booked. Get Paid.
+MIX-MATCH — Book DJs. Get Booked. Get Paid.
 
-Beat Jump is the DJ booking marketplace built for the culture. Whether you're a DJ looking for your next gig or a venue searching for the perfect sound — Beat Jump connects you directly. No middlemen. No redirects. No $10/month just to search.
+Mix-Match is the DJ booking marketplace built for the culture. Whether you're a DJ looking for your next gig or a venue searching for the perfect sound — Mix-Match connects you directly. No middlemen. No redirects. No $10/month just to search.
 
 ── FOR DJs ──
 • Get discovered by venues and event planners in your city
@@ -18,8 +18,8 @@ Beat Jump is the DJ booking marketplace built for the culture. Whether you're a 
 • Digital contracts signed in-app — no paperwork
 • Track all your bookings in one dashboard
 
-── WHY BEAT JUMP ──
-Other apps link you to Upwork or Fiverr and call it a day. Beat Jump owns the entire booking flow — from discovery to contract to payment — so you never leave the app wondering if your gig is confirmed.
+── WHY MIX-MATCH ──
+Other apps link you to Upwork or Fiverr and call it a day. Mix-Match owns the entire booking flow — from discovery to contract to payment — so you never leave the app wondering if your gig is confirmed.
 
 • Direct booking — not an aggregator
 • Instant messaging between DJ and venue

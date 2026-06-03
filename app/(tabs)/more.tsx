@@ -231,7 +231,7 @@ export default function MoreScreen() {
           <SettingsRow
             icon="📧"
             label="Contact Support"
-            onPress={() => Linking.openURL('mailto:support@beat-jump.io')}
+            onPress={() => Linking.openURL('mailto:support@mix-match.io')}
           />
           <View style={styles.separator} />
           <SettingsRow
@@ -251,7 +251,7 @@ export default function MoreScreen() {
           />
         </View>
 
-        <Text style={styles.version}>Beat Jump v1.0.0</Text>
+        <Text style={styles.version}>Mix-Match v1.0.0</Text>
       </ScrollView>
     </SafeAreaView>
   );
