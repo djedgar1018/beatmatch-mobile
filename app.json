@@ -18,10 +18,8 @@
         "ITSAppUsesNonExemptEncryption": false
       },
       "entitlements": {
-        "com.apple.developer.in-app-payments": [
-          "com.ten18.mix-match.starter",
-          "com.ten18.mix-match.pro",
-          "com.ten18.mix-match.elite"
+        "com.apple.developer.associated-domains": [
+          "applinks:beat-match-production.up.railway.app"
         ]
       }
     },
