@@ -43,9 +43,8 @@ export default function AuthScreen() {
     }
     setLoading(true);
     try {
-      const res = await login({ email: loginEmail, password: loginPassword });
-      if (res.token) await AsyncStorage.setItem('auth_token', res.token);
-      await AsyncStorage.setItem('auth_user', JSON.stringify(res.user));
+      const user = await login({ email: loginEmail, password: loginPassword });
+      await AsyncStorage.setItem('auth_user', JSON.stringify(user));
       router.replace('/(tabs)');
     } catch (err: unknown) {
       Alert.alert('Login failed', err instanceof Error ? err.message : 'Please try again.');
@@ -61,15 +60,14 @@ export default function AuthScreen() {
     }
     setLoading(true);
     try {
-      const res = await register({
+      const user = await register({
         firstName,
         lastName,
         email: signupEmail,
         password: signupPassword,
         userType,
       });
-      if (res.token) await AsyncStorage.setItem('auth_token', res.token);
-      await AsyncStorage.setItem('auth_user', JSON.stringify(res.user));
+      await AsyncStorage.setItem('auth_user', JSON.stringify(user));
       router.replace('/(tabs)');
     } catch (err: unknown) {
       Alert.alert('Sign up failed', err instanceof Error ? err.message : 'Please try again.');

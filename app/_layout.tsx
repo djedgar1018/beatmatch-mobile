@@ -27,7 +27,7 @@ function AuthGate({ children }: { children: React.ReactNode }) {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    AsyncStorage.getItem('auth_token').then((token) => {
+    AsyncStorage.getItem('auth_user').then((token) => {
       setChecking(false);
       if (!token) {
         router.replace('/auth');
