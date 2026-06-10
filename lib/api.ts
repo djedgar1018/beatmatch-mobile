@@ -25,7 +25,7 @@ async function apiFetch<T>(
   });
 
   if (res.status === 401) {
-    await AsyncStorage.removeItem('auth_token');
+    await AsyncStorage.removeItem('auth_user');
     await AsyncStorage.removeItem('auth_user');
     router.replace('/auth');
     throw new Error('Unauthorized');

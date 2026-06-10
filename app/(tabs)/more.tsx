@@ -29,7 +29,7 @@ export default function MoreScreen() {
     { icon: '🔔', label: 'Notification Settings', onPress: () => {} },
     { icon: '🔒', label: 'Privacy Policy', onPress: () => Linking.openURL('https://beat-match-production.up.railway.app/privacy') },
     { icon: '📄', label: 'Terms of Service', onPress: () => Linking.openURL('https://beat-match-production.up.railway.app/terms') },
-    { icon: '💬', label: 'Support', onPress: () => Linking.openURL('mailto:support@mixmatch.app') },
+    { icon: '💬', label: 'Support', onPress: () => Linking.openURL('mailto:djedgar00@gmail.com') },
   ];
 
   return (
