@@ -45,9 +45,16 @@ export default function AuthScreen() {
     try {
       const user = await login({ email: loginEmail, password: loginPassword });
       await AsyncStorage.setItem('auth_user', JSON.stringify(user));
-      router.replace('/(tabs)');
+      // Small delay to ensure storage write completes before navigation
+      setTimeout(() => {
+        try {
+          router.replace('/(tabs)' as any);
+        } catch (navErr) {
+          router.push('/(tabs)' as any);
+        }
+      }, 100);
     } catch (err: unknown) {
-      Alert.alert('Login failed', err instanceof Error ? err.message : 'Please try again.');
+      Alert.alert('Login failed', err instanceof Error ? err.message : 'Please check your credentials and try again.');
     } finally {
       setLoading(false);
     }
@@ -68,7 +75,13 @@ export default function AuthScreen() {
         userType,
       });
       await AsyncStorage.setItem('auth_user', JSON.stringify(user));
-      router.replace('/(tabs)');
+      setTimeout(() => {
+        try {
+          router.replace('/(tabs)' as any);
+        } catch (navErr) {
+          router.push('/(tabs)' as any);
+        }
+      }, 100);
     } catch (err: unknown) {
       Alert.alert('Sign up failed', err instanceof Error ? err.message : 'Please try again.');
     } finally {

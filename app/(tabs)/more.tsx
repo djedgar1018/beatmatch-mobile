@@ -28,7 +28,7 @@ export default function MoreScreen() {
     { icon: '🎵', label: 'My Mix Library', onPress: () => router.push('/library' as any) },
     { icon: '🔔', label: 'Notification Settings', onPress: () => {} },
     { icon: '🔒', label: 'Privacy Policy', onPress: () => Linking.openURL('https://beat-match-production.up.railway.app/privacy') },
-    { icon: '📄', label: 'Terms of Service', onPress: () => Linking.openURL('https://beat-match-production.up.railway.app/terms') },
+    { icon: '📄', label: 'Terms of Service (EULA)', onPress: () => Linking.openURL('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/') },
     { icon: '💬', label: 'Support', onPress: () => Linking.openURL('mailto:djedgar00@gmail.com') },
   ];
 
