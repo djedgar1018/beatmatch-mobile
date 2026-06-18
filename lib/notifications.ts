@@ -70,9 +70,15 @@ export async function registerForPushNotifications(): Promise<string | null> {
       });
     }
 
-    // Get Expo push token
-    const tokenData = await Notifications.getExpoPushTokenAsync();
-    const token = tokenData.data;
+    // Get Expo push token — can throw on simulators or if projectId mismatch
+    let token: string;
+    try {
+      const tokenData = await Notifications.getExpoPushTokenAsync();
+      token = tokenData.data;
+    } catch (tokenErr) {
+      console.warn('[notifications] getExpoPushTokenAsync failed:', tokenErr);
+      return cached;
+    }
 
     // Only POST to server if token changed
     if (token !== cached) {
@@ -92,7 +98,7 @@ export async function registerForPushNotifications(): Promise<string | null> {
 // ---------------------------------------------------------------------------
 
 async function savePushTokenToServer(token: string): Promise<void> {
-  const authToken = await AsyncStorage.getItem('auth_token');
+  const authToken = await AsyncStorage.getItem('api_token');
   if (!authToken) return;
 
   await fetch(`${BASE_URL}/api/users/push-token`, {
