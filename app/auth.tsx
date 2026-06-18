@@ -44,7 +44,7 @@ export default function AuthScreen() {
     setLoading(true);
     try {
       const user = await login({ email: loginEmail, password: loginPassword });
-      if ((user as any).apiToken) await AsyncStorage.setItem('api_token', (user as any).apiToken);
+      // api_token already saved inside login(), just save user
       await AsyncStorage.setItem('auth_user', JSON.stringify(user));
       // Small delay to ensure storage write completes before navigation
       setTimeout(() => {
@@ -75,6 +75,7 @@ export default function AuthScreen() {
         password: signupPassword,
         userType,
       });
+      // api_token already saved inside register()
       await AsyncStorage.setItem('auth_user', JSON.stringify(user));
       setTimeout(() => {
         try {

@@ -16,7 +16,12 @@ async function apiFetch<T>(
     'Content-Type': 'application/json',
     ...(options.headers as Record<string, string>),
   };
-  // Session-based auth — credentials sent via cookies (credentials: include)
+
+  // Attach token from storage if available (React Native cookies unreliable)
+  try {
+    const token = await AsyncStorage.getItem('api_token');
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+  } catch (_) {}
 
   const res = await fetch(`${BASE_URL}${path}`, {
     ...options,
@@ -25,9 +30,9 @@ async function apiFetch<T>(
   });
 
   if (res.status === 401) {
-    await AsyncStorage.removeItem('auth_user');
-    await AsyncStorage.removeItem('auth_user');
-    router.replace('/auth');
+    await AsyncStorage.multiRemove(['auth_user', 'api_token']);
+    // Avoid redirect loop — only redirect if not already on auth screen
+    try { router.replace('/auth'); } catch (_) {}
     throw new Error('Unauthorized');
   }
 
@@ -71,18 +76,31 @@ export interface AuthResponse {
   user: AuthUser;
 }
 
-export async function login(payload: LoginPayload): Promise<AuthResponse> {
-  return apiFetch<AuthResponse>('/api/auth/login', {
+export async function login(payload: LoginPayload): Promise<AuthUser> {
+  const raw = await apiFetch<Record<string, unknown>>('/api/auth/login', {
     method: 'POST',
     body: JSON.stringify(payload),
   });
+  // Server returns flat user OR {user: AuthUser} — normalize both
+  const user = (raw.user as AuthUser) ?? (raw as unknown as AuthUser);
+  // Normalize userType to uppercase
+  if (user.userType) user.userType = (user.userType as string).toUpperCase() as 'DJ' | 'VENUE' | 'ADMIN';
+  // Save token if provided
+  const token = (raw.apiToken ?? raw.token) as string | undefined;
+  if (token) await AsyncStorage.setItem('api_token', token);
+  return user;
 }
 
-export async function register(payload: RegisterPayload): Promise<AuthResponse> {
-  return apiFetch<AuthResponse>('/api/auth/register', {
+export async function register(payload: RegisterPayload): Promise<AuthUser> {
+  const raw = await apiFetch<Record<string, unknown>>('/api/auth/register', {
     method: 'POST',
     body: JSON.stringify(payload),
   });
+  const user = (raw.user as AuthUser) ?? (raw as unknown as AuthUser);
+  if (user.userType) user.userType = (user.userType as string).toUpperCase() as 'DJ' | 'VENUE' | 'ADMIN';
+  const token = (raw.apiToken ?? raw.token) as string | undefined;
+  if (token) await AsyncStorage.setItem('api_token', token);
+  return user;
 }
 
 export async function getMe(): Promise<AuthUser> {
