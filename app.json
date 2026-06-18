@@ -59,6 +59,14 @@
         "projectId": "bfdd3aa7-f064-4a54-af40-96d154c1dfad"
       }
     },
-    "owner": "djedgar00"
+    "owner": "djedgar00",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/bfdd3aa7-f064-4a54-af40-96d154c1dfad",
+      "enabled": false,
+      "checkAutomatically": "NEVER"
+    }
   }
 }
