@@ -1,20 +1,11 @@
 import { useState } from 'react';
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Alert,
-  ActivityIndicator,
+  View, Text, TextInput, TouchableOpacity, StyleSheet,
+  KeyboardAvoidingView, Platform, ScrollView, Alert, ActivityIndicator,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '../constants/colors';
 import { login, register } from '../lib/api';
 
@@ -24,12 +15,8 @@ type UserType = 'DJ' | 'VENUE';
 export default function AuthScreen() {
   const [tab, setTab] = useState<Tab>('login');
   const [loading, setLoading] = useState(false);
-
-  // Login form
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-
-  // Signup form
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [signupEmail, setSignupEmail] = useState('');
@@ -44,18 +31,12 @@ export default function AuthScreen() {
     setLoading(true);
     try {
       const user = await login({ email: loginEmail, password: loginPassword });
-      // api_token already saved inside login(), just save user
       await AsyncStorage.setItem('auth_user', JSON.stringify(user));
-      // Small delay to ensure storage write completes before navigation
       setTimeout(() => {
-        try {
-          router.replace('/(tabs)' as any);
-        } catch (navErr) {
-          router.push('/(tabs)' as any);
-        }
+        try { router.replace('/(tabs)' as any); } catch { router.push('/(tabs)' as any); }
       }, 100);
     } catch (err: unknown) {
-      Alert.alert('Login failed', err instanceof Error ? err.message : 'Please check your credentials and try again.');
+      Alert.alert('Login failed', err instanceof Error ? err.message : 'Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -68,21 +49,10 @@ export default function AuthScreen() {
     }
     setLoading(true);
     try {
-      const user = await register({
-        firstName,
-        lastName,
-        email: signupEmail,
-        password: signupPassword,
-        userType,
-      });
-      // api_token already saved inside register()
+      const user = await register({ firstName, lastName, email: signupEmail, password: signupPassword, userType });
       await AsyncStorage.setItem('auth_user', JSON.stringify(user));
       setTimeout(() => {
-        try {
-          router.replace('/(tabs)' as any);
-        } catch (navErr) {
-          router.push('/(tabs)' as any);
-        }
+        try { router.replace('/(tabs)' as any); } catch { router.push('/(tabs)' as any); }
       }, 100);
     } catch (err: unknown) {
       Alert.alert('Sign up failed', err instanceof Error ? err.message : 'Please try again.');
@@ -92,299 +62,119 @@ export default function AuthScreen() {
   }
 
   return (
-    <LinearGradient colors={['#3b0764', '#0a0a0a']} style={styles.gradient}>
-      <SafeAreaView style={styles.safe}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.flex}
-        >
-          <ScrollView
-            contentContainerStyle={styles.scroll}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-          >
-            {/* Logo / Brand */}
-            <View style={styles.brandRow}>
-              <View style={styles.logoCircle}>
-                <Text style={styles.logoIcon}>🎧</Text>
-              </View>
-              <Text style={styles.brandName}>Mix-Match</Text>
-              <Text style={styles.brandSub}>The DJ Booking Marketplace</Text>
+    <SafeAreaView style={s.safe}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={s.flex}>
+        <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+          {/* Logo */}
+          <View style={s.logoWrap}>
+            <View style={s.logoCircle}>
+              <Text style={s.logoIcon}>🎧</Text>
+            </View>
+            <Text style={s.brand}>Mix Match</Text>
+            <Text style={s.subtitle}>The DJ Booking Marketplace</Text>
+          </View>
+
+          {/* Card */}
+          <View style={s.card}>
+            {/* Tabs */}
+            <View style={s.tabRow}>
+              {(['login', 'signup'] as Tab[]).map(t => (
+                <TouchableOpacity key={t} style={s.tabBtn} onPress={() => setTab(t)}>
+                  <Text style={[s.tabText, tab === t && s.tabTextActive]}>
+                    {t === 'login' ? 'Login' : 'Sign Up'}
+                  </Text>
+                  {tab === t && <View style={s.tabUnderline} />}
+                </TouchableOpacity>
+              ))}
             </View>
 
-            {/* Card */}
-            <View style={styles.card}>
-              {/* Tab switcher */}
-              <View style={styles.tabRow}>
-                <TouchableOpacity
-                  style={[styles.tabBtn, tab === 'login' && styles.tabBtnActive]}
-                  onPress={() => setTab('login')}
-                >
-                  <Text style={[styles.tabText, tab === 'login' && styles.tabTextActive]}>
-                    Login
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.tabBtn, tab === 'signup' && styles.tabBtnActive]}
-                  onPress={() => setTab('signup')}
-                >
-                  <Text style={[styles.tabText, tab === 'signup' && styles.tabTextActive]}>
-                    Sign Up
-                  </Text>
+            {tab === 'login' ? (
+              <View style={s.form}>
+                <View style={s.inputWrap}>
+                  <Text style={s.inputIcon}>✉️</Text>
+                  <TextInput style={s.input} placeholder="Email address" placeholderTextColor={Colors.textPlaceholder}
+                    value={loginEmail} onChangeText={setLoginEmail} keyboardType="email-address" autoCapitalize="none" />
+                </View>
+                <View style={s.inputWrap}>
+                  <Text style={s.inputIcon}>🔒</Text>
+                  <TextInput style={s.input} placeholder="Password" placeholderTextColor={Colors.textPlaceholder}
+                    value={loginPassword} onChangeText={setLoginPassword} secureTextEntry />
+                </View>
+                <TouchableOpacity style={s.btn} onPress={handleLogin} disabled={loading} activeOpacity={0.85}>
+                  {loading ? <ActivityIndicator color="#fff" /> : <Text style={s.btnText}>Login</Text>}
                 </TouchableOpacity>
               </View>
-
-              {tab === 'login' ? (
-                <View style={styles.form}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Email"
-                    placeholderTextColor={Colors.placeholder}
-                    value={loginEmail}
-                    onChangeText={setLoginEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Password"
-                    placeholderTextColor={Colors.placeholder}
-                    value={loginPassword}
-                    onChangeText={setLoginPassword}
-                    secureTextEntry
-                  />
-                  <TouchableOpacity
-                    style={styles.submitBtn}
-                    onPress={handleLogin}
-                    disabled={loading}
-                    activeOpacity={0.8}
-                  >
-                    <LinearGradient
-                      colors={[Colors.primary, Colors.primaryDark]}
-                      style={styles.submitGradient}
-                    >
-                      {loading ? (
-                        <ActivityIndicator color="#fff" />
-                      ) : (
-                        <Text style={styles.submitText}>Login</Text>
-                      )}
-                    </LinearGradient>
-                  </TouchableOpacity>
-                </View>
-              ) : (
-                <View style={styles.form}>
-                  <View style={styles.row}>
-                    <TextInput
-                      style={[styles.input, styles.halfInput]}
-                      placeholder="First name"
-                      placeholderTextColor={Colors.placeholder}
-                      value={firstName}
-                      onChangeText={setFirstName}
-                      autoCapitalize="words"
-                    />
-                    <TextInput
-                      style={[styles.input, styles.halfInput]}
-                      placeholder="Last name"
-                      placeholderTextColor={Colors.placeholder}
-                      value={lastName}
-                      onChangeText={setLastName}
-                      autoCapitalize="words"
-                    />
+            ) : (
+              <View style={s.form}>
+                <View style={s.row}>
+                  <View style={[s.inputWrap, s.halfInput]}>
+                    <TextInput style={s.input} placeholder="First name" placeholderTextColor={Colors.textPlaceholder}
+                      value={firstName} onChangeText={setFirstName} autoCapitalize="words" />
                   </View>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Email"
-                    placeholderTextColor={Colors.placeholder}
-                    value={signupEmail}
-                    onChangeText={setSignupEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Password"
-                    placeholderTextColor={Colors.placeholder}
-                    value={signupPassword}
-                    onChangeText={setSignupPassword}
-                    secureTextEntry
-                  />
-
-                  {/* User type picker */}
-                  <Text style={styles.label}>I am a...</Text>
-                  <View style={styles.userTypeRow}>
-                    <TouchableOpacity
-                      style={[
-                        styles.typeBtn,
-                        userType === 'DJ' && styles.typeBtnActive,
-                      ]}
-                      onPress={() => setUserType('DJ')}
-                    >
-                      <Text style={styles.typeBtnIcon}>🎧</Text>
-                      <Text
-                        style={[
-                          styles.typeBtnText,
-                          userType === 'DJ' && styles.typeBtnTextActive,
-                        ]}
-                      >
-                        DJ
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[
-                        styles.typeBtn,
-                        userType === 'VENUE' && styles.typeBtnActive,
-                      ]}
-                      onPress={() => setUserType('VENUE')}
-                    >
-                      <Text style={styles.typeBtnIcon}>🏟️</Text>
-                      <Text
-                        style={[
-                          styles.typeBtnText,
-                          userType === 'VENUE' && styles.typeBtnTextActive,
-                        ]}
-                      >
-                        Venue
-                      </Text>
-                    </TouchableOpacity>
+                  <View style={[s.inputWrap, s.halfInput]}>
+                    <TextInput style={s.input} placeholder="Last name" placeholderTextColor={Colors.textPlaceholder}
+                      value={lastName} onChangeText={setLastName} autoCapitalize="words" />
                   </View>
-
-                  <TouchableOpacity
-                    style={styles.submitBtn}
-                    onPress={handleSignup}
-                    disabled={loading}
-                    activeOpacity={0.8}
-                  >
-                    <LinearGradient
-                      colors={[Colors.primary, Colors.primaryDark]}
-                      style={styles.submitGradient}
-                    >
-                      {loading ? (
-                        <ActivityIndicator color="#fff" />
-                      ) : (
-                        <Text style={styles.submitText}>Create Account</Text>
-                      )}
-                    </LinearGradient>
-                  </TouchableOpacity>
                 </View>
-              )}
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </LinearGradient>
+                <View style={s.inputWrap}>
+                  <Text style={s.inputIcon}>✉️</Text>
+                  <TextInput style={s.input} placeholder="Email address" placeholderTextColor={Colors.textPlaceholder}
+                    value={signupEmail} onChangeText={setSignupEmail} keyboardType="email-address" autoCapitalize="none" />
+                </View>
+                <View style={s.inputWrap}>
+                  <Text style={s.inputIcon}>🔒</Text>
+                  <TextInput style={s.input} placeholder="Password" placeholderTextColor={Colors.textPlaceholder}
+                    value={signupPassword} onChangeText={setSignupPassword} secureTextEntry />
+                </View>
+                <Text style={s.label}>I am a...</Text>
+                <View style={s.typeRow}>
+                  {(['DJ', 'VENUE'] as UserType[]).map(t => (
+                    <TouchableOpacity key={t} style={[s.typeCard, userType === t && s.typeCardActive]} onPress={() => setUserType(t)}>
+                      <Text style={s.typeIcon}>{t === 'DJ' ? '🎧' : '🏟️'}</Text>
+                      <Text style={[s.typeLabel, userType === t && s.typeLabelActive]}>{t === 'DJ' ? 'DJ' : 'Venue'}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                <TouchableOpacity style={s.btn} onPress={handleSignup} disabled={loading} activeOpacity={0.85}>
+                  {loading ? <ActivityIndicator color="#fff" /> : <Text style={s.btnText}>Create Account</Text>}
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  gradient: { flex: 1 },
-  safe: { flex: 1 },
+const s = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: Colors.background },
   flex: { flex: 1 },
-  scroll: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 40,
-  },
-  brandRow: {
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  logoCircle: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: Colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12,
-  },
+  scroll: { flexGrow: 1, justifyContent: 'center', padding: 24 },
+  logoWrap: { alignItems: 'center', marginBottom: 32 },
+  logoCircle: { width: 72, height: 72, borderRadius: 36, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center', marginBottom: 14 },
   logoIcon: { fontSize: 32 },
-  brandName: {
-    fontSize: 32,
-    fontWeight: '800',
-    color: '#fff',
-    letterSpacing: 1,
-  },
-  brandSub: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-    marginTop: 4,
-  },
-  card: {
-    backgroundColor: Colors.surface,
-    borderRadius: 20,
-    padding: 24,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  tabRow: {
-    flexDirection: 'row',
-    backgroundColor: Colors.inputBg,
-    borderRadius: 10,
-    padding: 4,
-    marginBottom: 24,
-  },
-  tabBtn: {
-    flex: 1,
-    paddingVertical: 10,
-    alignItems: 'center',
-    borderRadius: 8,
-  },
-  tabBtnActive: {
-    backgroundColor: Colors.primary,
-  },
-  tabText: {
-    color: Colors.textSecondary,
-    fontWeight: '600',
-    fontSize: 15,
-  },
-  tabTextActive: { color: '#fff' },
+  brand: { fontSize: 32, fontWeight: '800', color: Colors.text, letterSpacing: 0.5, marginBottom: 6 },
+  subtitle: { fontSize: 14, color: Colors.textMuted, textAlign: 'center' },
+  card: { backgroundColor: Colors.card, borderRadius: 16, borderWidth: 1, borderColor: Colors.border, padding: 24 },
+  tabRow: { flexDirection: 'row', marginBottom: 24, borderBottomWidth: 1, borderBottomColor: Colors.border },
+  tabBtn: { flex: 1, alignItems: 'center', paddingBottom: 12 },
+  tabText: { fontSize: 15, fontWeight: '600', color: Colors.textMuted },
+  tabTextActive: { color: Colors.primary },
+  tabUnderline: { position: 'absolute', bottom: -1, left: 0, right: 0, height: 2, backgroundColor: Colors.primary, borderRadius: 1 },
   form: { gap: 14 },
+  inputWrap: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.inputBg, borderWidth: 1, borderColor: Colors.inputBorder, borderRadius: 12, paddingHorizontal: 14, height: 52 },
+  inputIcon: { fontSize: 16, marginRight: 10 },
+  input: { flex: 1, color: Colors.text, fontSize: 15 },
+  btn: { backgroundColor: Colors.primary, borderRadius: 12, height: 52, alignItems: 'center', justifyContent: 'center', marginTop: 4 },
+  btnText: { color: '#fff', fontWeight: '700', fontSize: 16 },
   row: { flexDirection: 'row', gap: 12 },
-  input: {
-    backgroundColor: Colors.inputBg,
-    borderWidth: 1,
-    borderColor: Colors.inputBorder,
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    color: Colors.textPrimary,
-    fontSize: 15,
-  },
   halfInput: { flex: 1 },
-  label: {
-    color: Colors.textSecondary,
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: -6,
-  },
-  userTypeRow: { flexDirection: 'row', gap: 12 },
-  typeBtn: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingVertical: 14,
-    borderRadius: 12,
-    borderWidth: 1.5,
-    borderColor: Colors.inputBorder,
-    backgroundColor: Colors.inputBg,
-  },
-  typeBtnActive: {
-    borderColor: Colors.primary,
-    backgroundColor: `${Colors.primary}22`,
-  },
-  typeBtnIcon: { fontSize: 20 },
-  typeBtnText: { color: Colors.textSecondary, fontWeight: '600', fontSize: 15 },
-  typeBtnTextActive: { color: Colors.primary },
-  submitBtn: { borderRadius: 12, overflow: 'hidden', marginTop: 4 },
-  submitGradient: {
-    paddingVertical: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  submitText: { color: '#fff', fontWeight: '700', fontSize: 16 },
+  label: { color: Colors.textSecondary, fontSize: 13, fontWeight: '500', marginBottom: -6 },
+  typeRow: { flexDirection: 'row', gap: 12 },
+  typeCard: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 14, borderRadius: 12, borderWidth: 1.5, borderColor: Colors.inputBorder, backgroundColor: Colors.inputBg },
+  typeCardActive: { borderColor: Colors.primary, backgroundColor: Colors.primaryMuted },
+  typeIcon: { fontSize: 20 },
+  typeLabel: { color: Colors.textSecondary, fontWeight: '600', fontSize: 15 },
+  typeLabelActive: { color: Colors.primary },
 });

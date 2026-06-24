@@ -1,14 +1,7 @@
 import { useState, useCallback } from 'react';
 import {
-  View,
-  Text,
-  TextInput,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-  RefreshControl,
-  ActivityIndicator,
+  View, Text, TextInput, ScrollView, FlatList,
+  TouchableOpacity, StyleSheet, RefreshControl, ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '../../constants/colors';
@@ -24,19 +17,13 @@ export default function DiscoverScreen() {
   const [refreshing, setRefreshing] = useState(false);
 
   const genre = selectedGenre === 'All' ? undefined : selectedGenre;
-  const { data, isLoading, refetch, isError } = useDJs({
-    search: debouncedSearch || undefined,
-    genre,
-  });
-
+  const { data, isLoading, refetch, isError } = useDJs({ search: debouncedSearch || undefined, genre });
   const djs = data?.djs ?? [];
 
   function handleSearchChange(text: string) {
     setSearch(text);
-    clearTimeout((handleSearchChange as { _t?: ReturnType<typeof setTimeout> })._t);
-    (handleSearchChange as { _t?: ReturnType<typeof setTimeout> })._t = setTimeout(() => {
-      setDebouncedSearch(text);
-    }, 400);
+    clearTimeout((handleSearchChange as any)._t);
+    (handleSearchChange as any)._t = setTimeout(() => setDebouncedSearch(text), 400);
   }
 
   const onRefresh = useCallback(async () => {
@@ -46,81 +33,74 @@ export default function DiscoverScreen() {
   }, [refetch]);
 
   return (
-    <SafeAreaView style={styles.safe} edges={['bottom']}>
-      <View style={styles.container}>
-        {/* Search bar */}
-        <View style={styles.searchRow}>
-          <View style={styles.searchBox}>
-            <Text style={styles.searchIcon}>🔍</Text>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search DJs, locations..."
-              placeholderTextColor={Colors.placeholder}
-              value={search}
-              onChangeText={handleSearchChange}
-              autoCorrect={false}
-            />
-            {search.length > 0 && (
-              <TouchableOpacity onPress={() => { setSearch(''); setDebouncedSearch(''); }}>
-                <Text style={{ color: Colors.textMuted, fontSize: 16 }}>✕</Text>
-              </TouchableOpacity>
-            )}
-          </View>
+    <SafeAreaView style={s.safe} edges={['bottom']}>
+      <View style={s.container}>
+        {/* Header */}
+        <View style={s.header}>
+          <Text style={s.headerTitle}>Discover DJs</Text>
+          <Text style={s.headerSub}>{djs.length} DJs available</Text>
+        </View>
+
+        {/* Search */}
+        <View style={s.searchWrap}>
+          <Text style={s.searchIcon}>🔍</Text>
+          <TextInput
+            style={s.searchInput}
+            placeholder="Search DJs, locations, genres..."
+            placeholderTextColor={Colors.textPlaceholder}
+            value={search}
+            onChangeText={handleSearchChange}
+          />
+          {search.length > 0 && (
+            <TouchableOpacity onPress={() => { setSearch(''); setDebouncedSearch(''); }}>
+              <Text style={s.clearBtn}>✕</Text>
+            </TouchableOpacity>
+          )}
         </View>
 
         {/* Genre filters */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.genreScroll}
-        >
-          {GENRES.map((g) => (
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.genreScroll} contentContainerStyle={s.genreContent}>
+          {GENRES.map(g => (
             <TouchableOpacity
               key={g}
-              style={[styles.chip, selectedGenre === g && styles.chipActive]}
+              style={[s.genreChip, selectedGenre === g && s.genreChipActive]}
               onPress={() => setSelectedGenre(g)}
+              activeOpacity={0.75}
             >
-              <Text style={[styles.chipText, selectedGenre === g && styles.chipTextActive]}>
-                {g}
-              </Text>
+              <Text style={[s.genreText, selectedGenre === g && s.genreTextActive]}>{g}</Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
 
-        {/* DJ grid */}
-        {isLoading && !refreshing ? (
-          <View style={styles.center}>
+        {/* DJ List */}
+        {isLoading ? (
+          <View style={s.center}>
             <ActivityIndicator color={Colors.primary} size="large" />
+            <Text style={s.loadingText}>Finding DJs...</Text>
           </View>
         ) : isError ? (
-          <View style={styles.center}>
-            <Text style={styles.errorText}>Failed to load DJs</Text>
-            <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-              <Text style={styles.retryText}>Retry</Text>
+          <View style={s.center}>
+            <Text style={s.errorIcon}>⚠️</Text>
+            <Text style={s.errorText}>Failed to load DJs</Text>
+            <TouchableOpacity style={s.retryBtn} onPress={() => refetch()}>
+              <Text style={s.retryText}>Try Again</Text>
             </TouchableOpacity>
-          </View>
-        ) : djs.length === 0 ? (
-          <View style={styles.center}>
-            <Text style={{ fontSize: 40 }}>🎧</Text>
-            <Text style={styles.emptyText}>No DJs found</Text>
-            <Text style={styles.emptySubText}>Try a different search or genre</Text>
           </View>
         ) : (
           <FlatList
             data={djs}
-            keyExtractor={(item) => item.id}
-            numColumns={2}
-            columnWrapperStyle={styles.columnWrapper}
-            contentContainerStyle={styles.grid}
+            keyExtractor={item => item.id}
             renderItem={({ item }) => <DJCard dj={item} />}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                tintColor={Colors.primary}
-              />
-            }
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={Colors.primary} />}
             showsVerticalScrollIndicator={false}
+            contentContainerStyle={djs.length === 0 ? s.emptyContainer : s.listContent}
+            ListEmptyComponent={
+              <View style={s.emptyWrap}>
+                <Text style={s.emptyIcon}>🎧</Text>
+                <Text style={s.emptyTitle}>No DJs Found</Text>
+                <Text style={s.emptySub}>Try adjusting your search or genre filter</Text>
+              </View>
+            }
           />
         )}
       </View>
@@ -128,59 +108,32 @@ export default function DiscoverScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: Colors.background },
   container: { flex: 1, backgroundColor: Colors.background },
-  searchRow: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 8 },
-  searchBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.surface,
-    borderRadius: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    gap: 10,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  searchIcon: { fontSize: 16 },
-  searchInput: {
-    flex: 1,
-    color: Colors.textPrimary,
-    fontSize: 15,
-  },
-  genreScroll: {
-    paddingHorizontal: 16,
-    paddingBottom: 12,
-    gap: 8,
-    flexDirection: 'row',
-  },
-  chip: {
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 20,
-    backgroundColor: Colors.surface,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  chipActive: {
-    backgroundColor: Colors.primary,
-    borderColor: Colors.primary,
-  },
-  chipText: { color: Colors.textSecondary, fontWeight: '600', fontSize: 13 },
-  chipTextActive: { color: '#fff' },
-  grid: { paddingHorizontal: 16, paddingBottom: 24 },
-  columnWrapper: { justifyContent: 'space-between' },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8 },
-  emptyText: { fontSize: 18, fontWeight: '700', color: Colors.textPrimary },
-  emptySubText: { fontSize: 14, color: Colors.textSecondary },
-  errorText: { fontSize: 16, color: Colors.error },
-  retryBtn: {
-    marginTop: 8,
-    backgroundColor: Colors.primary,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 10,
-  },
+  header: { paddingHorizontal: 20, paddingTop: 16, paddingBottom: 12 },
+  headerTitle: { fontSize: 26, fontWeight: '800', color: Colors.text, marginBottom: 2 },
+  headerSub: { fontSize: 13, color: Colors.textMuted },
+  searchWrap: { flexDirection: 'row', alignItems: 'center', marginHorizontal: 20, marginBottom: 14, backgroundColor: Colors.inputBg, borderWidth: 1, borderColor: Colors.border, borderRadius: 12, paddingHorizontal: 14, height: 48 },
+  searchIcon: { fontSize: 16, marginRight: 10 },
+  searchInput: { flex: 1, color: Colors.text, fontSize: 15 },
+  clearBtn: { color: Colors.textMuted, fontSize: 14, paddingHorizontal: 4 },
+  genreScroll: { maxHeight: 44, marginBottom: 8 },
+  genreContent: { paddingHorizontal: 20, gap: 8, alignItems: 'center' },
+  genreChip: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: Colors.border, backgroundColor: Colors.surface },
+  genreChipActive: { backgroundColor: Colors.primary, borderColor: Colors.primary },
+  genreText: { fontSize: 13, fontWeight: '600', color: Colors.textSecondary },
+  genreTextActive: { color: '#fff' },
+  listContent: { paddingHorizontal: 16, paddingBottom: 16, gap: 12 },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 },
+  loadingText: { color: Colors.textMuted, fontSize: 14 },
+  errorIcon: { fontSize: 40 },
+  errorText: { color: Colors.textSecondary, fontSize: 16 },
+  retryBtn: { backgroundColor: Colors.primary, paddingHorizontal: 24, paddingVertical: 10, borderRadius: 8 },
   retryText: { color: '#fff', fontWeight: '700' },
+  emptyContainer: { flex: 1, paddingHorizontal: 16 },
+  emptyWrap: { alignItems: 'center', paddingTop: 60, gap: 10 },
+  emptyIcon: { fontSize: 52 },
+  emptyTitle: { fontSize: 20, fontWeight: '700', color: Colors.text },
+  emptySub: { fontSize: 14, color: Colors.textMuted, textAlign: 'center' },
 });

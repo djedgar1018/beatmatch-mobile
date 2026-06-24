@@ -1,51 +1,38 @@
+// Mix Match design system — matches Beatmatch web dark theme
+// Primary: hsl(280, 85%, 45%) = #7C15D9 → use #7C3AED
 export const Colors = {
-  // Brand
-  primary: '#7c3aed',
-  primaryLight: '#9f62f0',
-  primaryDark: '#5b21b6',
-  gold: '#C9A03C',
-  goldLight: '#e0ba5a',
-
-  // Backgrounds
-  background: '#0a0a0a',
-  surface: '#1a1a1a',
-  card: '#222222',
-  cardBorder: '#2a2a2a',
-  elevated: '#2d2d2d',
-
-  // Text
-  textPrimary: '#ffffff',
-  textSecondary: '#a0a0a0',
-  textMuted: '#606060',
-  textOnPrimary: '#ffffff',
-
-  // Status
-  success: '#22c55e',
-  successBg: '#14532d',
-  warning: '#f59e0b',
-  warningBg: '#451a03',
-  error: '#ef4444',
-  errorBg: '#450a0a',
-  pending: '#f59e0b',
-  accepted: '#22c55e',
-  completed: '#7c3aed',
-  cancelled: '#ef4444',
-
-  // UI
-  border: '#2a2a2a',
-  divider: '#1f1f1f',
-  inputBg: '#1f1f1f',
+  primary: '#7C3AED',
+  primaryDark: '#5B21B6',
+  primaryLight: '#8B5CF6',
+  primaryMuted: '#7C3AED22',
+  background: '#111111',
+  surface: '#171717',
+  surfaceHigh: '#1F1F1F',
+  card: '#171717',
+  border: '#292929',
+  borderLight: '#333333',
+  text: '#F5F5F5',
+  textSecondary: '#A8A8A8',
+  textMuted: '#6B6B6B',
+  textPlaceholder: '#555555',
+  accent: '#F59E0B',
+  gold: '#F59E0B',
+  error: '#EF4444',
+  success: '#10B981',
+  warning: '#F59E0B',
+  inputBg: '#1F1F1F',
   inputBorder: '#333333',
-  placeholder: '#555555',
-  overlay: 'rgba(0,0,0,0.7)',
   tabBar: '#111111',
-  tabBarBorder: '#1f1f1f',
-
-  // Gradients (used as array values)
-  gradientPrimary: ['#7c3aed', '#5b21b6'] as const,
-  gradientDark: ['#1a1a1a', '#0a0a0a'] as const,
-  gradientCard: ['#222222', '#1a1a1a'] as const,
-  gradientHero: ['transparent', '#0a0a0a'] as const,
+  tabBarBorder: '#1F1F1F',
+  // Dark mode aliases
+  dark: {
+    background: '#111111',
+    surface: '#171717',
+    card: '#171717',
+    text: '#F5F5F5',
+    textSecondary: '#A8A8A8',
+    textMuted: '#6B6B6B',
+    border: '#292929',
+    textMuted2: '#6B6B6B',
+  },
 };
-
-export type ColorKey = keyof typeof Colors;

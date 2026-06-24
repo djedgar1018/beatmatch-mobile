@@ -1,95 +1,107 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Linking, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useQueryClient } from '@tanstack/react-query';
+import { Linking } from 'react-native';
 import { Colors } from '../../constants/colors';
 
-const C = Colors;
+const BASE_URL = 'https://beat-match-production.up.railway.app';
+
+function MenuItem({ icon, label, onPress, danger }: { icon: string; label: string; onPress: () => void; danger?: boolean }) {
+  return (
+    <TouchableOpacity style={s.menuItem} onPress={onPress} activeOpacity={0.7}>
+      <View style={[s.menuIconWrap, danger && s.menuIconDanger]}>
+        <Text style={s.menuIcon}>{icon}</Text>
+      </View>
+      <Text style={[s.menuLabel, danger && s.menuLabelDanger]}>{label}</Text>
+      <Text style={[s.chevron, danger && { color: Colors.error }]}>›</Text>
+    </TouchableOpacity>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <View style={s.section}>
+      <Text style={s.sectionTitle}>{title}</Text>
+      <View style={s.sectionCard}>{children}</View>
+    </View>
+  );
+}
 
 export default function MoreScreen() {
-  const handleLogout = async () => {
+  const queryClient = useQueryClient();
+
+  const handleLogout = () => {
     Alert.alert('Log Out', 'Are you sure?', [
       { text: 'Cancel', style: 'cancel' },
       {
         text: 'Log Out', style: 'destructive',
         onPress: async () => {
-          await AsyncStorage.clear();
-          router.replace('/auth' as any);
-        }
-      }
+          await AsyncStorage.multiRemove(['auth_token', 'auth_user', 'api_token']);
+          queryClient.clear();
+          router.replace('/auth');
+        },
+      },
     ]);
   };
 
-  const rows = [
-    { icon: '🌐', label: 'Open Web App', onPress: () => Linking.openURL('https://beat-match-production.up.railway.app') },
-    { icon: '⭐', label: 'Subscription Plans', onPress: () => Linking.openURL('https://beat-match-production.up.railway.app/subscription') },
-    { icon: '📋', label: 'My Contracts', onPress: () => router.push('/contracts' as any) },
-    { icon: '🎵', label: 'My Mix Library', onPress: () => router.push('/library' as any) },
-    { icon: '🔔', label: 'Notification Settings', onPress: () => {} },
-    { icon: '🔒', label: 'Privacy Policy', onPress: () => Linking.openURL('https://beat-match-production.up.railway.app/privacy') },
-    { icon: '📄', label: 'Terms of Service (EULA)', onPress: () => Linking.openURL('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/') },
-    { icon: '💬', label: 'Support', onPress: () => Linking.openURL('mailto:djedgar00@gmail.com') },
-  ];
-
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <Text style={styles.title}>More</Text>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionLabel}>ACCOUNT</Text>
-          {rows.slice(0,2).map(r => (
-            <TouchableOpacity key={r.label} style={styles.row} onPress={r.onPress}>
-              <Text style={styles.rowIcon}>{r.icon}</Text>
-              <Text style={styles.rowLabel}>{r.label}</Text>
-              <Text style={styles.chevron}>›</Text>
-            </TouchableOpacity>
-          ))}
+    <SafeAreaView style={s.safe} edges={['bottom']}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Brand Header */}
+        <View style={s.brandHeader}>
+          <View style={s.brandIcon}>
+            <Text style={{ fontSize: 28 }}>🎧</Text>
+          </View>
+          <View>
+            <Text style={s.brandName}>Mix Match</Text>
+            <Text style={s.brandTag}>The DJ Booking Marketplace</Text>
+          </View>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionLabel}>CONTENT</Text>
-          {rows.slice(2,4).map(r => (
-            <TouchableOpacity key={r.label} style={styles.row} onPress={r.onPress}>
-              <Text style={styles.rowIcon}>{r.icon}</Text>
-              <Text style={styles.rowLabel}>{r.label}</Text>
-              <Text style={styles.chevron}>›</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <Section title="Account">
+          <MenuItem icon="⭐" label="Subscription Plans" onPress={() => Linking.openURL(`${BASE_URL}/subscription`)} />
+          <MenuItem icon="📋" label="My Contracts" onPress={() => router.push('/contracts' as any)} />
+          <MenuItem icon="🎵" label="Mix Library" onPress={() => router.push('/library' as any)} />
+          <MenuItem icon="🌐" label="Open Web App" onPress={() => Linking.openURL(BASE_URL)} />
+        </Section>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionLabel}>LEGAL & SUPPORT</Text>
-          {rows.slice(4).map(r => (
-            <TouchableOpacity key={r.label} style={styles.row} onPress={r.onPress}>
-              <Text style={styles.rowIcon}>{r.icon}</Text>
-              <Text style={styles.rowLabel}>{r.label}</Text>
-              <Text style={styles.chevron}>›</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <Section title="Preferences">
+          <MenuItem icon="🔔" label="Notification Settings" onPress={() => {}} />
+        </Section>
 
-        <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
-          <Text style={styles.logoutText}>Log Out</Text>
-        </TouchableOpacity>
+        <Section title="Legal">
+          <MenuItem icon="🔒" label="Privacy Policy" onPress={() => Linking.openURL(`${BASE_URL}/privacy`)} />
+          <MenuItem icon="📄" label="Terms of Service" onPress={() => Linking.openURL('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')} />
+          <MenuItem icon="💬" label="Support" onPress={() => Linking.openURL('mailto:support@beatmatch.app')} />
+        </Section>
 
-        <Text style={styles.version}>Mix-Match v1.0.0{'\n'}Powered by Beat-Match Platform</Text>
+        <Section title="">
+          <MenuItem icon="🚪" label="Log Out" onPress={handleLogout} danger />
+        </Section>
+
+        <Text style={s.version}>Mix Match v1.0.1</Text>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: C.background },
-  title: { fontSize: 28, fontWeight: '700', color: C.textPrimary, paddingHorizontal: 20, paddingTop: 16, paddingBottom: 8 },
-  section: { marginTop: 24, marginHorizontal: 16, backgroundColor: C.surface, borderRadius: 12, overflow: 'hidden' },
-  sectionLabel: { fontSize: 11, fontWeight: '600', color: C.textMuted, letterSpacing: 1, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 4 },
-  row: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 14, borderTopWidth: 1, borderTopColor: C.cardBorder },
-  rowIcon: { fontSize: 20, width: 32 },
-  rowLabel: { flex: 1, fontSize: 15, color: C.textPrimary },
-  chevron: { fontSize: 18, color: C.textMuted },
-  logoutBtn: { margin: 20, backgroundColor: '#7c3aed', borderRadius: 12, padding: 16, alignItems: 'center' },
-  logoutText: { color: '#fff', fontSize: 16, fontWeight: '600' },
-  version: { textAlign: 'center', color: C.textMuted, fontSize: 12, marginBottom: 32 },
+const s = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: Colors.background },
+  brandHeader: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: 20, paddingBottom: 8 },
+  brandIcon: { width: 56, height: 56, borderRadius: 14, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center' },
+  brandName: { fontSize: 22, fontWeight: '800', color: Colors.text },
+  brandTag: { fontSize: 12, color: Colors.textMuted, marginTop: 1 },
+  section: { paddingHorizontal: 20, paddingTop: 16 },
+  sectionTitle: { fontSize: 12, fontWeight: '700', color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 8 },
+  sectionCard: { backgroundColor: Colors.card, borderRadius: 14, borderWidth: 1, borderColor: Colors.border, overflow: 'hidden' },
+  menuItem: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: Colors.border },
+  menuIconWrap: { width: 34, height: 34, borderRadius: 8, backgroundColor: Colors.surfaceHigh, alignItems: 'center', justifyContent: 'center', marginRight: 14 },
+  menuIconDanger: { backgroundColor: Colors.error + '22' },
+  menuIcon: { fontSize: 16 },
+  menuLabel: { flex: 1, fontSize: 15, color: Colors.text, fontWeight: '500' },
+  menuLabelDanger: { color: Colors.error },
+  chevron: { fontSize: 20, color: Colors.textMuted, lineHeight: 22 },
+  version: { textAlign: 'center', color: Colors.textMuted, fontSize: 12, padding: 24 },
 });
