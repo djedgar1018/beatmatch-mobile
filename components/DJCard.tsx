@@ -19,8 +19,8 @@ function StarRating({ rating }: { rating?: number }) {
   );
 }
 
-function Avatar({ name, imageUrl }: { name: string; imageUrl?: string }) {
-  const initials = name
+function Avatar({ name, imageUrl }: { name?: string; imageUrl?: string }) {
+  const initials = (name || "??")
     .split(' ')
     .map((w) => w[0])
     .join('')
@@ -48,11 +48,11 @@ export function DJCard({ dj }: DJCardProps) {
       onPress={() => router.push(`/dj/${dj.userId}`)}
       activeOpacity={0.85}
     >
-      <Avatar name={dj.stageName} imageUrl={dj.profileImageUrl} />
+      <Avatar name={dj.stageName || dj.user?.firstName || "DJ"} imageUrl={dj.profileImageUrl} />
 
       <View style={styles.info}>
         <Text style={styles.name} numberOfLines={1}>
-          {dj.stageName}
+          {dj.stageName || dj.user?.firstName || "DJ"}
         </Text>
         {dj.location ? (
           <Text style={styles.location} numberOfLines={1}>
