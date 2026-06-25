@@ -32,6 +32,37 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 export default function MoreScreen() {
   const queryClient = useQueryClient();
 
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      'Delete Account',
+      'Are you sure you want to permanently delete your account? This action cannot be undone. All your data, bookings, and profile information will be removed.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete Account',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              // Call API to delete account
+              const token = await AsyncStorage.getItem('api_token');
+              if (token) {
+                await fetch('https://beat-match-production.up.railway.app/api/auth/delete-account', {
+                  method: 'DELETE',
+                  headers: { 'Authorization': `Bearer ${token}` },
+                });
+              }
+              await AsyncStorage.multiRemove(['auth_user', 'api_token', 'auth_token']);
+              queryClient.clear();
+              router.replace('/auth');
+            } catch (e) {
+              Alert.alert('Error', 'Failed to delete account. Please contact support@beatmatch.app');
+            }
+          },
+        },
+      ]
+    );
+  };
+
   const handleLogout = () => {
     Alert.alert('Log Out', 'Are you sure?', [
       { text: 'Cancel', style: 'cancel' },
@@ -61,7 +92,7 @@ export default function MoreScreen() {
         </View>
 
         <Section title="Account">
-          <MenuItem icon="⭐" label="Subscription Plans" onPress={() => Linking.openURL(`${BASE_URL}/subscription`)} />
+
           <MenuItem icon="📋" label="My Contracts" onPress={() => router.push('/contracts' as any)} />
           <MenuItem icon="🎵" label="Mix Library" onPress={() => router.push('/library' as any)} />
           <MenuItem icon="🌐" label="Open Web App" onPress={() => Linking.openURL(BASE_URL)} />
@@ -78,6 +109,7 @@ export default function MoreScreen() {
         </Section>
 
         <Section title="">
+          <MenuItem icon="🗑️" label="Delete Account" onPress={handleDeleteAccount} danger />
           <MenuItem icon="🚪" label="Log Out" onPress={handleLogout} danger />
         </Section>
 
