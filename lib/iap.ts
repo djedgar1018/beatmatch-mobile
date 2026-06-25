@@ -6,9 +6,9 @@ import type { Purchase } from 'expo-iap';
 
 // Product IDs — must match App Store Connect exactly
 export const IAP_PRODUCTS = {
-  starter: 'com.ten18.mixnmatch.starter',
-  pro: 'com.ten18.mixnmatch.pro.monthly',
-  elite: 'com.ten18.mixnmatch.elite.monthly',
+  starter: 'com.ten18.mixnmatch.starter.v2',
+  pro: 'com.ten18.mixnmatch.pro.v2',
+  elite: 'com.ten18.mixnmatch.elite.v2',
 };
 
 export const ALL_PRODUCT_IDS = Object.values(IAP_PRODUCTS);
