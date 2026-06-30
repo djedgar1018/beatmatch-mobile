@@ -53,12 +53,12 @@ export default function DJDetailScreen() {
   const { data: dj, isLoading, isError } = useDJ(userId);
 
   const initials = dj
-    ? dj.stageName
+    ? (dj.stageName || 'DJ')
         .split(' ')
-        .map((w) => w[0])
+        .map((w: string) => w[0] || '')
         .join('')
         .toUpperCase()
-        .slice(0, 2)
+        .slice(0, 2) || 'DJ'
     : '?';
 
   if (isLoading) {
@@ -105,7 +105,7 @@ export default function DJDetailScreen() {
                   <Text style={styles.heroAvatarText}>{initials}</Text>
                 </LinearGradient>
               </View>
-              <Text style={styles.heroName}>{dj.stageName}</Text>
+              <Text style={styles.heroName}>{dj.stageName || 'DJ'}</Text>
               {dj.location && (
                 <Text style={styles.heroLocation}>📍 {dj.location}</Text>
               )}
@@ -162,7 +162,7 @@ export default function DJDetailScreen() {
                 <Text style={{ fontSize: 28 }}>🎧</Text>
               </View>
               <View style={styles.portfolioInfo}>
-                <Text style={styles.portfolioTitle}>Browse {dj.stageName}'s Mixes</Text>
+                <Text style={styles.portfolioTitle}>Browse {dj.stageName || 'DJ'}'s Mixes</Text>
                 <Text style={styles.portfolioSub}>Preview & purchase full DJ sets</Text>
               </View>
               <Text style={styles.portfolioChevron}>›</Text>
@@ -201,7 +201,7 @@ export default function DJDetailScreen() {
               onPress={() =>
                 router.push({
                   pathname: '/booking-request',
-                  params: { djUserId: dj.userId, djName: dj.stageName, rate: dj.hourlyRate ?? 0 },
+                  params: { djUserId: dj.userId, djName: dj.stageName || 'DJ', rate: dj.hourlyRate ?? 0 },
                 })
               }
             >
@@ -209,7 +209,7 @@ export default function DJDetailScreen() {
                 colors={[Colors.primary, Colors.primaryDark]}
                 style={styles.ctaBtn}
               >
-                <Text style={styles.ctaBtnText}>📅 Book {dj.stageName}</Text>
+                <Text style={styles.ctaBtnText}>📅 Book {dj.stageName || 'DJ'}</Text>
               </LinearGradient>
             </TouchableOpacity>
           </SafeAreaView>
@@ -356,3 +356,4 @@ const styles = StyleSheet.create({
   },
   ctaBtnText: { color: '#fff', fontWeight: '800', fontSize: 17 },
 });
+
