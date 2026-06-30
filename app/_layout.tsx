@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as Notifications from 'expo-notifications';
 import { Colors } from '../constants/colors';
@@ -95,8 +95,32 @@ function NotificationListener() {
   return null;
 }
 
+
+// Error boundary — prevents full app crash on unhandled JS errors
+import React from 'react';
+class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean; error: string}> {
+  constructor(props: any) { super(props); this.state = { hasError: false, error: '' }; }
+  static getDerivedStateFromError(err: any) { return { hasError: true, error: err?.message || 'Unknown error' }; }
+  componentDidCatch(err: any) { console.error('[ErrorBoundary]', err); }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <View style={{ flex: 1, backgroundColor: '#0D1117', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+          <Text style={{ color: '#fff', fontSize: 18, fontWeight: '700', marginBottom: 12 }}>Something went wrong</Text>
+          <Text style={{ color: '#8B9DB5', fontSize: 14, textAlign: 'center', marginBottom: 24 }}>{this.state.error}</Text>
+          <TouchableOpacity style={{ backgroundColor: '#7C3AED', borderRadius: 12, paddingHorizontal: 24, paddingVertical: 12 }} onPress={() => this.setState({ hasError: false, error: '' })}>
+            <Text style={{ color: '#fff', fontWeight: '700' }}>Try Again</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function RootLayout() {
   return (
+    <ErrorBoundary>
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
@@ -152,5 +176,7 @@ export default function RootLayout() {
         </SafeAreaProvider>
       </QueryClientProvider>
     </GestureHandlerRootView>
+    </ErrorBoundary>
   );
 }
+
