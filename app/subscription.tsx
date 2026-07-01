@@ -114,11 +114,11 @@ export default function SubscriptionScreen() {
           <Text style={s.restoreText}>Restore Previous Purchase</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => require('react-native').Linking.openURL('https://raw.githubusercontent.com/djedgar1018/beatmatch-mobile/main/privacy-policy.html')} style={{alignItems:'center',paddingVertical:6}}>
-          <Text style={[s.restoreText,{fontSize:12}]}>Privacy Policy</Text>
+        <TouchableOpacity 
+          onPress={() => { const {Linking}=require('react-native'); Linking.openURL('https://raw.githubusercontent.com/djedgar1018/beatmatch-mobile/main/privacy-policy.html'); }}
+          style={{alignItems:'center', paddingVertical:10, borderTopWidth:1, borderTopColor:'rgba(255,255,255,0.1)', marginTop:8}}>
+          <Text style={{color:'#7C3AED', fontSize:14, fontWeight:'600', textDecorationLine:'underline'}}>📄 Privacy Policy</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => {const {Linking}=require("react-native");Linking.openURL("https://raw.githubusercontent.com/djedgar1018/beatmatch-mobile/main/privacy-policy.html");}} style={{alignItems:"center",paddingBottom:4}}><Text style={[s.restoreText,{fontSize:12}]}>Privacy Policy</Text></TouchableOpacity>
         <Text style={s.legal}>
           Subscriptions auto-renew monthly unless cancelled at least 24 hours before the end of the current period.
           Manage or cancel subscriptions in your Apple ID account settings.
@@ -160,6 +160,7 @@ const s = StyleSheet.create({
   planBtnText: { color: '#fff', fontWeight: '700', fontSize: 15 },
   restoreBtn: { alignItems: 'center', paddingVertical: 16 },
   restoreText: { color: Colors.primary, fontSize: 14 },
-  legal: { fontSize: 11, color: Colors.textMuted, textAlign: 'center', lineHeight: 16, marginTop: 8 },
+  legal: { fontSize: 12, color: Colors.textSecondary, textAlign: 'center', lineHeight: 18, marginTop: 8 },
 });
+
 
