@@ -111,8 +111,9 @@ export default function DiscoverScreen() {
 const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: Colors.background },
   container: { flex: 1, backgroundColor: Colors.background },
+  contentPad: { maxWidth: 768, width: '100%', alignSelf: 'center' },
   header: { paddingHorizontal: 20, paddingTop: 16, paddingBottom: 12 },
-  headerTitle: { fontSize: 26, fontWeight: '800', color: Colors.text, marginBottom: 2 },
+  headerTitle: { fontSize: 24, fontWeight: '800', color: Colors.text, marginBottom: 2, flexShrink: 1 },
   headerSub: { fontSize: 13, color: Colors.textMuted },
   searchWrap: { flexDirection: 'row', alignItems: 'center', marginHorizontal: 20, marginBottom: 14, backgroundColor: Colors.inputBg, borderWidth: 1, borderColor: Colors.border, borderRadius: 12, paddingHorizontal: 14, height: 48 },
   searchIcon: { fontSize: 16, marginRight: 10 },
@@ -137,3 +138,4 @@ const s = StyleSheet.create({
   emptyTitle: { fontSize: 20, fontWeight: '700', color: Colors.text },
   emptySub: { fontSize: 14, color: Colors.textMuted, textAlign: 'center' },
 });
+
