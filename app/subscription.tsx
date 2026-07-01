@@ -115,7 +115,7 @@ export default function SubscriptionScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity 
-          onPress={() => { const {Linking}=require('react-native'); Linking.openURL('https://raw.githubusercontent.com/djedgar1018/beatmatch-mobile/main/privacy-policy.html'); }}
+          onPress={() => { const {Linking}=require('react-native'); Linking.openURL('https://beat-match-production.up.railway.app/privacy'); }}
           style={{alignItems:'center', paddingVertical:10, borderTopWidth:1, borderTopColor:'rgba(255,255,255,0.1)', marginTop:8}}>
           <Text style={{color:'#7C3AED', fontSize:14, fontWeight:'600', textDecorationLine:'underline'}}>📄 Privacy Policy</Text>
         </TouchableOpacity>
@@ -162,6 +162,7 @@ const s = StyleSheet.create({
   restoreText: { color: Colors.primary, fontSize: 14 },
   legal: { fontSize: 12, color: Colors.textSecondary, textAlign: 'center', lineHeight: 18, marginTop: 8 },
 });
+
 
 
 
