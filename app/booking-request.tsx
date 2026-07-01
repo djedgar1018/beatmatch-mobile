@@ -90,6 +90,21 @@ export default function BookingRequestScreen() {
   const proposedRate = rate ? Number(rate) : undefined;
 
   async function handleSubmit() {
+    // Check if user is logged in before attempting booking
+    const { default: AsyncStorage } = await import('@react-native-async-storage/async-storage');
+    const authUser = await AsyncStorage.getItem('auth_user');
+    if (!authUser) {
+      Alert.alert(
+        'Sign in Required',
+        'You need to create an account or sign in to book a DJ.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Sign In', onPress: () => router.push('/auth') }
+        ]
+      );
+      return;
+    }
+
     if (!eventName.trim()) {
       Alert.alert('Missing info', 'Please enter an event name.');
       return;
@@ -114,10 +129,15 @@ export default function BookingRequestScreen() {
       });
       setSuccess(true);
     } catch (err: unknown) {
-      Alert.alert(
-        'Booking failed',
-        err instanceof Error ? err.message : 'Please try again.'
-      );
+      const errMsg = err instanceof Error ? err.message : 'Please try again.';
+      if (errMsg.includes('Unauthorized') || errMsg.includes('401')) {
+        Alert.alert('Sign in Required', 'Please sign in to book a DJ.', [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Sign In', onPress: () => router.push('/auth') }
+        ]);
+      } else {
+        Alert.alert('Booking failed', errMsg);
+      }
     }
   }
 
@@ -425,3 +445,4 @@ const styles = StyleSheet.create({
   successBtnGrad: { paddingVertical: 16, alignItems: 'center' },
   successBtnText: { color: '#fff', fontWeight: '800', fontSize: 17 },
 });
+
