@@ -104,7 +104,7 @@ export default function MoreScreen() {
         </Section>
 
         <Section title="Legal">
-          <MenuItem icon="🔒" label="Privacy Policy" onPress={() => Linking.openURL('https://raw.githubusercontent.com/djedgar1018/beatmatch-mobile/main/privacy-policy.html')} />
+          <MenuItem icon="🔒" label="Privacy Policy" onPress={() => Linking.openURL('https://beat-match-production.up.railway.app/privacy')} />
           <MenuItem icon="📄" label="Terms of Service" onPress={() => Linking.openURL('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')} />
           <MenuItem icon="💬" label="Support" onPress={() => Linking.openURL('mailto:support@beatmatch.app')} />
         </Section>
@@ -138,4 +138,5 @@ const s = StyleSheet.create({
   chevron: { fontSize: 20, color: Colors.textMuted, lineHeight: 22 },
   version: { textAlign: 'center', color: Colors.textMuted, fontSize: 12, padding: 24 },
 });
+
 
