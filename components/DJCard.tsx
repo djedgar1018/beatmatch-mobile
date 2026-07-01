@@ -23,7 +23,7 @@ function StarRating({ rating }: { rating?: number }) {
   return (
     <View style={{ flexDirection: 'row', gap: 1 }}>
       {[1, 2, 3, 4, 5].map(i => (
-        <Text key={i} style={{ fontSize: 11, color: i <= stars ? Colors.gold : Colors.border }}>★</Text>
+        <Text key={i} style={{ fontSize: 14, color: i <= stars ? Colors.gold : Colors.border }}>★</Text>
       ))}
     </View>
   );
@@ -93,14 +93,15 @@ const s = StyleSheet.create({
   avatar: { width: 64, height: 64, borderRadius: 32, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
   avatarText: { color: '#fff', fontWeight: '800', fontSize: 22, letterSpacing: 0.5 },
   info: { flex: 1, justifyContent: 'center', gap: 4 },
-  name: { fontSize: 17, fontWeight: '700', color: Colors.text },
+  name: { fontSize: 18, fontWeight: '700', color: Colors.text },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   metaIcon: { fontSize: 13 },
-  metaText: { fontSize: 13, color: Colors.textSecondary, flex: 1 },
+  metaText: { fontSize: 14, color: Colors.textPrimary || Colors.text, flex: 1, opacity: 0.75 },
   genreRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 14 },
   genreBadge: { borderWidth: 1, borderColor: Colors.primaryLight, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 4, backgroundColor: Colors.primaryMuted },
-  genreText: { fontSize: 12, color: Colors.primaryLight, fontWeight: '500' },
+  genreText: { fontSize: 14, color: Colors.primaryLight, fontWeight: '600' },
   footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: Colors.border, paddingTop: 12 },
   viewBtn: {},
   viewBtnText: { color: Colors.primary, fontWeight: '700', fontSize: 14 },
 });
+
