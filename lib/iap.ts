@@ -103,7 +103,7 @@ export function useIAP(): IAPState {
           const products = await Purchases.getProducts([productId], 'SUBSCRIPTION');
           if (products && products.length > 0) {
             const { customerInfo } = await Purchases.purchaseStoreProduct(products[0]);
-            if (Object.keys(customerInfo.entitlements.active).length > 0) {
+            if (customerInfo.entitlements.active['premium'] || Object.keys(customerInfo.entitlements.active).length > 0) {
               await AsyncStorage.setItem(SUBSCRIPTION_KEY, 'active');
               await AsyncStorage.setItem(SUBSCRIPTION_TIER_KEY, productId);
               setIsSubscribed(true);
@@ -123,7 +123,7 @@ export function useIAP(): IAPState {
                       offerings.current?.availablePackages?.find((p: any) => p.product?.identifier === productId);
           if (pkg) {
             const { customerInfo } = await Purchases.purchasePackage(pkg);
-            if (Object.keys(customerInfo.entitlements.active).length > 0) {
+            if (customerInfo.entitlements.active['premium'] || Object.keys(customerInfo.entitlements.active).length > 0) {
               await AsyncStorage.setItem(SUBSCRIPTION_KEY, 'active');
               await AsyncStorage.setItem(SUBSCRIPTION_TIER_KEY, productId);
               setIsSubscribed(true);
@@ -164,5 +164,6 @@ export function useIAP(): IAPState {
 
   return { isLoading, isPurchasing, isSubscribed, currentTier, plans: PLANS, purchase, restore, error };
 }
+
 
 
