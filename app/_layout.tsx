@@ -29,12 +29,12 @@ function AuthGate({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     AsyncStorage.getItem('auth_user').then((token) => {
       setChecking(false);
-      if (!token) {
-        router.replace('/auth');
-      } else {
-        // Register for push notifications after confirming auth
+      if (token) {
+        // Logged in — register for notifications
         registerForPushNotifications().catch(() => {});
       }
+      // Not logged in — allow through to Discover (unauthenticated browsing)
+      // Booking, Profile, Messages will individually require auth
     });
   }, []);
 
@@ -179,4 +179,5 @@ export default function RootLayout() {
     </ErrorBoundary>
   );
 }
+
 
