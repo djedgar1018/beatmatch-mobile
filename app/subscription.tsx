@@ -85,7 +85,7 @@ export default function SubscriptionScreen() {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={s.scroll}>
         <Text style={s.subtitle}>Unlock your full potential as a DJ</Text>
 
-        {error && !error.toLowerCase().includes('offering') && !error.toLowerCase().includes('product') && !error.toLowerCase().includes('revenuecat') && (
+        {error && (
           <View style={s.errorBox}>
             <Text style={s.errorText}>{error}</Text>
           </View>
@@ -162,6 +162,7 @@ const s = StyleSheet.create({
   restoreText: { color: Colors.primary, fontSize: 14 },
   legal: { fontSize: 12, color: Colors.textSecondary, textAlign: 'center', lineHeight: 18, marginTop: 8 },
 });
+
 
 
 
