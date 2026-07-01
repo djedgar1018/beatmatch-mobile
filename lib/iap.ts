@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Alert, Platform } from 'react-native';
 
 // RevenueCat public keys
-const RC_API_KEY_IOS = 'appl_mixmatch_placeholder'; // Set after RC account setup for MixMatch
+const RC_API_KEY_IOS = __DEV__ ? 'appl_RUAwFFFZjqzxBXaCVQWhBNlAMUR' : 'appl_RUAwFFFZjqzxBXaCVQWhBNlAMUR'; // Set after RC account setup for MixMatch
 
 export const IAP_PRODUCTS = {
   starter: 'com.ten18.mixnmatch.starter.v2',
@@ -144,3 +144,4 @@ export function useIAP(): IAPState {
 
   return { isLoading, isPurchasing, isSubscribed, currentTier, plans: PLANS, purchase, restore, error };
 }
+
