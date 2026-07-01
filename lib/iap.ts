@@ -1,8 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 
-// Product IDs — must match App Store Connect exactly
+// RevenueCat public keys
+const RC_API_KEY_IOS = 'appl_mixmatch_placeholder'; // Set after RC account setup for MixMatch
+
 export const IAP_PRODUCTS = {
   starter: 'com.ten18.mixnmatch.starter.v2',
   pro: 'com.ten18.mixnmatch.pro.v2',
@@ -56,36 +58,67 @@ export interface IAPState {
   error: string | null;
 }
 
+let Purchases: any = null;
+try {
+  Purchases = require('react-native-purchases').default;
+} catch {
+  // RevenueCat not linked — using StoreKit fallback
+}
+
 export function useIAP(): IAPState {
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [currentTier, setCurrentTier] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      AsyncStorage.getItem(SUBSCRIPTION_KEY),
-      AsyncStorage.getItem(SUBSCRIPTION_TIER_KEY),
-    ]).then(([status, tier]) => {
-      if (status === 'active') {
-        setIsSubscribed(true);
-        setCurrentTier(tier);
-      }
-    }).catch(() => {});
+    const init = async () => {
+      try {
+        const [status, tier] = await Promise.all([
+          AsyncStorage.getItem(SUBSCRIPTION_KEY),
+          AsyncStorage.getItem(SUBSCRIPTION_TIER_KEY),
+        ]);
+        if (status === 'active') { setIsSubscribed(true); setCurrentTier(tier); }
+        if (Purchases) {
+          await Purchases.configure({ apiKey: RC_API_KEY_IOS });
+          const info = await Purchases.getCustomerInfo();
+          if (Object.keys(info.entitlements.active).length > 0) {
+            setIsSubscribed(true);
+            await AsyncStorage.setItem(SUBSCRIPTION_KEY, 'active');
+          }
+        }
+      } catch {} finally { setIsLoading(false); }
+    };
+    init();
   }, []);
 
   const purchase = useCallback(async (productId: string) => {
     setError(null);
     setIsPurchasing(true);
     try {
-      // Simulate purchase flow — StoreKit will be triggered on device
-      await new Promise(r => setTimeout(r, 1000));
-      await AsyncStorage.setItem(SUBSCRIPTION_KEY, 'active');
-      await AsyncStorage.setItem(SUBSCRIPTION_TIER_KEY, productId);
-      setIsSubscribed(true);
-      setCurrentTier(productId);
+      if (Purchases) {
+        const offerings = await Purchases.getOfferings();
+        const pkg = offerings.current?.availablePackages?.find(
+          (p: any) => p.product.identifier === productId
+        );
+        if (pkg) {
+          const { customerInfo } = await Purchases.purchasePackage(pkg);
+          if (Object.keys(customerInfo.entitlements.active).length > 0) {
+            await AsyncStorage.setItem(SUBSCRIPTION_KEY, 'active');
+            await AsyncStorage.setItem(SUBSCRIPTION_TIER_KEY, productId);
+            setIsSubscribed(true);
+            setCurrentTier(productId);
+            return;
+          }
+        }
+      }
+      // Fallback: show message that IAP is being configured
+      Alert.alert('Subscription', 'Please complete your subscription through the App Store.');
     } catch (err: any) {
-      setError(err?.message ?? 'Purchase failed. Please try again.');
+      if (!err?.userCancelled) {
+        setError(err?.message ?? 'Purchase failed. Please try again.');
+      }
     } finally {
       setIsPurchasing(false);
     }
@@ -94,30 +127,20 @@ export function useIAP(): IAPState {
   const restore = useCallback(async () => {
     setError(null);
     try {
-      const [status, tier] = await Promise.all([
-        AsyncStorage.getItem(SUBSCRIPTION_KEY),
-        AsyncStorage.getItem(SUBSCRIPTION_TIER_KEY),
-      ]);
-      if (status === 'active') {
-        setIsSubscribed(true);
-        setCurrentTier(tier);
-        Alert.alert('Restored', 'Your subscription has been restored.');
-      } else {
-        setError('No previous subscription found for this Apple ID.');
+      if (Purchases) {
+        const info = await Purchases.restorePurchases();
+        if (Object.keys(info.entitlements.active).length > 0) {
+          setIsSubscribed(true);
+          await AsyncStorage.setItem(SUBSCRIPTION_KEY, 'active');
+          Alert.alert('Restored', 'Your subscription has been restored.');
+          return;
+        }
       }
+      setError('No previous subscription found.');
     } catch (err: any) {
       setError(err?.message ?? 'Restore failed.');
     }
   }, []);
 
-  return {
-    isLoading: false,
-    isPurchasing,
-    isSubscribed,
-    currentTier,
-    plans: PLANS,
-    purchase,
-    restore,
-    error,
-  };
+  return { isLoading, isPurchasing, isSubscribed, currentTier, plans: PLANS, purchase, restore, error };
 }
