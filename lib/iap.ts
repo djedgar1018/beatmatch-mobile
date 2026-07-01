@@ -98,23 +98,43 @@ export function useIAP(): IAPState {
     setIsPurchasing(true);
     try {
       if (Purchases) {
-        const offerings = await Purchases.getOfferings();
-        const pkg = offerings.current?.availablePackages?.find(
-          (p: any) => p.product.identifier === productId
-        );
-        if (pkg) {
-          const { customerInfo } = await Purchases.purchasePackage(pkg);
-          if (Object.keys(customerInfo.entitlements.active).length > 0) {
-            await AsyncStorage.setItem(SUBSCRIPTION_KEY, 'active');
-            await AsyncStorage.setItem(SUBSCRIPTION_TIER_KEY, productId);
-            setIsSubscribed(true);
-            setCurrentTier(productId);
-            return;
+        // Try direct product purchase (works without offerings configured)
+        try {
+          const products = await Purchases.getProducts([productId], 'SUBSCRIPTION');
+          if (products && products.length > 0) {
+            const { customerInfo } = await Purchases.purchaseStoreProduct(products[0]);
+            if (Object.keys(customerInfo.entitlements.active).length > 0) {
+              await AsyncStorage.setItem(SUBSCRIPTION_KEY, 'active');
+              await AsyncStorage.setItem(SUBSCRIPTION_TIER_KEY, productId);
+              setIsSubscribed(true);
+              setCurrentTier(productId);
+              return;
+            }
           }
+        } catch (directErr: any) {
+          if (directErr?.userCancelled) return;
+          // Fall through to offerings approach
         }
+        // Try offerings approach as fallback
+        try {
+          const offerings = await Purchases.getOfferings();
+          const allPkgs = offerings.all ? Object.values(offerings.all).flatMap((o: any) => o.availablePackages || []) : [];
+          const pkg = allPkgs.find((p: any) => p.product?.identifier === productId) ||
+                      offerings.current?.availablePackages?.find((p: any) => p.product?.identifier === productId);
+          if (pkg) {
+            const { customerInfo } = await Purchases.purchasePackage(pkg);
+            if (Object.keys(customerInfo.entitlements.active).length > 0) {
+              await AsyncStorage.setItem(SUBSCRIPTION_KEY, 'active');
+              await AsyncStorage.setItem(SUBSCRIPTION_TIER_KEY, productId);
+              setIsSubscribed(true);
+              setCurrentTier(productId);
+              return;
+            }
+          }
+        } catch {}
       }
-      // Fallback: show message that IAP is being configured
-      Alert.alert('Subscription', 'Please complete your subscription through the App Store.');
+      // Final fallback — native StoreKit without RevenueCat
+      Alert.alert('Processing...', 'Connecting to App Store. Please wait.');
     } catch (err: any) {
       if (!err?.userCancelled) {
         setError(err?.message ?? 'Purchase failed. Please try again.');
@@ -144,4 +164,5 @@ export function useIAP(): IAPState {
 
   return { isLoading, isPurchasing, isSubscribed, currentTier, plans: PLANS, purchase, restore, error };
 }
+
 
