@@ -228,7 +228,7 @@ export function useConversations() {
   return useQuery<Conversation[]>({
     queryKey: ['conversations'],
     queryFn: () => apiFetch<Conversation[]>('/api/messages/conversations'),
-    refetchInterval: 10000,
+    refetchInterval: 45000,
   });
 }
 
@@ -236,7 +236,7 @@ export function useMessages(conversationId: string) {
   return useQuery<Message[]>({
     queryKey: ['messages', conversationId],
     queryFn: () => apiFetch<Message[]>(`/api/messages/${conversationId}`),
-    refetchInterval: 10000,
+    refetchInterval: 45000,
     enabled: !!conversationId,
   });
 }
@@ -294,3 +294,4 @@ export function useUpdateProfile() {
     },
   });
 }
+
