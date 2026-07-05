@@ -96,6 +96,8 @@ export function useIAP(): IAPState {
   const purchase = useCallback(async (productId: string) => {
     setError(null);
     setIsPurchasing(true);
+    // Safety timeout — force clear spinner after 15s to prevent infinite processing state
+    const _timeout = setTimeout(() => setIsPurchasing(false), 15000);
     try {
       if (Purchases) {
         // Try direct product purchase (works without offerings configured)
@@ -133,13 +135,14 @@ export function useIAP(): IAPState {
           }
         } catch {}
       }
-      // Final fallback — native StoreKit without RevenueCat
-      Alert.alert('Processing...', 'Connecting to App Store. Please wait.');
+      // Subscriptions require StoreKit — set error so user sees message, spinner clears via finally
+      setError('Subscription requires an active App Store account. Please ensure you are signed in to the App Store and try again.');
     } catch (err: any) {
       if (!err?.userCancelled) {
         setError(err?.message ?? 'Purchase failed. Please try again.');
       }
     } finally {
+      clearTimeout(_timeout);
       setIsPurchasing(false);
     }
   }, []);
@@ -164,6 +167,7 @@ export function useIAP(): IAPState {
 
   return { isLoading, isPurchasing, isSubscribed, currentTier, plans: PLANS, purchase, restore, error };
 }
+
 
 
 
