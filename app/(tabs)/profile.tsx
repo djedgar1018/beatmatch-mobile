@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
@@ -19,6 +20,15 @@ function InfoRow({ label, value }: { label: string; value?: string | number }) {
 export default function ProfileScreen() {
   const queryClient = useQueryClient();
   const { data: profile, isLoading, isError, refetch } = useProfile();
+  const [user, setUser] = useState<any>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem('auth_user').then(raw => {
+      setUser(raw ? JSON.parse(raw) : null);
+      setAuthChecked(true);
+    });
+  }, []);
 
   async function handleLogout() {
     Alert.alert('Log Out', 'Are you sure you want to log out?', [
@@ -33,6 +43,30 @@ export default function ProfileScreen() {
       },
     ]);
   }
+
+  if (!authChecked) return (
+    <SafeAreaView style={s.safe}>
+      <View style={s.center}><ActivityIndicator color={Colors.primary} size="large" /></View>
+    </SafeAreaView>
+  );
+
+  if (!user) return (
+    <SafeAreaView style={s.safe}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 }}>
+        <Text style={{ fontSize: 40, marginBottom: 16 }}>👤</Text>
+        <Text style={{ color: '#fff', fontSize: 22, fontWeight: '700', marginBottom: 8 }}>Your Profile</Text>
+        <Text style={{ color: '#8B9DB5', fontSize: 15, textAlign: 'center', marginBottom: 32 }}>
+          Create an account to build your DJ profile or manage your bookings.
+        </Text>
+        <TouchableOpacity onPress={() => router.push('/auth' as any)} style={{ backgroundColor: '#7C3AED', borderRadius: 12, paddingHorizontal: 32, paddingVertical: 14, marginBottom: 12, width: '100%', alignItems: 'center' }}>
+          <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>Sign Up Free</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/auth' as any)} style={{ borderWidth: 1, borderColor: '#374151', borderRadius: 12, paddingHorizontal: 32, paddingVertical: 14, width: '100%', alignItems: 'center' }}>
+          <Text style={{ color: '#9CA3AF', fontWeight: '600', fontSize: 16 }}>Sign In</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
 
   if (isLoading) return (
     <SafeAreaView style={s.safe}>

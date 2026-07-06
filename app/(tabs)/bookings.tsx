@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '../../constants/colors';
 import { useBookings, type Booking } from '../../lib/api';
 
@@ -50,8 +52,41 @@ function BookingItem({ booking }: { booking: Booking }) {
 
 export default function BookingsScreen() {
   const [filter, setFilter] = useState('All');
+  const [user, setUser] = useState<any>(null);
+  const [authChecked, setAuthChecked] = useState(false);
   const { data, isLoading } = useBookings();
   const all = data ?? [];
+
+  useEffect(() => {
+    AsyncStorage.getItem('auth_user').then(raw => {
+      setUser(raw ? JSON.parse(raw) : null);
+      setAuthChecked(true);
+    });
+  }, []);
+
+  if (!authChecked) return (
+    <SafeAreaView style={s.safe}>
+      <View style={s.center}><ActivityIndicator color={Colors.primary} size="large" /></View>
+    </SafeAreaView>
+  );
+
+  if (!user) return (
+    <SafeAreaView style={s.safe}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 }}>
+        <Text style={{ fontSize: 40, marginBottom: 16 }}>📅</Text>
+        <Text style={{ color: '#fff', fontSize: 22, fontWeight: '700', marginBottom: 8 }}>Your Bookings</Text>
+        <Text style={{ color: '#8B9DB5', fontSize: 15, textAlign: 'center', marginBottom: 32 }}>
+          Create a free account to start booking DJs for your events.
+        </Text>
+        <TouchableOpacity onPress={() => router.push('/auth' as any)} style={{ backgroundColor: '#7C3AED', borderRadius: 12, paddingHorizontal: 32, paddingVertical: 14, marginBottom: 12, width: '100%', alignItems: 'center' }}>
+          <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>Sign Up Free</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/auth' as any)} style={{ borderWidth: 1, borderColor: '#374151', borderRadius: 12, paddingHorizontal: 32, paddingVertical: 14, width: '100%', alignItems: 'center' }}>
+          <Text style={{ color: '#9CA3AF', fontWeight: '600', fontSize: 16 }}>Sign In</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
 
   const filtered = filter === 'All'
     ? all

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
@@ -31,6 +32,13 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function MoreScreen() {
   const queryClient = useQueryClient();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    AsyncStorage.getItem('auth_user').then(raw => {
+      setUser(raw ? JSON.parse(raw) : null);
+    });
+  }, []);
 
   const handleDeleteAccount = () => {
     Alert.alert(
@@ -92,7 +100,11 @@ export default function MoreScreen() {
         </View>
 
         <Section title="Account">
-          <MenuItem icon="⭐" label="Subscription Plans" onPress={() => router.push('/subscription' as any)} />
+          {user ? (
+            <MenuItem icon="⭐" label="Subscription Plans" onPress={() => router.push('/subscription' as any)} />
+          ) : (
+            <MenuItem icon="⭐" label="Create Account to unlock Premium" onPress={() => router.push('/auth' as any)} />
+          )}
 
           <MenuItem icon="📋" label="My Contracts" onPress={() => router.push('/contracts' as any)} />
           <MenuItem icon="🎵" label="Mix Library" onPress={() => router.push('/library' as any)} />
@@ -138,5 +150,3 @@ const s = StyleSheet.create({
   chevron: { fontSize: 20, color: Colors.textMuted, lineHeight: 22 },
   version: { textAlign: 'center', color: Colors.textMuted, fontSize: 12, padding: 24 },
 });
-
-
