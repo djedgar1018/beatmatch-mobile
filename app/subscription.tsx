@@ -114,6 +114,16 @@ export default function SubscriptionScreen() {
           <Text style={s.restoreText}>Restore Previous Purchase</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          onPress={() => {
+            try { router.back(); } catch {}
+            router.replace('/(tabs)' as any);
+          }}
+          style={{ alignItems: 'center', paddingVertical: 14, marginTop: 4 }}
+        >
+          <Text style={{ color: '#8B9DB5', fontSize: 15 }}>No thanks, continue browsing for free</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity 
           onPress={() => { const {Linking}=require('react-native'); Linking.openURL('https://beat-match-production.up.railway.app/privacy'); }}
           style={{alignItems:'center', paddingVertical:10, borderTopWidth:1, borderTopColor:'rgba(255,255,255,0.1)', marginTop:8}}>
