@@ -101,19 +101,25 @@ export default function MoreScreen() {
 
         <Section title="Account">
           {user ? (
-            <MenuItem icon="⭐" label="Subscription Plans" onPress={() => router.push('/subscription' as any)} />
+            <>
+              <MenuItem icon="⭐" label="Subscription Plans" onPress={() => router.push('/subscription' as any)} />
+              <MenuItem icon="📋" label="My Contracts" onPress={() => router.push('/contracts' as any)} />
+              <MenuItem icon="🎵" label="Mix Library" onPress={() => router.push('/library' as any)} />
+            </>
           ) : (
-            <MenuItem icon="⭐" label="Create Account to unlock Premium" onPress={() => router.push('/auth' as any)} />
+            <MenuItem icon="👤" label="Sign In or Create Free Account" onPress={() => router.push('/auth' as any)} />
           )}
+        </Section>
 
-          <MenuItem icon="📋" label="My Contracts" onPress={() => router.push('/contracts' as any)} />
-          <MenuItem icon="🎵" label="Mix Library" onPress={() => router.push('/library' as any)} />
+        <Section title="Explore">
           <MenuItem icon="🌐" label="Open Web App" onPress={() => Linking.openURL(BASE_URL)} />
         </Section>
 
-        <Section title="Preferences">
-          <MenuItem icon="🔔" label="Notification Settings" onPress={() => {}} />
-        </Section>
+        {user && (
+          <Section title="Preferences">
+            <MenuItem icon="🔔" label="Notification Settings" onPress={() => {}} />
+          </Section>
+        )}
 
         <Section title="Legal">
           <MenuItem icon="🔒" label="Privacy Policy" onPress={() => Linking.openURL('https://beat-match-production.up.railway.app/privacy')} />
@@ -121,10 +127,12 @@ export default function MoreScreen() {
           <MenuItem icon="💬" label="Support" onPress={() => Linking.openURL('mailto:support@beatmatch.app')} />
         </Section>
 
-        <Section title="">
-          <MenuItem icon="🗑️" label="Delete Account" onPress={handleDeleteAccount} danger />
-          <MenuItem icon="🚪" label="Log Out" onPress={handleLogout} danger />
-        </Section>
+        {user && (
+          <Section title="">
+            <MenuItem icon="🗑️" label="Delete Account" onPress={handleDeleteAccount} danger />
+            <MenuItem icon="🚪" label="Log Out" onPress={handleLogout} danger />
+          </Section>
+        )}
 
         <Text style={s.version}>Mix Match v1.0.1</Text>
       </ScrollView>

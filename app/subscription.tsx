@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '../constants/colors';
 import { useIAP, type SubscriptionPlan } from '../lib/iap';
 
@@ -60,6 +62,15 @@ function PlanCard({
 
 export default function SubscriptionScreen() {
   const { isLoading, isPurchasing, isSubscribed, currentTier, plans, purchase, restore, error } = useIAP();
+  const [user, setUser] = useState<any>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem('auth_user').then(raw => {
+      setUser(raw ? JSON.parse(raw) : null);
+      setAuthChecked(true);
+    });
+  }, []);
 
   const handlePurchase = (plan: SubscriptionPlan) => {
     Alert.alert(
@@ -71,6 +82,41 @@ export default function SubscriptionScreen() {
       ]
     );
   };
+
+  if (!authChecked) {
+    return (
+      <SafeAreaView style={s.safe} edges={['bottom']}>
+        <View style={s.center}>
+          <ActivityIndicator color={Colors.primary} size="large" />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  if (!user) {
+    return (
+      <SafeAreaView style={s.safe} edges={['bottom']}>
+        <View style={s.header}>
+          <TouchableOpacity onPress={() => router.back()} style={s.backBtn}>
+            <Text style={s.backText}>‹ Back</Text>
+          </TouchableOpacity>
+          <Text style={s.title}>Mix Match Pro</Text>
+          <View style={{ width: 60 }} />
+        </View>
+        <View style={s.gatedWrap}>
+          <Text style={{ fontSize: 40, marginBottom: 16 }}>⭐</Text>
+          <Text style={s.gatedTitle}>Subscription Plans</Text>
+          <Text style={s.gatedText}>Sign in or create an account to manage paid Mix Match subscriptions.</Text>
+          <TouchableOpacity style={s.gatedBtn} onPress={() => router.push('/auth' as any)}>
+            <Text style={s.gatedBtnText}>Sign In or Create Account</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => router.replace('/(tabs)' as any)} style={{ paddingVertical: 14 }}>
+            <Text style={{ color: Colors.textMuted, fontSize: 15 }}>Continue browsing for free</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={s.safe} edges={['bottom']}>
@@ -149,6 +195,11 @@ const s = StyleSheet.create({
   errorBox: { backgroundColor: Colors.error + '22', borderRadius: 10, padding: 14, marginBottom: 16, borderWidth: 1, borderColor: Colors.error + '55' },
   errorText: { color: Colors.error, fontSize: 14, textAlign: 'center' },
   center: { alignItems: 'center', paddingVertical: 40, gap: 12 },
+  gatedWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 },
+  gatedTitle: { color: Colors.text, fontSize: 22, fontWeight: '700', marginBottom: 8 },
+  gatedText: { color: Colors.textSecondary, fontSize: 15, textAlign: 'center', marginBottom: 28 },
+  gatedBtn: { backgroundColor: Colors.primary, borderRadius: 12, paddingHorizontal: 28, paddingVertical: 14, marginBottom: 4 },
+  gatedBtnText: { color: '#fff', fontWeight: '700', fontSize: 16 },
   loadingText: { color: Colors.textMuted, fontSize: 14 },
   planCard: { backgroundColor: Colors.card, borderRadius: 16, borderWidth: 1, borderColor: Colors.border, padding: 20, marginBottom: 16 },
   planCardActive: { borderColor: Colors.primary, borderWidth: 2 },
@@ -172,7 +223,6 @@ const s = StyleSheet.create({
   restoreText: { color: Colors.primary, fontSize: 14 },
   legal: { fontSize: 12, color: Colors.textSecondary, textAlign: 'center', lineHeight: 18, marginTop: 8 },
 });
-
 
 
 

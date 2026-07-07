@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Linking, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Linking, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Colors } from '../constants/colors';
 
@@ -27,7 +28,20 @@ export default function MixesScreen() {
     enabled: !!djId,
   });
 
-  const handleBuy = (mix: Mix) => {
+  const handleBuy = async (mix: Mix) => {
+    const authUser = await AsyncStorage.getItem('auth_user');
+    if (!authUser) {
+      Alert.alert(
+        'Sign in Required',
+        'Please sign in or create an account to purchase mixes.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Sign In', onPress: () => router.push('/auth' as any) },
+        ]
+      );
+      return;
+    }
+
     Linking.openURL(`https://beat-match-production.up.railway.app/dj/${djId}`);
   };
 

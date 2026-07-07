@@ -30,7 +30,7 @@ Other apps link you elsewhere and call it a day. Mix-Match owns the entire booki
 ── MIX STORE ──
 DJs can upload and sell their recorded mixes directly to fans and venues. Set your price, choose your preview clip, and earn passive income between gigs.
 
-Terms: https://mixmatch.app/terms
-Privacy: https://mixmatch.app/privacy
+Terms: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Privacy: https://beat-match-production.up.railway.app/privacy
 
 Subscription automatically renews unless canceled at least 24 hours before the end of the current period. Manage in App Store Account Settings.

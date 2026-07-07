@@ -8,31 +8,43 @@ const BASE_URL = 'https://beat-match-production.up.railway.app';
 // Core fetch wrapper
 // ---------------------------------------------------------------------------
 
+type ApiFetchOptions = RequestInit & {
+  /** Set false for public endpoints so a guest is not pushed to login. */
+  authRequired?: boolean;
+  /** Set false for public endpoints to avoid stale tokens breaking guest browsing. */
+  includeAuthToken?: boolean;
+};
+
 async function apiFetch<T>(
   path: string,
-  options: RequestInit = {}
+  options: ApiFetchOptions = {}
 ): Promise<T> {
+  const { authRequired = true, includeAuthToken = true, ...fetchOptions } = options;
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...(options.headers as Record<string, string>),
+    ...(fetchOptions.headers as Record<string, string>),
   };
 
   // Attach token from storage if available (React Native cookies unreliable)
-  try {
-    const token = await AsyncStorage.getItem('api_token');
-    if (token) headers['Authorization'] = `Bearer ${token}`;
-  } catch (_) {}
+  if (includeAuthToken) {
+    try {
+      const token = await AsyncStorage.getItem('api_token');
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+    } catch (_) {}
+  }
 
   const res = await fetch(`${BASE_URL}${path}`, {
-    ...options,
+    ...fetchOptions,
     headers,
-    credentials: 'include',
+    credentials: includeAuthToken ? 'include' : 'omit',
   });
 
   if (res.status === 401) {
-    await AsyncStorage.multiRemove(['auth_user', 'api_token']);
-    // Avoid redirect loop — only redirect if not already on auth screen
-    try { router.replace('/auth'); } catch (_) {}
+    if (authRequired) {
+      await AsyncStorage.multiRemove(['auth_user', 'api_token']);
+      // Avoid redirect loop — only redirect if not already on auth screen
+      try { router.replace('/auth'); } catch (_) {}
+    }
     throw new Error('Unauthorized');
   }
 
@@ -141,14 +153,14 @@ export function useDJs(params?: { search?: string; genre?: string; page?: number
   const query = searchParams.toString();
   return useQuery<DJsResponse>({
     queryKey: ['djs', params],
-    queryFn: () => apiFetch<DJsResponse>(`/api/djs/browse${query ? `?${query}` : ''}`),
+    queryFn: () => apiFetch<DJsResponse>(`/api/djs/browse${query ? `?${query}` : ''}`, { authRequired: false, includeAuthToken: false }),
   });
 }
 
 export function useDJ(userId: string) {
   return useQuery<DJ>({
     queryKey: ['dj', userId],
-    queryFn: () => apiFetch<DJ>(`/api/profiles/dj/${userId}`),
+    queryFn: () => apiFetch<DJ>(`/api/profiles/dj/${userId}`, { authRequired: false, includeAuthToken: false }),
     enabled: !!userId,
   });
 }
@@ -181,10 +193,11 @@ export interface CreateBookingPayload {
   proposedRate?: number;
 }
 
-export function useBookings() {
+export function useBookings(enabled = true) {
   return useQuery<Booking[]>({
     queryKey: ['bookings'],
     queryFn: () => apiFetch<Booking[]>('/api/bookings'),
+    enabled,
   });
 }
 
@@ -224,20 +237,21 @@ export interface Message {
   createdAt: string;
 }
 
-export function useConversations() {
+export function useConversations(enabled = true) {
   return useQuery<Conversation[]>({
     queryKey: ['conversations'],
     queryFn: () => apiFetch<Conversation[]>('/api/messages/conversations'),
+    enabled,
     refetchInterval: 45000,
   });
 }
 
-export function useMessages(conversationId: string) {
+export function useMessages(conversationId: string, enabled = true) {
   return useQuery<Message[]>({
     queryKey: ['messages', conversationId],
     queryFn: () => apiFetch<Message[]>(`/api/messages/${conversationId}`),
     refetchInterval: 45000,
-    enabled: !!conversationId,
+    enabled: !!conversationId && enabled,
   });
 }
 
@@ -274,10 +288,11 @@ export interface Profile {
   user?: AuthUser;
 }
 
-export function useProfile() {
+export function useProfile(enabled = true) {
   return useQuery<Profile>({
     queryKey: ['profile'],
     queryFn: () => apiFetch<Profile>('/api/profiles/me'),
+    enabled,
   });
 }
 
@@ -294,4 +309,3 @@ export function useUpdateProfile() {
     },
   });
 }
-

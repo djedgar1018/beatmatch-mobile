@@ -34,7 +34,7 @@ function ConversationItem({ conv }: { conv: Conversation }) {
 export default function MessagesScreen() {
   const [user, setUser] = useState<any>(null);
   const [authChecked, setAuthChecked] = useState(false);
-  const { data, isLoading } = useConversations();
+  const { data, isLoading } = useConversations(!!user);
   const convs = data ?? [];
 
   useEffect(() => {

@@ -11,7 +11,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams, Stack } from 'expo-router';
+import { router, useLocalSearchParams, Stack } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '../../constants/colors';
 import { useMessages, useSendMessage, type Message } from '../../lib/api';
@@ -45,10 +45,11 @@ function ChatBubble({ message, myId }: { message: Message; myId: string }) {
 export default function MessageThreadScreen() {
   const { id: conversationId } = useLocalSearchParams<{ id: string }>();
   const [myId, setMyId] = useState<string>('');
+  const [authChecked, setAuthChecked] = useState(false);
   const [text, setText] = useState('');
   const listRef = useRef<FlatList>(null);
 
-  const { data: messages = [], isLoading } = useMessages(conversationId);
+  const { data: messages = [], isLoading } = useMessages(conversationId, !!myId);
   const { mutateAsync: sendMessage, isPending } = useSendMessage();
 
   useEffect(() => {
@@ -58,6 +59,7 @@ export default function MessageThreadScreen() {
           setMyId(JSON.parse(raw).id);
         } catch {}
       }
+      setAuthChecked(true);
     });
   }, []);
 
@@ -86,7 +88,20 @@ export default function MessageThreadScreen() {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={90}
         >
-          {isLoading ? (
+          {!authChecked ? (
+            <View style={styles.center}>
+              <ActivityIndicator color={Colors.primary} />
+            </View>
+          ) : !myId ? (
+            <View style={styles.centerPadded}>
+              <Text style={{ fontSize: 32 }}>💬</Text>
+              <Text style={styles.emptyText}>Messages</Text>
+              <Text style={styles.emptySubText}>Sign in to view or send private messages.</Text>
+              <TouchableOpacity style={styles.signInBtn} onPress={() => router.push('/auth' as any)}>
+                <Text style={styles.signInText}>Sign In</Text>
+              </TouchableOpacity>
+            </View>
+          ) : isLoading ? (
             <View style={styles.center}>
               <ActivityIndicator color={Colors.primary} />
             </View>
@@ -149,8 +164,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 6,
   },
+  centerPadded: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    padding: 32,
+  },
   emptyText: { fontSize: 16, fontWeight: '700', color: Colors.textPrimary },
-  emptySubText: { fontSize: 13, color: Colors.textSecondary },
+  emptySubText: { fontSize: 13, color: Colors.textSecondary, textAlign: 'center' },
+  signInBtn: { backgroundColor: Colors.primary, borderRadius: 12, paddingHorizontal: 28, paddingVertical: 12, marginTop: 12 },
+  signInText: { color: '#fff', fontWeight: '700', fontSize: 15 },
   list: {
     paddingHorizontal: 16,
     paddingTop: 16,

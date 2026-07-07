@@ -54,7 +54,7 @@ export default function BookingsScreen() {
   const [filter, setFilter] = useState('All');
   const [user, setUser] = useState<any>(null);
   const [authChecked, setAuthChecked] = useState(false);
-  const { data, isLoading } = useBookings();
+  const { data, isLoading } = useBookings(!!user);
   const all = data ?? [];
 
   useEffect(() => {

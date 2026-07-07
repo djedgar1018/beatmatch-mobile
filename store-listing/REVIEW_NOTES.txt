@@ -13,5 +13,5 @@ No payment is required to test the booking request flow. Tap any DJ → "Book DJ
 
 The Mix Store allows DJs to sell downloadable audio mixes. Purchases redirect to the secure web platform (reader app model — no in-app payments).
 
-SUPPORT URL: https://mixmatch.app
-MARKETING URL: https://mixmatch.app
+SUPPORT URL: https://beat-match-production.up.railway.app/support
+MARKETING URL: https://beat-match-production.up.railway.app

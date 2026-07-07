@@ -19,9 +19,9 @@ function InfoRow({ label, value }: { label: string; value?: string | number }) {
 
 export default function ProfileScreen() {
   const queryClient = useQueryClient();
-  const { data: profile, isLoading, isError, refetch } = useProfile();
   const [user, setUser] = useState<any>(null);
   const [authChecked, setAuthChecked] = useState(false);
+  const { data: profile, isLoading, isError, refetch } = useProfile(!!user);
 
   useEffect(() => {
     AsyncStorage.getItem('auth_user').then(raw => {
