@@ -15,6 +15,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Colors } from '../constants/colors';
 import { useCreateBooking } from '../lib/api';
+import { isSignedIn, promptSignInForAction } from '../lib/auth';
 
 const DURATIONS = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -90,21 +91,6 @@ export default function BookingRequestScreen() {
   const proposedRate = rate ? Number(rate) : undefined;
 
   async function handleSubmit() {
-    // Check if user is logged in before attempting booking
-    const { default: AsyncStorage } = await import('@react-native-async-storage/async-storage');
-    const authUser = await AsyncStorage.getItem('auth_user');
-    if (!authUser) {
-      Alert.alert(
-        'Sign in Required',
-        'You need to create an account or sign in to book a DJ.',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Sign In', onPress: () => router.push('/auth') }
-        ]
-      );
-      return;
-    }
-
     if (!eventName.trim()) {
       Alert.alert('Missing info', 'Please enter an event name.');
       return;
@@ -115,6 +101,11 @@ export default function BookingRequestScreen() {
     }
     if (!djUserId) {
       Alert.alert('Error', 'No DJ selected.');
+      return;
+    }
+
+    if (!(await isSignedIn())) {
+      promptSignInForAction('You can preview booking details as a guest. Sign in or create an account only when you are ready to send this booking request to the DJ.');
       return;
     }
 
@@ -131,10 +122,7 @@ export default function BookingRequestScreen() {
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : 'Please try again.';
       if (errMsg.includes('Unauthorized') || errMsg.includes('401')) {
-        Alert.alert('Sign in Required', 'Please sign in to book a DJ.', [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Sign In', onPress: () => router.push('/auth') }
-        ]);
+        promptSignInForAction('Please sign in to send this booking request.');
       } else {
         Alert.alert('Booking failed', errMsg);
       }
@@ -268,7 +256,7 @@ export default function BookingRequestScreen() {
         )}
 
         <Text style={styles.disclaimer}>
-          Payment is handled directly with the DJ outside the app. Booking requests are free.
+          Payment is handled directly with the DJ outside the app. Booking requests are free. You can fill out and review this form as a guest; sign in is only required when you send the request.
         </Text>
       </ScrollView>
 

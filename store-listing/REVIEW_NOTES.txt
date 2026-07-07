@@ -2,14 +2,27 @@ DEMO ACCOUNT:
 Email: djedgar00@gmail.com
 Password: Edgar2026
 
-This is a DJ profile with full access to all features including:
-- Browse DJs (Discover tab)
-- Booking management (Bookings tab)
-- Real-time messaging (Messages tab)
-- DJ profile and portfolio (Profile tab)
-- Settings and subscription info (More tab)
+GUIDELINE 5.1.1(v) UPDATE / GUEST ACCESS:
+Version 1.0 (build 29+) no longer requires registration to browse non-account-based content. From a fresh install, reviewers can tap "Continue as Guest" on the auth screen or simply use the bottom tabs without entering personal information.
 
-No payment is required to test the booking request flow. Tap any DJ → "Book DJ" to see the booking form.
+Available without login:
+- Discover tab: browse/search DJs, filter by genre, and open public DJ profiles.
+- Bookings tab: view the public booking explainer and booking workflow details.
+- DJ profile → Book DJ: open the booking form, enter event details, and review rates/estimated totals before login. Login is requested only when tapping "Send Booking Request" because that creates an account-specific booking record.
+- Messages tab: view the public messaging overview/demo explaining how DJ/venue messaging works.
+- More → Subscription Plans: view all Starter/Pro/Elite subscription prices, features, legal text, and privacy link.
+
+Login is required only for account-specific actions/data:
+- Sending/creating a booking request, viewing private booking history, or managing booking status.
+- Opening a private message inbox/thread or sending messages.
+- Purchasing/restoring/managing a subscription tied to a user account.
+- Managing profile, contracts, saved library, notifications, or deleting/logging out of an account.
+
+This app does not collect email, name, or password just to browse DJs, booking information, messages overview, or subscription plan information.
+
+Demo account access remains available for testing private account-based features including booking management, conversations, profile, library, and subscription management.
+
+No payment is required to test the booking request preview flow. Tap any DJ → "Book DJ" to view and fill the booking form as a guest; login is prompted only when sending the request.
 
 The Mix Store allows DJs to sell downloadable audio mixes. Purchases redirect to the secure web platform (reader app model — no in-app payments).
 

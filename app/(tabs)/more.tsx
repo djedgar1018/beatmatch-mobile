@@ -100,9 +100,9 @@ export default function MoreScreen() {
         </View>
 
         <Section title="Account">
+          <MenuItem icon="⭐" label="Subscription Plans" onPress={() => router.push('/subscription' as any)} />
           {user ? (
             <>
-              <MenuItem icon="⭐" label="Subscription Plans" onPress={() => router.push('/subscription' as any)} />
               <MenuItem icon="📋" label="My Contracts" onPress={() => router.push('/contracts' as any)} />
               <MenuItem icon="🎵" label="Mix Library" onPress={() => router.push('/library' as any)} />
             </>

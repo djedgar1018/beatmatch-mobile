@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '../../constants/colors';
 import { useBookings, type Booking } from '../../lib/api';
+import { getStoredAuthUser } from '../../lib/auth';
 
 const STATUS_COLORS: Record<string, string> = {
   PENDING: '#F59E0B',
@@ -50,6 +50,45 @@ function BookingItem({ booking }: { booking: Booking }) {
   );
 }
 
+function Step({ icon, title, body }: { icon: string; title: string; body: string }) {
+  return (
+    <View style={s.stepRow}>
+      <View style={s.stepIconWrap}><Text style={s.stepIcon}>{icon}</Text></View>
+      <View style={{ flex: 1 }}>
+        <Text style={s.stepTitle}>{title}</Text>
+        <Text style={s.stepBody}>{body}</Text>
+      </View>
+    </View>
+  );
+}
+
+function GuestBookings() {
+  return (
+    <SafeAreaView style={s.safe} edges={['bottom']}>
+      <ScrollView contentContainerStyle={s.guestWrap} showsVerticalScrollIndicator={false}>
+        <Text style={s.guestIcon}>📅</Text>
+        <Text style={s.guestTitle}>Booking on Mix Match</Text>
+        <Text style={s.guestText}>
+          You can browse how bookings work without creating an account. Accounts are only needed when you send a real booking request or view your private booking history.
+        </Text>
+
+        <View style={s.infoCard}>
+          <Step icon="1" title="Browse DJs freely" body="Search by location, genre, rate, experience, and profile details as a guest." />
+          <Step icon="2" title="Preview booking details" body="Open a DJ profile and review rates, estimated totals, and event details before signing in." />
+          <Step icon="3" title="Sign in only to send" body="Creating, confirming, or managing actual bookings is account-specific and requires login." />
+        </View>
+
+        <TouchableOpacity style={s.primaryBtn} onPress={() => router.push('/(tabs)' as any)} activeOpacity={0.85}>
+          <Text style={s.primaryBtnText}>Browse DJs</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={s.secondaryBtn} onPress={() => router.push('/auth' as any)} activeOpacity={0.85}>
+          <Text style={s.secondaryBtnText}>Sign In to View My Bookings</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
 export default function BookingsScreen() {
   const [filter, setFilter] = useState('All');
   const [user, setUser] = useState<any>(null);
@@ -58,8 +97,8 @@ export default function BookingsScreen() {
   const all = data ?? [];
 
   useEffect(() => {
-    AsyncStorage.getItem('auth_user').then(raw => {
-      setUser(raw ? JSON.parse(raw) : null);
+    getStoredAuthUser().then(storedUser => {
+      setUser(storedUser);
       setAuthChecked(true);
     });
   }, []);
@@ -70,23 +109,7 @@ export default function BookingsScreen() {
     </SafeAreaView>
   );
 
-  if (!user) return (
-    <SafeAreaView style={s.safe}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 }}>
-        <Text style={{ fontSize: 40, marginBottom: 16 }}>📅</Text>
-        <Text style={{ color: '#fff', fontSize: 22, fontWeight: '700', marginBottom: 8 }}>Your Bookings</Text>
-        <Text style={{ color: '#8B9DB5', fontSize: 15, textAlign: 'center', marginBottom: 32 }}>
-          Create a free account to start booking DJs for your events.
-        </Text>
-        <TouchableOpacity onPress={() => router.push('/auth' as any)} style={{ backgroundColor: '#7C3AED', borderRadius: 12, paddingHorizontal: 32, paddingVertical: 14, marginBottom: 12, width: '100%', alignItems: 'center' }}>
-          <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>Sign Up Free</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push('/auth' as any)} style={{ borderWidth: 1, borderColor: '#374151', borderRadius: 12, paddingHorizontal: 32, paddingVertical: 14, width: '100%', alignItems: 'center' }}>
-          <Text style={{ color: '#9CA3AF', fontWeight: '600', fontSize: 16 }}>Sign In</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
+  if (!user) return <GuestBookings />;
 
   const filtered = filter === 'All'
     ? all
@@ -158,4 +181,18 @@ const s = StyleSheet.create({
   emptyIcon: { fontSize: 52 },
   emptyTitle: { fontSize: 20, fontWeight: '700', color: Colors.text },
   emptySub: { fontSize: 14, color: Colors.textMuted, textAlign: 'center' },
+  guestWrap: { padding: 24, alignItems: 'center' },
+  guestIcon: { fontSize: 44, marginTop: 16, marginBottom: 14 },
+  guestTitle: { color: Colors.text, fontSize: 24, fontWeight: '800', marginBottom: 10, textAlign: 'center' },
+  guestText: { color: Colors.textSecondary, fontSize: 15, lineHeight: 22, textAlign: 'center', marginBottom: 20 },
+  infoCard: { width: '100%', backgroundColor: Colors.card, borderRadius: 16, borderWidth: 1, borderColor: Colors.border, padding: 16, gap: 16, marginBottom: 22 },
+  stepRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
+  stepIconWrap: { width: 30, height: 30, borderRadius: 15, backgroundColor: Colors.primaryMuted, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: Colors.primaryLight + '55' },
+  stepIcon: { color: Colors.primaryLight, fontWeight: '800' },
+  stepTitle: { color: Colors.text, fontSize: 15, fontWeight: '700', marginBottom: 3 },
+  stepBody: { color: Colors.textSecondary, fontSize: 13, lineHeight: 18 },
+  primaryBtn: { backgroundColor: Colors.primary, borderRadius: 12, paddingHorizontal: 32, paddingVertical: 14, marginBottom: 12, width: '100%', alignItems: 'center' },
+  primaryBtnText: { color: '#fff', fontWeight: '800', fontSize: 16 },
+  secondaryBtn: { borderWidth: 1, borderColor: Colors.borderLight, borderRadius: 12, paddingHorizontal: 32, paddingVertical: 14, width: '100%', alignItems: 'center' },
+  secondaryBtnText: { color: Colors.textSecondary, fontWeight: '700', fontSize: 15 },
 });

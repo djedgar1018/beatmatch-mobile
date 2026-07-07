@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '../../constants/colors';
 import { useConversations, type Conversation } from '../../lib/api';
+import { getStoredAuthUser } from '../../lib/auth';
 
 function ConversationItem({ conv }: { conv: Conversation }) {
   const initials = (conv.participantName || '??').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2);
@@ -31,6 +31,40 @@ function ConversationItem({ conv }: { conv: Conversation }) {
   );
 }
 
+function GuestMessages() {
+  return (
+    <SafeAreaView style={s.safe} edges={['bottom']}>
+      <View style={s.guestWrap}>
+        <Text style={s.guestIcon}>💬</Text>
+        <Text style={s.guestTitle}>Messages</Text>
+        <Text style={s.guestText}>
+          You can learn how messaging works without registering. Private inboxes, conversation history, and sending messages are account-specific and stay protected until you sign in.
+        </Text>
+
+        <View style={s.demoCard}>
+          <Text style={s.demoLabel}>How messaging works</Text>
+          <View style={s.demoBubbleLeft}>
+            <Text style={s.demoBubbleText}>Ask a DJ about availability after you choose an event date.</Text>
+          </View>
+          <View style={s.demoBubbleRight}>
+            <Text style={s.demoBubbleTextMine}>Confirm the venue, time, and music preferences in one thread.</Text>
+          </View>
+          <View style={s.demoNote}>
+            <Text style={s.demoNoteText}>Sign in is requested only when opening your private inbox or sending a real message.</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity style={s.primaryBtn} onPress={() => router.push('/(tabs)' as any)} activeOpacity={0.85}>
+          <Text style={s.primaryBtnText}>Browse DJs</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={s.secondaryBtn} onPress={() => router.push('/auth' as any)} activeOpacity={0.85}>
+          <Text style={s.secondaryBtnText}>Sign In to View My Inbox</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+}
+
 export default function MessagesScreen() {
   const [user, setUser] = useState<any>(null);
   const [authChecked, setAuthChecked] = useState(false);
@@ -38,8 +72,8 @@ export default function MessagesScreen() {
   const convs = data ?? [];
 
   useEffect(() => {
-    AsyncStorage.getItem('auth_user').then(raw => {
-      setUser(raw ? JSON.parse(raw) : null);
+    getStoredAuthUser().then(storedUser => {
+      setUser(storedUser);
       setAuthChecked(true);
     });
   }, []);
@@ -50,23 +84,7 @@ export default function MessagesScreen() {
     </SafeAreaView>
   );
 
-  if (!user) return (
-    <SafeAreaView style={s.safe}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 }}>
-        <Text style={{ fontSize: 40, marginBottom: 16 }}>💬</Text>
-        <Text style={{ color: '#fff', fontSize: 22, fontWeight: '700', marginBottom: 8 }}>Messages</Text>
-        <Text style={{ color: '#8B9DB5', fontSize: 15, textAlign: 'center', marginBottom: 32 }}>
-          Sign in to view your conversations with DJs.
-        </Text>
-        <TouchableOpacity onPress={() => router.push('/auth' as any)} style={{ backgroundColor: '#7C3AED', borderRadius: 12, paddingHorizontal: 32, paddingVertical: 14, marginBottom: 12, width: '100%', alignItems: 'center' }}>
-          <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>Sign Up Free</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push('/auth' as any)} style={{ borderWidth: 1, borderColor: '#374151', borderRadius: 12, paddingHorizontal: 32, paddingVertical: 14, width: '100%', alignItems: 'center' }}>
-          <Text style={{ color: '#9CA3AF', fontWeight: '600', fontSize: 16 }}>Sign In</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
+  if (!user) return <GuestMessages />;
 
   return (
     <SafeAreaView style={s.safe} edges={['bottom']}>
@@ -125,4 +143,20 @@ const s = StyleSheet.create({
   emptyIcon: { fontSize: 52 },
   emptyTitle: { fontSize: 20, fontWeight: '700', color: Colors.text },
   emptySub: { fontSize: 14, color: Colors.textMuted, textAlign: 'center' },
+  guestWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
+  guestIcon: { fontSize: 44, marginBottom: 14 },
+  guestTitle: { color: Colors.text, fontSize: 24, fontWeight: '800', marginBottom: 10, textAlign: 'center' },
+  guestText: { color: Colors.textSecondary, fontSize: 15, lineHeight: 22, textAlign: 'center', marginBottom: 20 },
+  demoCard: { width: '100%', backgroundColor: Colors.card, borderRadius: 16, borderWidth: 1, borderColor: Colors.border, padding: 16, gap: 12, marginBottom: 22 },
+  demoLabel: { color: Colors.textMuted, fontSize: 12, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 2 },
+  demoBubbleLeft: { maxWidth: '86%', backgroundColor: Colors.surfaceHigh, paddingHorizontal: 14, paddingVertical: 10, borderRadius: 18, borderBottomLeftRadius: 4, alignSelf: 'flex-start' },
+  demoBubbleRight: { maxWidth: '86%', backgroundColor: Colors.primary, paddingHorizontal: 14, paddingVertical: 10, borderRadius: 18, borderBottomRightRadius: 4, alignSelf: 'flex-end' },
+  demoBubbleText: { color: Colors.textSecondary, fontSize: 14, lineHeight: 19 },
+  demoBubbleTextMine: { color: '#fff', fontSize: 14, lineHeight: 19 },
+  demoNote: { backgroundColor: Colors.primaryMuted, borderRadius: 12, padding: 12, borderWidth: 1, borderColor: Colors.primaryLight + '44' },
+  demoNoteText: { color: Colors.textSecondary, fontSize: 13, lineHeight: 18, textAlign: 'center' },
+  primaryBtn: { backgroundColor: Colors.primary, borderRadius: 12, paddingHorizontal: 32, paddingVertical: 14, marginBottom: 12, width: '100%', alignItems: 'center' },
+  primaryBtnText: { color: '#fff', fontWeight: '800', fontSize: 16 },
+  secondaryBtn: { borderWidth: 1, borderColor: Colors.borderLight, borderRadius: 12, paddingHorizontal: 32, paddingVertical: 14, width: '100%', alignItems: 'center' },
+  secondaryBtnText: { color: Colors.textSecondary, fontWeight: '700', fontSize: 15 },
 });

@@ -65,7 +65,7 @@ try {
   // RevenueCat not linked — using StoreKit fallback
 }
 
-export function useIAP(): IAPState {
+export function useIAP(enabled = true): IAPState {
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [currentTier, setCurrentTier] = useState<string | null>(null);
@@ -73,6 +73,11 @@ export function useIAP(): IAPState {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!enabled) {
+      setIsLoading(false);
+      return;
+    }
+
     const init = async () => {
       try {
         const [status, tier] = await Promise.all([
@@ -91,7 +96,7 @@ export function useIAP(): IAPState {
       } catch {} finally { setIsLoading(false); }
     };
     init();
-  }, []);
+  }, [enabled]);
 
   const purchase = useCallback(async (productId: string) => {
     setError(null);

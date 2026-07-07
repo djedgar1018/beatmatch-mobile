@@ -2,20 +2,23 @@ import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Linking } from 'react-native';
 import { Colors } from '../constants/colors';
 import { useIAP, type SubscriptionPlan } from '../lib/iap';
+import { getStoredAuthUser, promptSignInForAction } from '../lib/auth';
 
 function PlanCard({
   plan,
   isActive,
   onPress,
   isPurchasing,
+  isGuest,
 }: {
   plan: SubscriptionPlan;
   isActive: boolean;
   onPress: () => void;
   isPurchasing: boolean;
+  isGuest: boolean;
 }) {
   const isPopular = plan.name === 'Pro';
 
@@ -52,7 +55,7 @@ function PlanCard({
           <ActivityIndicator color="#fff" size="small" />
         ) : (
           <Text style={s.planBtnText}>
-            {isActive ? 'Current Plan' : `Subscribe — ${plan.price}`}
+            {isActive ? 'Current Plan' : isGuest ? 'Sign In to Subscribe' : `Subscribe — ${plan.price}`}
           </Text>
         )}
       </TouchableOpacity>
@@ -61,18 +64,23 @@ function PlanCard({
 }
 
 export default function SubscriptionScreen() {
-  const { isLoading, isPurchasing, isSubscribed, currentTier, plans, purchase, restore, error } = useIAP();
   const [user, setUser] = useState<any>(null);
   const [authChecked, setAuthChecked] = useState(false);
+  const { isLoading, isPurchasing, currentTier, plans, purchase, restore, error } = useIAP(!!user);
 
   useEffect(() => {
-    AsyncStorage.getItem('auth_user').then(raw => {
-      setUser(raw ? JSON.parse(raw) : null);
+    getStoredAuthUser().then(storedUser => {
+      setUser(storedUser);
       setAuthChecked(true);
     });
   }, []);
 
   const handlePurchase = (plan: SubscriptionPlan) => {
+    if (!user) {
+      promptSignInForAction('You can review all Mix Match Pro plans as a guest. Sign in or create an account only when you are ready to start or manage a paid subscription.');
+      return;
+    }
+
     Alert.alert(
       `Subscribe to ${plan.name}`,
       `${plan.price} billed monthly. Cancel anytime in your Apple ID settings.`,
@@ -83,40 +91,13 @@ export default function SubscriptionScreen() {
     );
   };
 
-  if (!authChecked) {
-    return (
-      <SafeAreaView style={s.safe} edges={['bottom']}>
-        <View style={s.center}>
-          <ActivityIndicator color={Colors.primary} size="large" />
-        </View>
-      </SafeAreaView>
-    );
-  }
-
-  if (!user) {
-    return (
-      <SafeAreaView style={s.safe} edges={['bottom']}>
-        <View style={s.header}>
-          <TouchableOpacity onPress={() => router.back()} style={s.backBtn}>
-            <Text style={s.backText}>‹ Back</Text>
-          </TouchableOpacity>
-          <Text style={s.title}>Mix Match Pro</Text>
-          <View style={{ width: 60 }} />
-        </View>
-        <View style={s.gatedWrap}>
-          <Text style={{ fontSize: 40, marginBottom: 16 }}>⭐</Text>
-          <Text style={s.gatedTitle}>Subscription Plans</Text>
-          <Text style={s.gatedText}>Sign in or create an account to manage paid Mix Match subscriptions.</Text>
-          <TouchableOpacity style={s.gatedBtn} onPress={() => router.push('/auth' as any)}>
-            <Text style={s.gatedBtnText}>Sign In or Create Account</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.replace('/(tabs)' as any)} style={{ paddingVertical: 14 }}>
-            <Text style={{ color: Colors.textMuted, fontSize: 15 }}>Continue browsing for free</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    );
-  }
+  const handleRestore = () => {
+    if (!user) {
+      promptSignInForAction('Please sign in to restore purchases to your Mix Match account.');
+      return;
+    }
+    restore();
+  };
 
   return (
     <SafeAreaView style={s.safe} edges={['bottom']}>
@@ -129,49 +110,65 @@ export default function SubscriptionScreen() {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={s.scroll}>
-        <Text style={s.subtitle}>Unlock your full potential as a DJ</Text>
+        <Text style={s.subtitle}>Compare subscription plans freely. An account is required only to purchase, restore, or manage a subscription.</Text>
 
-        {error && (
-          <View style={s.errorBox}>
-            <Text style={s.errorText}>{error}</Text>
-          </View>
-        )}
-
-        {isLoading ? (
+        {!authChecked ? (
           <View style={s.center}>
             <ActivityIndicator color={Colors.primary} size="large" />
-            <Text style={s.loadingText}>Loading plans...</Text>
           </View>
         ) : (
           <>
-            {plans.map(plan => (
-              <PlanCard
-                key={plan.id}
-                plan={plan}
-                isActive={currentTier === plan.id}
-                onPress={() => handlePurchase(plan)}
-                isPurchasing={isPurchasing}
-              />
-            ))}
+            {!user && (
+              <View style={s.guestNotice}>
+                <Text style={s.guestNoticeTitle}>Guest preview</Text>
+                <Text style={s.guestNoticeText}>All plan details are visible without login. Choose a plan below only when you want to sign in and subscribe.</Text>
+              </View>
+            )}
+
+            {error && user && (
+              <View style={s.errorBox}>
+                <Text style={s.errorText}>{error}</Text>
+              </View>
+            )}
+
+            {isLoading && user ? (
+              <View style={s.center}>
+                <ActivityIndicator color={Colors.primary} size="large" />
+                <Text style={s.loadingText}>Loading plans...</Text>
+              </View>
+            ) : (
+              <>
+                {plans.map(plan => (
+                  <PlanCard
+                    key={plan.id}
+                    plan={plan}
+                    isActive={!!user && currentTier === plan.id}
+                    onPress={() => handlePurchase(plan)}
+                    isPurchasing={isPurchasing}
+                    isGuest={!user}
+                  />
+                ))}
+              </>
+            )}
+
+            <TouchableOpacity style={s.restoreBtn} onPress={handleRestore} disabled={isPurchasing}>
+              <Text style={s.restoreText}>Restore Previous Purchase</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                try { router.back(); } catch {}
+                router.replace('/(tabs)' as any);
+              }}
+              style={{ alignItems: 'center', paddingVertical: 14, marginTop: 4 }}
+            >
+              <Text style={{ color: '#8B9DB5', fontSize: 15 }}>No thanks, continue browsing for free</Text>
+            </TouchableOpacity>
           </>
         )}
 
-        <TouchableOpacity style={s.restoreBtn} onPress={restore} disabled={isPurchasing}>
-          <Text style={s.restoreText}>Restore Previous Purchase</Text>
-        </TouchableOpacity>
-
         <TouchableOpacity
-          onPress={() => {
-            try { router.back(); } catch {}
-            router.replace('/(tabs)' as any);
-          }}
-          style={{ alignItems: 'center', paddingVertical: 14, marginTop: 4 }}
-        >
-          <Text style={{ color: '#8B9DB5', fontSize: 15 }}>No thanks, continue browsing for free</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          onPress={() => { const {Linking}=require('react-native'); Linking.openURL('https://beat-match-production.up.railway.app/privacy'); }}
+          onPress={() => Linking.openURL('https://beat-match-production.up.railway.app/privacy')}
           style={{alignItems:'center', paddingVertical:10, borderTopWidth:1, borderTopColor:'rgba(255,255,255,0.1)', marginTop:8}}>
           <Text style={{color:'#7C3AED', fontSize:14, fontWeight:'600', textDecorationLine:'underline'}}>📄 Privacy Policy</Text>
         </TouchableOpacity>
@@ -191,15 +188,13 @@ const s = StyleSheet.create({
   backText: { color: Colors.primary, fontSize: 17 },
   title: { fontSize: 18, fontWeight: '800', color: Colors.text },
   scroll: { padding: 20, paddingBottom: 40 },
-  subtitle: { fontSize: 16, color: Colors.textSecondary, textAlign: 'center', marginBottom: 24 },
+  subtitle: { fontSize: 16, color: Colors.textSecondary, textAlign: 'center', marginBottom: 18, lineHeight: 22 },
+  guestNotice: { backgroundColor: Colors.primaryMuted, borderRadius: 14, padding: 14, marginBottom: 18, borderWidth: 1, borderColor: Colors.primaryLight + '44' },
+  guestNoticeTitle: { color: Colors.text, fontSize: 15, fontWeight: '800', marginBottom: 4, textAlign: 'center' },
+  guestNoticeText: { color: Colors.textSecondary, fontSize: 13, lineHeight: 18, textAlign: 'center' },
   errorBox: { backgroundColor: Colors.error + '22', borderRadius: 10, padding: 14, marginBottom: 16, borderWidth: 1, borderColor: Colors.error + '55' },
   errorText: { color: Colors.error, fontSize: 14, textAlign: 'center' },
   center: { alignItems: 'center', paddingVertical: 40, gap: 12 },
-  gatedWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 },
-  gatedTitle: { color: Colors.text, fontSize: 22, fontWeight: '700', marginBottom: 8 },
-  gatedText: { color: Colors.textSecondary, fontSize: 15, textAlign: 'center', marginBottom: 28 },
-  gatedBtn: { backgroundColor: Colors.primary, borderRadius: 12, paddingHorizontal: 28, paddingVertical: 14, marginBottom: 4 },
-  gatedBtnText: { color: '#fff', fontWeight: '700', fontSize: 16 },
   loadingText: { color: Colors.textMuted, fontSize: 14 },
   planCard: { backgroundColor: Colors.card, borderRadius: 16, borderWidth: 1, borderColor: Colors.border, padding: 20, marginBottom: 16 },
   planCardActive: { borderColor: Colors.primary, borderWidth: 2 },
@@ -223,9 +218,3 @@ const s = StyleSheet.create({
   restoreText: { color: Colors.primary, fontSize: 14 },
   legal: { fontSize: 12, color: Colors.textSecondary, textAlign: 'center', lineHeight: 18, marginTop: 8 },
 });
-
-
-
-
-
-

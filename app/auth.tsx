@@ -72,6 +72,15 @@ export default function AuthScreen() {
             </View>
             <Text style={s.brand}>Mix Match</Text>
             <Text style={s.subtitle}>The DJ Booking Marketplace</Text>
+            <TouchableOpacity
+              style={s.guestBtn}
+              onPress={() => router.replace('/(tabs)' as any)}
+              disabled={loading}
+              activeOpacity={0.85}
+            >
+              <Text style={s.guestBtnText}>Continue as Guest</Text>
+            </TouchableOpacity>
+            <Text style={s.guestSub}>Browse DJs, booking information, messages overview, and subscription plans without an account.</Text>
           </View>
 
           {/* Card */}
@@ -155,7 +164,10 @@ const s = StyleSheet.create({
   logoCircle: { width: 72, height: 72, borderRadius: 36, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center', marginBottom: 14 },
   logoIcon: { fontSize: 32 },
   brand: { fontSize: 32, fontWeight: '800', color: Colors.text, letterSpacing: 0.5, marginBottom: 6 },
-  subtitle: { fontSize: 14, color: Colors.textMuted, textAlign: 'center' },
+  subtitle: { fontSize: 14, color: Colors.textMuted, textAlign: 'center', marginBottom: 18 },
+  guestBtn: { borderWidth: 1, borderColor: Colors.primary, borderRadius: 12, paddingHorizontal: 24, paddingVertical: 12, minWidth: 220, alignItems: 'center', backgroundColor: Colors.primaryMuted },
+  guestBtnText: { color: Colors.primaryLight, fontWeight: '800', fontSize: 16 },
+  guestSub: { color: Colors.textMuted, fontSize: 12, lineHeight: 17, textAlign: 'center', marginTop: 10, paddingHorizontal: 8 },
   card: { backgroundColor: Colors.card, borderRadius: 16, borderWidth: 1, borderColor: Colors.border, padding: 24 },
   tabRow: { flexDirection: 'row', marginBottom: 24, borderBottomWidth: 1, borderBottomColor: Colors.border },
   tabBtn: { flex: 1, alignItems: 'center', paddingBottom: 12 },
