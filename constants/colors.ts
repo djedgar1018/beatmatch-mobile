@@ -18,6 +18,8 @@ export const Colors = {
   textPlaceholder: '#555555',
   placeholder: '#555555',
   accent: '#F59E0B',
+  electric: '#22D3EE',
+  rose: '#F43F5E',
   gold: '#F59E0B',
   error: '#EF4444',
   errorBg: '#EF444422',

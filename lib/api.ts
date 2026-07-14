@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
+import { normalizeBookingsResponse, type BookingsResponse } from './bookings-contract';
 
 const BASE_URL = 'https://beat-match-production.up.railway.app';
 
@@ -196,8 +197,14 @@ export interface CreateBookingPayload {
 export function useBookings(enabled = true) {
   return useQuery<Booking[]>({
     queryKey: ['bookings'],
-    queryFn: () => apiFetch<Booking[]>('/api/bookings'),
+    queryFn: async () => normalizeBookingsResponse(
+      await apiFetch<BookingsResponse<Booking>>('/api/bookings')
+    ),
     enabled,
+    // A booking can be created/changed outside this mounted tab. Keep the list
+    // fresh instead of retaining the first cached response for the app session.
+    refetchInterval: 30000,
+    refetchOnReconnect: true,
   });
 }
 

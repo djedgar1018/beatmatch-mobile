@@ -12,6 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, router, Stack } from 'expo-router';
 import { Colors } from '../../constants/colors';
 import { useDJ } from '../../lib/api';
+import { isSignedIn } from '../../lib/auth';
 
 function StarRating({ rating }: { rating?: number }) {
   const stars = Math.round(rating ?? 0);
@@ -198,12 +199,17 @@ export default function DJDetailScreen() {
           <SafeAreaView edges={['bottom']}>
             <TouchableOpacity
               activeOpacity={0.85}
-              onPress={() =>
+              onPress={async () => {
+                if (!(await isSignedIn())) {
+                  router.push('/auth' as any);
+                  return;
+                }
+
                 router.push({
                   pathname: '/booking-request',
                   params: { djUserId: dj.userId, djName: dj.stageName || 'DJ', rate: dj.hourlyRate ?? 0 },
-                })
-              }
+                });
+              }}
             >
               <LinearGradient
                 colors={[Colors.primary, Colors.primaryDark]}

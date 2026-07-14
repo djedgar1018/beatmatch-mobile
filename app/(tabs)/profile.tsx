@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
 import { Colors } from '../../constants/colors';
 import { useProfile } from '../../lib/api';
+import { signOutRevenueCatIdentity } from '../../lib/iap';
 
 function InfoRow({ label, value }: { label: string; value?: string | number }) {
   if (!value) return null;
@@ -37,6 +38,7 @@ export default function ProfileScreen() {
         text: 'Log Out', style: 'destructive',
         onPress: async () => {
           await AsyncStorage.multiRemove(['auth_token', 'auth_user', 'api_token']);
+          await signOutRevenueCatIdentity();
           queryClient.clear();
           router.replace('/auth');
         },

@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
 import { Linking } from 'react-native';
 import { Colors } from '../../constants/colors';
+import { signOutRevenueCatIdentity } from '../../lib/iap';
 
 const BASE_URL = 'https://beat-match-production.up.railway.app';
 
@@ -60,6 +61,7 @@ export default function MoreScreen() {
                 });
               }
               await AsyncStorage.multiRemove(['auth_user', 'api_token', 'auth_token']);
+              await signOutRevenueCatIdentity();
               queryClient.clear();
               router.replace('/auth');
             } catch (e) {
@@ -78,6 +80,7 @@ export default function MoreScreen() {
         text: 'Log Out', style: 'destructive',
         onPress: async () => {
           await AsyncStorage.multiRemove(['auth_token', 'auth_user', 'api_token']);
+          await signOutRevenueCatIdentity();
           queryClient.clear();
           router.replace('/auth');
         },

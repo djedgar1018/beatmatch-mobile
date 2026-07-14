@@ -26,7 +26,7 @@ export default function TabLayout() {
         tabBarLabelStyle: { fontSize: 10, fontWeight: '600', marginTop: 2 },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: 'Discover', headerTitle: '🎧 Discover DJs', tabBarIcon: ({ focused }) => <TabIcon emoji="🎧" focused={focused} /> }} />
+      <Tabs.Screen name="index" options={{ title: 'Discover', headerShown: false, tabBarIcon: ({ focused }) => <TabIcon emoji="🎧" focused={focused} /> }} />
       <Tabs.Screen name="bookings" options={{ title: 'Bookings', headerTitle: '📅 Bookings', tabBarIcon: ({ focused }) => <TabIcon emoji="📅" focused={focused} /> }} />
       <Tabs.Screen name="messages" options={{ title: 'Messages', headerTitle: '💬 Messages', tabBarIcon: ({ focused }) => <TabIcon emoji="💬" focused={focused} /> }} />
       <Tabs.Screen name="profile" options={{ title: 'Profile', headerTitle: '👤 Profile', tabBarIcon: ({ focused }) => <TabIcon emoji="👤" focused={focused} /> }} />

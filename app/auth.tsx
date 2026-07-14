@@ -4,7 +4,7 @@ import {
   KeyboardAvoidingView, Platform, ScrollView, Alert, ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Colors } from '../constants/colors';
 import { login, register } from '../lib/api';
@@ -13,7 +13,9 @@ type Tab = 'login' | 'signup';
 type UserType = 'DJ' | 'VENUE';
 
 export default function AuthScreen() {
-  const [tab, setTab] = useState<Tab>('login');
+  const params = useLocalSearchParams<{ mode?: string; role?: string }>();
+  const initialRole: UserType = params.role === 'VENUE' ? 'VENUE' : 'DJ';
+  const [tab, setTab] = useState<Tab>(params.mode === 'signup' ? 'signup' : 'login');
   const [loading, setLoading] = useState(false);
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
@@ -21,7 +23,7 @@ export default function AuthScreen() {
   const [lastName, setLastName] = useState('');
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
-  const [userType, setUserType] = useState<UserType>('DJ');
+  const [userType, setUserType] = useState<UserType>(initialRole);
 
   async function handleLogin() {
     if (!loginEmail || !loginPassword) {
@@ -65,13 +67,16 @@ export default function AuthScreen() {
     <SafeAreaView style={s.safe}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={s.flex}>
         <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+          <TouchableOpacity style={s.backBtn} onPress={() => router.back()} hitSlop={10}>
+            <Text style={s.backText}>← Back</Text>
+          </TouchableOpacity>
           {/* Logo */}
           <View style={s.logoWrap}>
             <View style={s.logoCircle}>
               <Text style={s.logoIcon}>🎧</Text>
             </View>
             <Text style={s.brand}>Mix Match</Text>
-            <Text style={s.subtitle}>The DJ Booking Marketplace</Text>
+            <Text style={s.subtitle}>{tab === 'signup' ? `Create your ${userType === 'DJ' ? 'DJ' : 'venue'} account` : 'The DJ Booking Marketplace'}</Text>
             <TouchableOpacity
               style={s.guestBtn}
               onPress={() => router.replace('/(tabs)' as any)}
@@ -160,6 +165,8 @@ const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: Colors.background },
   flex: { flex: 1 },
   scroll: { flexGrow: 1, justifyContent: 'center', padding: 24 },
+  backBtn: { alignSelf: 'flex-start', paddingVertical: 8, marginBottom: 8 },
+  backText: { color: Colors.textSecondary, fontSize: 14, fontWeight: '700' },
   logoWrap: { alignItems: 'center', marginBottom: 32 },
   logoCircle: { width: 72, height: 72, borderRadius: 36, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center', marginBottom: 14 },
   logoIcon: { fontSize: 32 },
