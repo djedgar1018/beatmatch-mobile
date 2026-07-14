@@ -2,7 +2,7 @@
   "expo": {
     "name": "Mix-Match",
     "slug": "mix-match",
-    "version": "1.0",
+    "version": "1.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "mix-match",
@@ -10,7 +10,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ten18.mixnmatch",
-      "buildNumber": "32",
+      "buildNumber": "33",
       "infoPlist": {
         "NSMicrophoneUsageDescription": "Mix-Match may access your microphone for voice messages",
         "NSCameraUsageDescription": "Mix-Match uses your camera to update your profile photo",
