@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Animated,
+  Image,
   Pressable,
   StyleSheet,
   Text,
@@ -95,7 +96,7 @@ export default function WelcomeScreen() {
       <SafeAreaView style={s.safe} edges={['top', 'bottom']}>
         <Animated.View style={[s.content, { opacity: fade, transform: [{ translateY: rise }] }]}>
           <View style={s.brandRow}>
-            <View style={s.brandMark}><Text style={s.brandIcon}>M</Text></View>
+            <Image source={require('../assets/mixmatch-logo.png')} style={s.brandMark} resizeMode="contain" />
             <View>
               <Text style={s.brand}>MIX MATCH</Text>
               <Text style={s.brandSub}>WHERE SOUND MEETS THE ROOM</Text>
@@ -153,8 +154,7 @@ const s = StyleSheet.create({
   safe: { flex: 1 },
   content: { flex: 1, paddingHorizontal: 20, paddingTop: 10, paddingBottom: 8 },
   brandRow: { flexDirection: 'row', alignItems: 'center', gap: 11 },
-  brandMark: { width: 39, height: 39, borderRadius: 12, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center', shadowColor: Colors.primary, shadowOpacity: 0.55, shadowRadius: 16 },
-  brandIcon: { color: '#fff', fontWeight: '900', fontSize: 20, fontStyle: 'italic' },
+  brandMark: { width: 44, height: 44 },
   brand: { color: '#fff', fontSize: 15, fontWeight: '900', letterSpacing: 2.2 },
   brandSub: { color: 'rgba(255,255,255,0.55)', fontSize: 8, fontWeight: '700', letterSpacing: 1.35, marginTop: 2 },
   spacer: { flex: 1, minHeight: 90 },

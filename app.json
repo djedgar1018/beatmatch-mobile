@@ -10,7 +10,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ten18.mixnmatch",
-      "buildNumber": "34",
+      "buildNumber": "36",
       "infoPlist": {
         "NSMicrophoneUsageDescription": "Mix-Match may access your microphone for voice messages",
         "NSCameraUsageDescription": "Mix-Match uses your camera to update your profile photo",
@@ -25,7 +25,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#7c3aed",
+        "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
