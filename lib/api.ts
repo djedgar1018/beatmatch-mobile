@@ -167,6 +167,39 @@ export function useDJ(userId: string) {
 }
 
 // ---------------------------------------------------------------------------
+// Media posts (TikTok-style video portfolio)
+// ---------------------------------------------------------------------------
+
+export interface MediaPost {
+  id: string;
+  userId: string;
+  mediaUrl: string;
+  thumbnailUrl?: string | null;
+  mediaType: 'video' | 'image';
+  title?: string | null;
+  description?: string | null;
+  tags?: string[] | null;
+  viewCount?: number;
+  likeCount?: number;
+  commentCount?: number;
+  createdAt: string;
+}
+
+export function useUserMedia(userId: string) {
+  return useQuery<MediaPost[]>({
+    queryKey: ['media', 'user', userId],
+    queryFn: async () => {
+      const { posts } = await apiFetch<{ posts: MediaPost[] }>(
+        `/api/media/user/${userId}`,
+        { authRequired: false, includeAuthToken: false }
+      );
+      return posts;
+    },
+    enabled: !!userId,
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Bookings
 // ---------------------------------------------------------------------------
 

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   View,
   Text,
@@ -5,14 +6,81 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
-  Linking,
+  Image,
+  Modal,
+  Pressable,
+  Dimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, router, Stack } from 'expo-router';
+import { VideoView, useVideoPlayer } from 'expo-video';
 import { Colors } from '../../constants/colors';
-import { useDJ } from '../../lib/api';
+import { useDJ, useUserMedia, type MediaPost } from '../../lib/api';
 import { isSignedIn } from '../../lib/auth';
+
+const { width: SCREEN_W } = Dimensions.get('window');
+const GRID_GAP = 8;
+const GRID_COLS = 3;
+const TILE_SIZE = (SCREEN_W - 32 - GRID_GAP * (GRID_COLS - 1)) / GRID_COLS;
+
+function MediaTile({ post, onPress }: { post: MediaPost; onPress: () => void }) {
+  const thumb = post.thumbnailUrl || (post.mediaType === 'image' ? post.mediaUrl : undefined);
+  return (
+    <TouchableOpacity style={styles.mediaTile} onPress={onPress} activeOpacity={0.85}>
+      {thumb ? (
+        <Image source={{ uri: thumb }} style={styles.mediaTileImage} />
+      ) : (
+        <View style={[styles.mediaTileImage, styles.mediaTilePlaceholder]}>
+          <Text style={{ fontSize: 24 }}>🎬</Text>
+        </View>
+      )}
+      {post.mediaType === 'video' && (
+        <View style={styles.mediaTilePlayBadge}>
+          <Text style={{ color: '#fff', fontSize: 12 }}>▶</Text>
+        </View>
+      )}
+    </TouchableOpacity>
+  );
+}
+
+function MediaViewerModal({ post, onClose }: { post: MediaPost | null; onClose: () => void }) {
+  const player = useVideoPlayer(post?.mediaType === 'video' ? post.mediaUrl : null, (p) => {
+    p.loop = false;
+    if (post?.mediaType === 'video') p.play();
+  });
+
+  if (!post) return null;
+
+  return (
+    <Modal visible transparent animationType="fade" onRequestClose={onClose}>
+      <View style={styles.viewerRoot}>
+        <Pressable style={styles.viewerBackdrop} onPress={onClose} />
+        <SafeAreaView style={styles.viewerContent} edges={['top', 'bottom']}>
+          <TouchableOpacity style={styles.viewerClose} onPress={onClose}>
+            <Text style={{ color: '#fff', fontSize: 22 }}>✕</Text>
+          </TouchableOpacity>
+          {post.mediaType === 'video' ? (
+            <VideoView
+              player={player}
+              style={styles.viewerMedia}
+              contentFit="contain"
+              allowsVideoFrameAnalysis={false}
+            />
+          ) : (
+            <Image source={{ uri: post.mediaUrl }} style={styles.viewerMedia} resizeMode="contain" />
+          )}
+          {(post.title || post.description) && (
+            <View style={styles.viewerInfo}>
+              {post.title ? <Text style={styles.viewerTitle}>{post.title}</Text> : null}
+              {post.description ? <Text style={styles.viewerDesc}>{post.description}</Text> : null}
+            </View>
+          )}
+        </SafeAreaView>
+      </View>
+    </Modal>
+  );
+}
 
 function StarRating({ rating }: { rating?: number }) {
   const stars = Math.round(rating ?? 0);
@@ -52,6 +120,8 @@ function StatCard({ label, value }: { label: string; value: string }) {
 export default function DJDetailScreen() {
   const { id: userId } = useLocalSearchParams<{ id: string }>();
   const { data: dj, isLoading, isError } = useDJ(userId);
+  const { data: mediaPosts } = useUserMedia(userId);
+  const [activePost, setActivePost] = useState<MediaPost | null>(null);
 
   const initials = dj
     ? (dj.stageName || 'DJ')
@@ -99,12 +169,16 @@ export default function DJDetailScreen() {
             </SafeAreaView>
             <View style={styles.heroContent}>
               <View style={styles.heroAvatar}>
-                <LinearGradient
-                  colors={[Colors.primary, Colors.primaryDark]}
-                  style={styles.heroAvatarGradient}
-                >
-                  <Text style={styles.heroAvatarText}>{initials}</Text>
-                </LinearGradient>
+                {dj.profileImageUrl ? (
+                  <Image source={{ uri: dj.profileImageUrl }} style={styles.heroAvatarGradient} />
+                ) : (
+                  <LinearGradient
+                    colors={[Colors.primary, Colors.primaryDark]}
+                    style={styles.heroAvatarGradient}
+                  >
+                    <Text style={styles.heroAvatarText}>{initials}</Text>
+                  </LinearGradient>
+                )}
               </View>
               <Text style={styles.heroName}>{dj.stageName || 'DJ'}</Text>
               {dj.location && (
@@ -170,24 +244,23 @@ export default function DJDetailScreen() {
             </TouchableOpacity>
           </View>
 
-          {/* Portfolio placeholder */}
+          {/* Video/photo portfolio — real posts from this DJ, viewed in-app */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Portfolio</Text>
-            <TouchableOpacity
-              style={styles.portfolioCard}
-              onPress={() =>
-                Linking.openURL(`https://beat-match-production.up.railway.app/djs/${userId}`)
-              }
-            >
-              <View style={styles.portfolioThumb}>
-                <Text style={{ fontSize: 32 }}>▶</Text>
+            {mediaPosts && mediaPosts.length > 0 ? (
+              <View style={styles.mediaGrid}>
+                {mediaPosts.map((post) => (
+                  <MediaTile key={post.id} post={post} onPress={() => setActivePost(post)} />
+                ))}
               </View>
-              <View style={styles.portfolioInfo}>
-                <Text style={styles.portfolioTitle}>View Full Portfolio</Text>
-                <Text style={styles.portfolioSub}>Opens in browser</Text>
+            ) : (
+              <View style={styles.mediaEmpty}>
+                <Text style={{ fontSize: 28 }}>🎬</Text>
+                <Text style={styles.mediaEmptyText}>
+                  {dj.stageName || 'This DJ'} hasn&apos;t posted any videos or photos yet.
+                </Text>
               </View>
-              <Text style={styles.portfolioChevron}>›</Text>
-            </TouchableOpacity>
+            )}
           </View>
 
           {/* Spacer for CTA */}
@@ -220,6 +293,8 @@ export default function DJDetailScreen() {
             </TouchableOpacity>
           </SafeAreaView>
         </View>
+
+        <MediaViewerModal post={activePost} onClose={() => setActivePost(null)} />
       </View>
     </>
   );
@@ -342,6 +417,50 @@ const styles = StyleSheet.create({
   portfolioTitle: { fontSize: 15, fontWeight: '600', color: Colors.textPrimary },
   portfolioSub: { fontSize: 13, color: Colors.textSecondary, marginTop: 2 },
   portfolioChevron: { fontSize: 20, color: Colors.textMuted },
+
+  // Media grid (video/photo portfolio)
+  mediaGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: GRID_GAP },
+  mediaTile: { width: TILE_SIZE, height: TILE_SIZE, borderRadius: 10, overflow: 'hidden' },
+  mediaTileImage: { width: '100%', height: '100%' },
+  mediaTilePlaceholder: {
+    backgroundColor: `${Colors.primary}20`,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mediaTilePlayBadge: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mediaEmpty: { alignItems: 'center', gap: 8, paddingVertical: 20 },
+  mediaEmptyText: { color: Colors.textSecondary, fontSize: 14, textAlign: 'center' },
+
+  // Media viewer modal
+  viewerRoot: { flex: 1, backgroundColor: 'rgba(0,0,0,0.92)' },
+  viewerBackdrop: StyleSheet.absoluteFill,
+  viewerContent: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  viewerClose: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+    zIndex: 10,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  viewerMedia: { width: SCREEN_W, height: SCREEN_W * 1.4 },
+  viewerInfo: { paddingHorizontal: 24, paddingTop: 16, gap: 4, alignSelf: 'stretch' },
+  viewerTitle: { color: '#fff', fontSize: 17, fontWeight: '700' },
+  viewerDesc: { color: Colors.textSecondary, fontSize: 14 },
 
   // CTA
   ctaContainer: {
