@@ -17,15 +17,18 @@ const STATUS_COLORS: Record<string, string> = {
 const FILTERS = ['All', 'Pending', 'Accepted', 'Completed'];
 
 function BookingItem({ booking }: { booking: Booking }) {
-  const statusColor = STATUS_COLORS[booking.status] ?? Colors.textMuted;
+  // Server status is lowercase ('completed', not 'COMPLETED') — normalize
+  // so this lookup actually matches instead of silently falling through to
+  // the muted default color for every booking.
+  const statusColor = STATUS_COLORS[booking.status?.toUpperCase()] ?? Colors.textMuted;
   const date = booking.eventDate ? new Date(booking.eventDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
 
   return (
-    <View style={s.card}>
+    <TouchableOpacity style={s.card} onPress={() => router.push(`/booking/${booking.id}` as any)} activeOpacity={0.85}>
       <View style={s.cardHeader}>
         <Text style={s.eventName} numberOfLines={1}>{booking.eventName}</Text>
         <View style={[s.statusBadge, { backgroundColor: statusColor + '22', borderColor: statusColor + '55' }]}>
-          <Text style={[s.statusText, { color: statusColor }]}>{booking.status}</Text>
+          <Text style={[s.statusText, { color: statusColor }]}>{booking.status?.toUpperCase()}</Text>
         </View>
       </View>
       <View style={s.cardMeta}>
@@ -46,7 +49,7 @@ function BookingItem({ booking }: { booking: Booking }) {
           </View>
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

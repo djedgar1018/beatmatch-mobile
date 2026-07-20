@@ -209,13 +209,28 @@ export interface Booking {
   eventDate: string;
   duration: number;
   description?: string;
+  eventDescription?: string;
   proposedRate?: number;
-  status: 'PENDING' | 'ACCEPTED' | 'DECLINED' | 'COMPLETED' | 'CANCELLED';
+  finalRate?: number;
+  // Server stores lowercase ('pending'|'accepted'|'declined'|'counter_offered'|'completed'|'cancelled')
+  // — widened to string so a case mismatch here can't silently break comparisons again.
+  status: string;
   djId?: string;
   venueId?: string;
+  isPaid?: boolean;
+  balancePaid?: boolean;
   djProfile?: { stageName: string; profileImageUrl?: string };
   venue?: { name?: string };
   createdAt: string;
+}
+
+export interface BalanceStatus {
+  totalAmount: number;
+  depositPaid: number;
+  balanceDue: number;
+  balancePaid: boolean;
+  bookingId: string;
+  eventName: string;
 }
 
 export interface CreateBookingPayload {
@@ -251,6 +266,35 @@ export function useCreateBooking() {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['bookings'] });
+    },
+  });
+}
+
+export function useBooking(id: string | undefined) {
+  return useQuery<Booking>({
+    queryKey: ['booking', id],
+    queryFn: () => apiFetch<Booking>(`/api/bookings/${id}`),
+    enabled: !!id,
+  });
+}
+
+export function useBalanceStatus(id: string | undefined, enabled = true) {
+  return useQuery<BalanceStatus>({
+    queryKey: ['booking', id, 'balance-status'],
+    queryFn: () => apiFetch<BalanceStatus>(`/api/bookings/${id}/balance-status`),
+    enabled: !!id && enabled,
+  });
+}
+
+export function useSendBalanceInvoice(id: string | undefined) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => apiFetch<{ url: string; clientEmail: string }>(`/api/bookings/${id}/send-balance-invoice`, {
+      method: 'POST',
+    }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['booking', id] });
+      queryClient.invalidateQueries({ queryKey: ['booking', id, 'balance-status'] });
     },
   });
 }
