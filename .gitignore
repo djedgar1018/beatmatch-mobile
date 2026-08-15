@@ -40,3 +40,7 @@ social/.env
 # generated native folders
 /ios
 /android
+
+# Expo export artifacts
+.expo-release-export-*/
+expo-export/
