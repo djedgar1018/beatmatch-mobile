@@ -1,0 +1,7 @@
+ERR https://developer.apple.com/tutorials/data/documentation/appstoreconnectapi/reviewsubmissions.json HTTPError: HTTP Error 404: Not Found
+ERR https://developer.apple.com/tutorials/data/documentation/appstoreconnectapi/reviewsubmissionitems.json HTTPError: HTTP Error 404: Not Found
+OK https://developer.apple.com/tutorials/data/documentation/appstoreconnectapi/post-v1-reviewsubmissions.json -> runlogs/apple_docs/post-v1-reviewsubmissions.json bytes=15206
+OK https://developer.apple.com/tutorials/data/documentation/appstoreconnectapi/post-v1-reviewsubmissionitems.json -> runlogs/apple_docs/post-v1-reviewsubmissionitems.json bytes=9934
+ERR https://developer.apple.com/tutorials/data/documentation/appstoreconnectapi/post-v1-reviewsubmissions-_id_-relationships-items.json HTTPError: HTTP Error 404: Not Found
+ERR https://developer.apple.com/tutorials/data/documentation/appstoreconnectapi/post-v1-reviewsubmissions-_id_-submit.json HTTPError: HTTP Error 404: Not Found
+OK https://developer.apple.com/tutorials/data/documentation/appstoreconnectapi/patch-v1-reviewsubmissions-_id_.json -> runlogs/apple_docs/patch-v1-reviewsubmissions-_id_.json bytes=13936

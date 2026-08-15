@@ -1,0 +1,35 @@
+git_status
+?? runlogs/current_files_20260707.txt
+?? runlogs/mixmatch_submission_continuation_state_20260707.txt
+?? runlogs/submission/
+
+git_log
+6ac1ee0 (HEAD -> main) Document Mix Match App Review recovery spec
+2ffb7c8 Record Mix Match iOS build 32
+9245aac Set Mix Match release version to rejected 1.0 path
+1554d3a Fix Mix Match guest access for App Review
+2a50980 Prepare Mix Match App Review guest access build
+6d810e6 (origin/main, origin/HEAD) Add App Store guest-safe support updates
+2d4bb7a chore: bump buildNumber to 27 to supersede old Xcode builds (22, 26) in App Store Connect
+83d4cfb fix: replace hard login redirects with soft-gate placeholder screens on Bookings/Messages/Profile — Apple 5.1.1(v) compliant; guest users see informational screen with Sign Up CTA instead of abrupt auth redirect; hide Subscription Plans for unauthenticated users
+
+app_config
+{
+  "version": "1.0",
+  "ios": {
+    "supportsTablet": true,
+    "bundleIdentifier": "com.ten18.mixnmatch",
+    "buildNumber": "32",
+    "infoPlist": {
+      "NSMicrophoneUsageDescription": "Mix-Match may access your microphone for voice messages",
+      "NSCameraUsageDescription": "Mix-Match uses your camera to update your profile photo",
+      "NSPhotoLibraryUsageDescription": "Mix-Match accesses your photos for your DJ portfolio",
+      "ITSAppUsesNonExemptEncryption": false
+    },
+    "entitlements": {
+      "com.apple.developer.associated-domains": [
+        "applinks:beat-match-production.up.railway.app"
+      ]
+    }
+  }
+}

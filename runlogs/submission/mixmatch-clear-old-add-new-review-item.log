@@ -1,0 +1,96 @@
+{
+  "deleteOldRejectedItem": null,
+  "createNewItem": null,
+  "versionState": "PREPARE_FOR_SUBMISSION",
+  "versionBuild": {
+    "type": "builds",
+    "id": "4908047a-ce7c-4adf-8123-8ab8316cb35e"
+  },
+  "reviewSubmissions": [
+    {
+      "id": "386173d5-185a-4e65-afc6-8c7fda3ed7dd",
+      "state": "READY_FOR_REVIEW",
+      "submittedDate": null,
+      "items": []
+    },
+    {
+      "id": "4b63ce5d-0c84-4d92-9f3d-127c449be635",
+      "state": "UNRESOLVED_ISSUES",
+      "submittedDate": "2026-07-07T06:40:14.26Z",
+      "items": [
+        {
+          "type": "reviewSubmissionItems",
+          "id": "NGI2M2NlNWQtMGM4NC00ZDkyLTlmM2QtMTI3YzQ0OWJlNjM1fDZ8ODg2NDU3MDM5"
+        }
+      ]
+    },
+    {
+      "id": "4530170b-d575-4d17-9e3e-18fb37affc65",
+      "state": "COMPLETE",
+      "submittedDate": "2026-07-05T18:23:17.852Z",
+      "items": [
+        {
+          "type": "reviewSubmissionItems",
+          "id": "NDUzMDE3MGItZDU3NS00ZDE3LTllM2UtMThmYjM3YWZmYzY1fDZ8ODg2NDU3MDM5"
+        }
+      ]
+    }
+  ],
+  "included": [
+    {
+      "type": "reviewSubmissionItems",
+      "id": "NGI2M2NlNWQtMGM4NC00ZDkyLTlmM2QtMTI3YzQ0OWJlNjM1fDZ8ODg2NDU3MDM5",
+      "state": "REJECTED"
+    },
+    {
+      "type": "reviewSubmissionItems",
+      "id": "NDUzMDE3MGItZDU3NS00ZDE3LTllM2UtMThmYjM3YWZmYzY1fDZ8ODg2NDU3MDM5",
+      "state": "REMOVED"
+    }
+  ],
+  "errors": [
+    {
+      "step": "deleteOldRejectedItem",
+      "status": 409,
+      "body": {
+        "errors": [
+          {
+            "id": "fb7df3aa-b514-42ed-8e80-82f961e03812",
+            "status": "409",
+            "code": "STATE_ERROR.ENTITY_STATE_INVALID",
+            "title": "Resource state is invalid.",
+            "detail": "Item was already submitted"
+          }
+        ]
+      }
+    },
+    {
+      "step": "createNewItem",
+      "status": 409,
+      "body": {
+        "errors": [
+          {
+            "id": "c96dd99d-3fd7-4e6a-ae42-87d92ca2f9bc",
+            "status": "409",
+            "code": "STATE_ERROR.ENTITY_STATE_INVALID",
+            "title": "appStoreVersions with id '886457039' is not in valid state.",
+            "detail": "This resource cannot be reviewed, please check associated errors to see why.",
+            "meta": {
+              "associatedErrors": {
+                "/appStoreVersions/886457039": [
+                  {
+                    "id": "697afdec-47bf-491e-8afa-0cc1d3b365c7",
+                    "status": "409",
+                    "code": "STATE_ERROR.ITEM_PART_OF_ANOTHER_SUBMISSION",
+                    "title": "Item is already present in another reviewSubmission",
+                    "detail": "appStoreVersions with id 886457039 was already added to another reviewSubmission with id 4b63ce5d-0c84-4d92-9f3d-127c449be635"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

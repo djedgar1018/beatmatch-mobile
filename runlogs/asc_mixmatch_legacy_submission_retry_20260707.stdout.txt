@@ -1,0 +1,9 @@
+generatedAt=2026-07-07T22:29:20.636Z
+versionBefore={"id":"6ee9e137-1aef-4927-bf7a-74c0b1627530","state":"PREPARE_FOR_SUBMISSION","buildRel":{"type":"builds","id":"4908047a-ce7c-4adf-8123-8ab8316cb35e"}}
+build32={"id":"4908047a-ce7c-4adf-8123-8ab8316cb35e","version":"32","processingState":"VALID","uploadedDate":"2026-07-07T15:05:59-07:00"}
+existingAppStoreVersionSubmission={"status":404,"error":[{"id":"4bf0d4e0-0d5c-4d7c-8126-e08be502ddfb","status":"404","code":"NOT_FOUND","title":"The specified resource does not exist","detail":"There is no resource of type 'appStoreVersionSubmissions' with id '6ee9e137-1aef-4927-bf7a-74c0b1627530'"}]}
+deletedExistingAppStoreVersionSubmission=null
+createdAppStoreVersionSubmission=null
+appStoreVersionSubmissionAfter={"status":404,"error":[{"id":"98dde55b-1615-4d70-b119-4eeabb3d46a1","status":"404","code":"NOT_FOUND","title":"The specified resource does not exist","detail":"There is no resource of type 'appStoreVersionSubmissions' with id '6ee9e137-1aef-4927-bf7a-74c0b1627530'"}]}
+versionAfter={"id":"6ee9e137-1aef-4927-bf7a-74c0b1627530","state":"PREPARE_FOR_SUBMISSION","buildRel":{"type":"builds","id":"4908047a-ce7c-4adf-8123-8ab8316cb35e"}}
+blocker=create appStoreVersionSubmission failed 403: 403 FORBIDDEN_ERROR: The resource 'appStoreVersionSubmissions' does not allow 'CREATE'. Allowed operation is: DELETE

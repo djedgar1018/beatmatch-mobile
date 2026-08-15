@@ -1,0 +1,819 @@
+{
+  "generatedAt": "2026-07-07T22:32:09.591Z",
+  "appId": "6776072672",
+  "versionString": "1.0",
+  "targetBuild": "32",
+  "requests": [
+    {
+      "ok": true,
+      "status": 200,
+      "method": "GET",
+      "path": "/v1/apps/6776072672/appStoreVersions?filter[platform]=IOS&limit=10&include=build&fields[appStoreVersions]=platform,versionString,appStoreState,build&fields[builds]=version,uploadedDate,processingState,expired,usesNonExemptEncryption",
+      "requestBody": null,
+      "body": {
+        "data": [
+          {
+            "type": "appStoreVersions",
+            "id": "6ee9e137-1aef-4927-bf7a-74c0b1627530",
+            "attributes": {
+              "platform": "IOS",
+              "versionString": "1.0",
+              "appStoreState": "PREPARE_FOR_SUBMISSION"
+            },
+            "relationships": {
+              "build": {
+                "data": {
+                  "type": "builds",
+                  "id": "4908047a-ce7c-4adf-8123-8ab8316cb35e"
+                },
+                "links": {
+                  "self": "https://api.appstoreconnect.apple.com/v1/appStoreVersions/6ee9e137-1aef-4927-bf7a-74c0b1627530/relationships/build",
+                  "related": "https://api.appstoreconnect.apple.com/v1/appStoreVersions/6ee9e137-1aef-4927-bf7a-74c0b1627530/build"
+                }
+              }
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/appStoreVersions/6ee9e137-1aef-4927-bf7a-74c0b1627530"
+            }
+          }
+        ],
+        "included": [
+          {
+            "type": "builds",
+            "id": "4908047a-ce7c-4adf-8123-8ab8316cb35e",
+            "attributes": {
+              "version": "32",
+              "uploadedDate": "2026-07-07T15:05:59-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/4908047a-ce7c-4adf-8123-8ab8316cb35e"
+            }
+          }
+        ],
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/apps/6776072672/appStoreVersions?fields%5BappStoreVersions%5D=versionString%2Cbuild%2CappStoreState%2Cplatform&fields%5Bbuilds%5D=processingState%2Cexpired%2CusesNonExemptEncryption%2CuploadedDate%2Cversion&filter%5Bplatform%5D=IOS&include=build&limit=10"
+        },
+        "meta": {
+          "paging": {
+            "total": 1,
+            "limit": 10
+          }
+        }
+      }
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "method": "GET",
+      "path": "/v1/builds?filter[app]=6776072672&limit=20&sort=-uploadedDate&fields[builds]=version,uploadedDate,processingState,expired,usesNonExemptEncryption",
+      "requestBody": null,
+      "body": {
+        "data": [
+          {
+            "type": "builds",
+            "id": "4908047a-ce7c-4adf-8123-8ab8316cb35e",
+            "attributes": {
+              "version": "32",
+              "uploadedDate": "2026-07-07T15:05:59-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/4908047a-ce7c-4adf-8123-8ab8316cb35e"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "b81d4c60-896e-433b-acda-4ea5020fbb69",
+            "attributes": {
+              "version": "31",
+              "uploadedDate": "2026-07-07T15:01:14-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/b81d4c60-896e-433b-acda-4ea5020fbb69"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "519c5db8-1a21-479f-b286-0d26f1f0ea86",
+            "attributes": {
+              "version": "29",
+              "uploadedDate": "2026-07-06T23:26:15-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/519c5db8-1a21-479f-b286-0d26f1f0ea86"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "8d2bf558-9b5d-43e3-b724-5f4f56e9c521",
+            "attributes": {
+              "version": "26",
+              "uploadedDate": "2026-07-05T11:17:50-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/8d2bf558-9b5d-43e3-b724-5f4f56e9c521"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "3de3e415-aaa6-4a6f-a0cf-ed0448dbd9ad",
+            "attributes": {
+              "version": "25",
+              "uploadedDate": "2026-07-01T12:56:24-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/3de3e415-aaa6-4a6f-a0cf-ed0448dbd9ad"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "d78b8a06-15dc-47da-aa09-524780aa2d01",
+            "attributes": {
+              "version": "24",
+              "uploadedDate": "2026-07-01T12:47:13-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/d78b8a06-15dc-47da-aa09-524780aa2d01"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "a4d7aecb-daaf-44a1-9e7f-a39c5a780dd1",
+            "attributes": {
+              "version": "23",
+              "uploadedDate": "2026-07-01T12:04:39-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/a4d7aecb-daaf-44a1-9e7f-a39c5a780dd1"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "175d821f-f65e-4d14-89da-bf3bdf7a18fd",
+            "attributes": {
+              "version": "22",
+              "uploadedDate": "2026-06-29T20:41:33-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/175d821f-f65e-4d14-89da-bf3bdf7a18fd"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "6dc2cc64-f2eb-47df-85b8-04f877aa565c",
+            "attributes": {
+              "version": "21",
+              "uploadedDate": "2026-06-28T17:09:41-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/6dc2cc64-f2eb-47df-85b8-04f877aa565c"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "1ffd171f-b2cb-4693-94a7-5a736caaa175",
+            "attributes": {
+              "version": "20",
+              "uploadedDate": "2026-06-25T14:09:59-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/1ffd171f-b2cb-4693-94a7-5a736caaa175"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "df85a51f-0859-40d1-99ca-ef333eeb39e2",
+            "attributes": {
+              "version": "19",
+              "uploadedDate": "2026-06-25T10:57:35-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/df85a51f-0859-40d1-99ca-ef333eeb39e2"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "8eb60fb2-4687-42b5-972b-656a1b2d3935",
+            "attributes": {
+              "version": "18",
+              "uploadedDate": "2026-06-23T19:34:59-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/8eb60fb2-4687-42b5-972b-656a1b2d3935"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "89862ec7-cf63-4f72-90e7-7742244cd0de",
+            "attributes": {
+              "version": "1",
+              "uploadedDate": "2026-06-22T15:13:14-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/89862ec7-cf63-4f72-90e7-7742244cd0de"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "36ce171b-ee77-4327-986c-f3138d4d52ce",
+            "attributes": {
+              "version": "17",
+              "uploadedDate": "2026-06-18T08:38:47-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/36ce171b-ee77-4327-986c-f3138d4d52ce"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "bd0cbea6-a7be-48b5-88ac-b384f1b110e6",
+            "attributes": {
+              "version": "16",
+              "uploadedDate": "2026-06-16T17:04:26-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/bd0cbea6-a7be-48b5-88ac-b384f1b110e6"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "7ddfbbf5-75c7-4cbe-b609-32c8a9058489",
+            "attributes": {
+              "version": "15",
+              "uploadedDate": "2026-06-16T14:20:15-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/7ddfbbf5-75c7-4cbe-b609-32c8a9058489"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "84517747-dc91-401c-a7a5-fd2e16f63427",
+            "attributes": {
+              "version": "14",
+              "uploadedDate": "2026-06-12T13:24:22-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/84517747-dc91-401c-a7a5-fd2e16f63427"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "c6b08e59-97ee-4ce4-a6ac-3fc48af15051",
+            "attributes": {
+              "version": "13",
+              "uploadedDate": "2026-06-10T10:07:26-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/c6b08e59-97ee-4ce4-a6ac-3fc48af15051"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "ced3e058-8716-4aea-ac42-b8701251ad64",
+            "attributes": {
+              "version": "10",
+              "uploadedDate": "2026-06-09T07:59:05-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/ced3e058-8716-4aea-ac42-b8701251ad64"
+            }
+          },
+          {
+            "type": "builds",
+            "id": "8b521a10-d7f4-4654-ae9d-e3e128f764d9",
+            "attributes": {
+              "version": "9",
+              "uploadedDate": "2026-06-02T23:09:27-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/8b521a10-d7f4-4654-ae9d-e3e128f764d9"
+            }
+          }
+        ],
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/builds?fields%5Bbuilds%5D=processingState%2Cexpired%2CusesNonExemptEncryption%2CuploadedDate%2Cversion&filter%5Bapp%5D=6776072672&sort=-uploadedDate&limit=20",
+          "next": "https://api.appstoreconnect.apple.com/v1/builds?fields%5Bbuilds%5D=processingState%2Cexpired%2CusesNonExemptEncryption%2CuploadedDate%2Cversion&filter%5Bapp%5D=6776072672&sort=-uploadedDate&cursor=FA&limit=20"
+        },
+        "meta": {
+          "paging": {
+            "total": 21,
+            "nextCursor": "FA",
+            "limit": 20
+          }
+        }
+      }
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "method": "GET",
+      "path": "/v1/apps/6776072672/reviewSubmissions?limit=20&include=items&fields[reviewSubmissions]=platform,state,submittedDate,items&fields[reviewSubmissionItems]=state,appStoreVersion",
+      "requestBody": null,
+      "body": {
+        "data": [
+          {
+            "type": "reviewSubmissions",
+            "id": "386173d5-185a-4e65-afc6-8c7fda3ed7dd",
+            "attributes": {
+              "platform": "IOS",
+              "submittedDate": null,
+              "state": "READY_FOR_REVIEW"
+            },
+            "relationships": {
+              "items": {
+                "meta": {
+                  "paging": {
+                    "total": 0,
+                    "limit": 10
+                  }
+                },
+                "data": [],
+                "links": {
+                  "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/386173d5-185a-4e65-afc6-8c7fda3ed7dd/relationships/items",
+                  "related": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/386173d5-185a-4e65-afc6-8c7fda3ed7dd/items"
+                }
+              }
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/386173d5-185a-4e65-afc6-8c7fda3ed7dd"
+            }
+          },
+          {
+            "type": "reviewSubmissions",
+            "id": "4b63ce5d-0c84-4d92-9f3d-127c449be635",
+            "attributes": {
+              "platform": "IOS",
+              "submittedDate": "2026-07-07T06:40:14.26Z",
+              "state": "UNRESOLVED_ISSUES"
+            },
+            "relationships": {
+              "items": {
+                "meta": {
+                  "paging": {
+                    "total": 1,
+                    "limit": 10
+                  }
+                },
+                "data": [
+                  {
+                    "type": "reviewSubmissionItems",
+                    "id": "NGI2M2NlNWQtMGM4NC00ZDkyLTlmM2QtMTI3YzQ0OWJlNjM1fDZ8ODg2NDU3MDM5"
+                  }
+                ],
+                "links": {
+                  "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/4b63ce5d-0c84-4d92-9f3d-127c449be635/relationships/items",
+                  "related": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/4b63ce5d-0c84-4d92-9f3d-127c449be635/items"
+                }
+              }
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/4b63ce5d-0c84-4d92-9f3d-127c449be635"
+            }
+          },
+          {
+            "type": "reviewSubmissions",
+            "id": "4530170b-d575-4d17-9e3e-18fb37affc65",
+            "attributes": {
+              "platform": "IOS",
+              "submittedDate": "2026-07-05T18:23:17.852Z",
+              "state": "COMPLETE"
+            },
+            "relationships": {
+              "items": {
+                "meta": {
+                  "paging": {
+                    "total": 1,
+                    "limit": 10
+                  }
+                },
+                "data": [
+                  {
+                    "type": "reviewSubmissionItems",
+                    "id": "NDUzMDE3MGItZDU3NS00ZDE3LTllM2UtMThmYjM3YWZmYzY1fDZ8ODg2NDU3MDM5"
+                  }
+                ],
+                "links": {
+                  "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/4530170b-d575-4d17-9e3e-18fb37affc65/relationships/items",
+                  "related": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/4530170b-d575-4d17-9e3e-18fb37affc65/items"
+                }
+              }
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/4530170b-d575-4d17-9e3e-18fb37affc65"
+            }
+          }
+        ],
+        "included": [
+          {
+            "type": "reviewSubmissionItems",
+            "id": "NGI2M2NlNWQtMGM4NC00ZDkyLTlmM2QtMTI3YzQ0OWJlNjM1fDZ8ODg2NDU3MDM5",
+            "attributes": {
+              "state": "REJECTED"
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissionItems/NGI2M2NlNWQtMGM4NC00ZDkyLTlmM2QtMTI3YzQ0OWJlNjM1fDZ8ODg2NDU3MDM5"
+            }
+          },
+          {
+            "type": "reviewSubmissionItems",
+            "id": "NDUzMDE3MGItZDU3NS00ZDE3LTllM2UtMThmYjM3YWZmYzY1fDZ8ODg2NDU3MDM5",
+            "attributes": {
+              "state": "REMOVED"
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissionItems/NDUzMDE3MGItZDU3NS00ZDE3LTllM2UtMThmYjM3YWZmYzY1fDZ8ODg2NDU3MDM5"
+            }
+          }
+        ],
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/apps/6776072672/reviewSubmissions?fields%5BreviewSubmissionItems%5D=appStoreVersion%2Cstate&fields%5BreviewSubmissions%5D=state%2CsubmittedDate%2Citems%2Cplatform&include=items&limit=20"
+        },
+        "meta": {
+          "paging": {
+            "total": 3,
+            "limit": 20
+          }
+        }
+      }
+    },
+    {
+      "ok": false,
+      "status": 404,
+      "method": "POST",
+      "path": "/v1/reviewSubmissions/386173d5-185a-4e65-afc6-8c7fda3ed7dd/submit",
+      "requestBody": null,
+      "body": {
+        "errors": [
+          {
+            "id": "87bace55-7234-49c4-8d6b-a94b82851f1d",
+            "status": "404",
+            "code": "PATH_ERROR",
+            "title": "The URL path is not valid",
+            "detail": "The relationship 'submit' does not exist"
+          }
+        ]
+      }
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "method": "GET",
+      "path": "/v1/apps/6776072672/reviewSubmissions?limit=20&include=items&fields[reviewSubmissions]=platform,state,submittedDate,items&fields[reviewSubmissionItems]=state,appStoreVersion",
+      "requestBody": null,
+      "body": {
+        "data": [
+          {
+            "type": "reviewSubmissions",
+            "id": "386173d5-185a-4e65-afc6-8c7fda3ed7dd",
+            "attributes": {
+              "platform": "IOS",
+              "submittedDate": null,
+              "state": "READY_FOR_REVIEW"
+            },
+            "relationships": {
+              "items": {
+                "meta": {
+                  "paging": {
+                    "total": 0,
+                    "limit": 10
+                  }
+                },
+                "data": [],
+                "links": {
+                  "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/386173d5-185a-4e65-afc6-8c7fda3ed7dd/relationships/items",
+                  "related": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/386173d5-185a-4e65-afc6-8c7fda3ed7dd/items"
+                }
+              }
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/386173d5-185a-4e65-afc6-8c7fda3ed7dd"
+            }
+          },
+          {
+            "type": "reviewSubmissions",
+            "id": "4b63ce5d-0c84-4d92-9f3d-127c449be635",
+            "attributes": {
+              "platform": "IOS",
+              "submittedDate": "2026-07-07T06:40:14.26Z",
+              "state": "UNRESOLVED_ISSUES"
+            },
+            "relationships": {
+              "items": {
+                "meta": {
+                  "paging": {
+                    "total": 1,
+                    "limit": 10
+                  }
+                },
+                "data": [
+                  {
+                    "type": "reviewSubmissionItems",
+                    "id": "NGI2M2NlNWQtMGM4NC00ZDkyLTlmM2QtMTI3YzQ0OWJlNjM1fDZ8ODg2NDU3MDM5"
+                  }
+                ],
+                "links": {
+                  "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/4b63ce5d-0c84-4d92-9f3d-127c449be635/relationships/items",
+                  "related": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/4b63ce5d-0c84-4d92-9f3d-127c449be635/items"
+                }
+              }
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/4b63ce5d-0c84-4d92-9f3d-127c449be635"
+            }
+          },
+          {
+            "type": "reviewSubmissions",
+            "id": "4530170b-d575-4d17-9e3e-18fb37affc65",
+            "attributes": {
+              "platform": "IOS",
+              "submittedDate": "2026-07-05T18:23:17.852Z",
+              "state": "COMPLETE"
+            },
+            "relationships": {
+              "items": {
+                "meta": {
+                  "paging": {
+                    "total": 1,
+                    "limit": 10
+                  }
+                },
+                "data": [
+                  {
+                    "type": "reviewSubmissionItems",
+                    "id": "NDUzMDE3MGItZDU3NS00ZDE3LTllM2UtMThmYjM3YWZmYzY1fDZ8ODg2NDU3MDM5"
+                  }
+                ],
+                "links": {
+                  "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/4530170b-d575-4d17-9e3e-18fb37affc65/relationships/items",
+                  "related": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/4530170b-d575-4d17-9e3e-18fb37affc65/items"
+                }
+              }
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissions/4530170b-d575-4d17-9e3e-18fb37affc65"
+            }
+          }
+        ],
+        "included": [
+          {
+            "type": "reviewSubmissionItems",
+            "id": "NGI2M2NlNWQtMGM4NC00ZDkyLTlmM2QtMTI3YzQ0OWJlNjM1fDZ8ODg2NDU3MDM5",
+            "attributes": {
+              "state": "REJECTED"
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissionItems/NGI2M2NlNWQtMGM4NC00ZDkyLTlmM2QtMTI3YzQ0OWJlNjM1fDZ8ODg2NDU3MDM5"
+            }
+          },
+          {
+            "type": "reviewSubmissionItems",
+            "id": "NDUzMDE3MGItZDU3NS00ZDE3LTllM2UtMThmYjM3YWZmYzY1fDZ8ODg2NDU3MDM5",
+            "attributes": {
+              "state": "REMOVED"
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/reviewSubmissionItems/NDUzMDE3MGItZDU3NS00ZDE3LTllM2UtMThmYjM3YWZmYzY1fDZ8ODg2NDU3MDM5"
+            }
+          }
+        ],
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/apps/6776072672/reviewSubmissions?fields%5BreviewSubmissionItems%5D=appStoreVersion%2Cstate&fields%5BreviewSubmissions%5D=state%2CsubmittedDate%2Citems%2Cplatform&include=items&limit=20"
+        },
+        "meta": {
+          "paging": {
+            "total": 3,
+            "limit": 20
+          }
+        }
+      }
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "method": "GET",
+      "path": "/v1/apps/6776072672/appStoreVersions?filter[platform]=IOS&limit=10&include=build&fields[appStoreVersions]=platform,versionString,appStoreState,build&fields[builds]=version,uploadedDate,processingState,expired,usesNonExemptEncryption",
+      "requestBody": null,
+      "body": {
+        "data": [
+          {
+            "type": "appStoreVersions",
+            "id": "6ee9e137-1aef-4927-bf7a-74c0b1627530",
+            "attributes": {
+              "platform": "IOS",
+              "versionString": "1.0",
+              "appStoreState": "PREPARE_FOR_SUBMISSION"
+            },
+            "relationships": {
+              "build": {
+                "data": {
+                  "type": "builds",
+                  "id": "4908047a-ce7c-4adf-8123-8ab8316cb35e"
+                },
+                "links": {
+                  "self": "https://api.appstoreconnect.apple.com/v1/appStoreVersions/6ee9e137-1aef-4927-bf7a-74c0b1627530/relationships/build",
+                  "related": "https://api.appstoreconnect.apple.com/v1/appStoreVersions/6ee9e137-1aef-4927-bf7a-74c0b1627530/build"
+                }
+              }
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/appStoreVersions/6ee9e137-1aef-4927-bf7a-74c0b1627530"
+            }
+          }
+        ],
+        "included": [
+          {
+            "type": "builds",
+            "id": "4908047a-ce7c-4adf-8123-8ab8316cb35e",
+            "attributes": {
+              "version": "32",
+              "uploadedDate": "2026-07-07T15:05:59-07:00",
+              "expired": false,
+              "processingState": "VALID",
+              "usesNonExemptEncryption": false
+            },
+            "links": {
+              "self": "https://api.appstoreconnect.apple.com/v1/builds/4908047a-ce7c-4adf-8123-8ab8316cb35e"
+            }
+          }
+        ],
+        "links": {
+          "self": "https://api.appstoreconnect.apple.com/v1/apps/6776072672/appStoreVersions?fields%5BappStoreVersions%5D=versionString%2Cbuild%2CappStoreState%2Cplatform&fields%5Bbuilds%5D=processingState%2Cexpired%2CusesNonExemptEncryption%2CuploadedDate%2Cversion&filter%5Bplatform%5D=IOS&include=build&limit=10"
+        },
+        "meta": {
+          "paging": {
+            "total": 1,
+            "limit": 10
+          }
+        }
+      }
+    }
+  ],
+  "result": {
+    "versionBefore": {
+      "id": "6ee9e137-1aef-4927-bf7a-74c0b1627530",
+      "state": "PREPARE_FOR_SUBMISSION",
+      "buildRel": {
+        "type": "builds",
+        "id": "4908047a-ce7c-4adf-8123-8ab8316cb35e"
+      }
+    },
+    "build32": {
+      "id": "4908047a-ce7c-4adf-8123-8ab8316cb35e",
+      "version": "32",
+      "processingState": "VALID",
+      "uploadedDate": "2026-07-07T15:05:59-07:00",
+      "expired": false
+    },
+    "linkedBuild": false,
+    "reviewSubmissionsBefore": [
+      {
+        "id": "386173d5-185a-4e65-afc6-8c7fda3ed7dd",
+        "state": "READY_FOR_REVIEW",
+        "submittedDate": null,
+        "items": []
+      },
+      {
+        "id": "4b63ce5d-0c84-4d92-9f3d-127c449be635",
+        "state": "UNRESOLVED_ISSUES",
+        "submittedDate": "2026-07-07T06:40:14.26Z",
+        "items": [
+          {
+            "type": "reviewSubmissionItems",
+            "id": "NGI2M2NlNWQtMGM4NC00ZDkyLTlmM2QtMTI3YzQ0OWJlNjM1fDZ8ODg2NDU3MDM5"
+          }
+        ]
+      },
+      {
+        "id": "4530170b-d575-4d17-9e3e-18fb37affc65",
+        "state": "COMPLETE",
+        "submittedDate": "2026-07-05T18:23:17.852Z",
+        "items": [
+          {
+            "type": "reviewSubmissionItems",
+            "id": "NDUzMDE3MGItZDU3NS00ZDE3LTllM2UtMThmYjM3YWZmYzY1fDZ8ODg2NDU3MDM5"
+          }
+        ]
+      }
+    ],
+    "targetReviewSubmission": {
+      "id": "386173d5-185a-4e65-afc6-8c7fda3ed7dd",
+      "state": "READY_FOR_REVIEW",
+      "submittedDate": null,
+      "items": []
+    },
+    "submitExistingReviewSubmissionError": {
+      "status": 404,
+      "errors": [
+        {
+          "id": "87bace55-7234-49c4-8d6b-a94b82851f1d",
+          "status": "404",
+          "code": "PATH_ERROR",
+          "title": "The URL path is not valid",
+          "detail": "The relationship 'submit' does not exist"
+        }
+      ]
+    },
+    "reviewSubmissionsAfter": [
+      {
+        "id": "386173d5-185a-4e65-afc6-8c7fda3ed7dd",
+        "state": "READY_FOR_REVIEW",
+        "submittedDate": null,
+        "items": []
+      },
+      {
+        "id": "4b63ce5d-0c84-4d92-9f3d-127c449be635",
+        "state": "UNRESOLVED_ISSUES",
+        "submittedDate": "2026-07-07T06:40:14.26Z",
+        "items": [
+          {
+            "type": "reviewSubmissionItems",
+            "id": "NGI2M2NlNWQtMGM4NC00ZDkyLTlmM2QtMTI3YzQ0OWJlNjM1fDZ8ODg2NDU3MDM5"
+          }
+        ]
+      },
+      {
+        "id": "4530170b-d575-4d17-9e3e-18fb37affc65",
+        "state": "COMPLETE",
+        "submittedDate": "2026-07-05T18:23:17.852Z",
+        "items": [
+          {
+            "type": "reviewSubmissionItems",
+            "id": "NDUzMDE3MGItZDU3NS00ZDE3LTllM2UtMThmYjM3YWZmYzY1fDZ8ODg2NDU3MDM5"
+          }
+        ]
+      }
+    ],
+    "versionAfter": {
+      "id": "6ee9e137-1aef-4927-bf7a-74c0b1627530",
+      "state": "PREPARE_FOR_SUBMISSION",
+      "buildRel": {
+        "type": "builds",
+        "id": "4908047a-ce7c-4adf-8123-8ab8316cb35e"
+      }
+    }
+  },
+  "blocker": "POST /v1/reviewSubmissions/386173d5-185a-4e65-afc6-8c7fda3ed7dd/submit failed 404: 404 PATH_ERROR: The relationship 'submit' does not exist"
+}

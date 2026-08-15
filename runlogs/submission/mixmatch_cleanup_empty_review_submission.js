@@ -1,0 +1,18 @@
+const fs = require('fs');
+const crypto = require('crypto');
+const keyPath = '/Users/mini/.appstoreconnect/private_keys/AuthKey_VTRT89PDB7.p8';
+const keyId = 'VTRT89PDB7';
+const issuerId = '48e7c084-254c-49f5-8568-4607e99d4b6d';
+const appId = '6776072672';
+const emptySubmissionId = '386173d5-185a-4e65-afc6-8c7fda3ed7dd';
+function b64url(input) { return Buffer.from(input).toString('base64').replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_'); }
+function jwt() { const now=Math.floor(Date.now()/1000); const h={alg:'ES256',kid:keyId,typ:'JWT'}; const p={iss:issuerId,iat:now-60,exp:now+20*60,aud:'appstoreconnect-v1'}; const i=`${b64url(JSON.stringify(h))}.${b64url(JSON.stringify(p))}`; const sig=crypto.sign('sha256',Buffer.from(i),{key:fs.readFileSync(keyPath,'utf8'),dsaEncoding:'ieee-p1363'}); return `${i}.${b64url(sig)}`; }
+async function api(method,path,body){const res=await fetch(`https://api.appstoreconnect.apple.com${path}`,{method,headers:{Authorization:`Bearer ${jwt()}`,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});const text=await res.text();let json;try{json=text?JSON.parse(text):null}catch{json=text};if(!res.ok){const e=new Error(`${method} ${path} -> ${res.status}`);e.status=res.status;e.body=json;throw e;}return json;}
+async function step(out,name,fn){try{out[name]=await fn();return out[name]}catch(e){out.errors.push({step:name,status:e.status,body:e.body||e.message});return null}}
+(async()=>{
+ const out={time:new Date().toISOString(),errors:[]};
+ out.deleteEmptySubmission=await step(out,'deleteEmptySubmission',()=>api('DELETE',`/v1/reviewSubmissions/${emptySubmissionId}`));
+ out.after=await step(out,'after',()=>api('GET',`/v1/apps/${appId}/reviewSubmissions?limit=10&include=items&fields[reviewSubmissions]=platform,state,submittedDate,items&fields[reviewSubmissionItems]=state,appStoreVersion`));
+ fs.writeFileSync('runlogs/submission/mixmatch-cleanup-empty-review-submission-result.json',JSON.stringify(out,null,2));
+ console.log(JSON.stringify({deleteEmptySubmission: out.errors.find(e=>e.step==='deleteEmptySubmission') ? 'failed' : 'success_or_empty_204', reviewSubmissions: out.after?.data?.map(r=>({id:r.id,state:r.attributes?.state,submittedDate:r.attributes?.submittedDate,items:r.relationships?.items?.data})), included: out.after?.included?.map(i=>({type:i.type,id:i.id,state:i.attributes?.state})), errors: out.errors},null,2));
+})().catch(e=>{console.error(e.message); if(e.body) console.error(JSON.stringify(e.body,null,2)); process.exit(1)});

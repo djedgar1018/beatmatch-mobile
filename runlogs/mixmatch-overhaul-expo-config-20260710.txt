@@ -1,0 +1,78 @@
+
+{
+  name: [32m'Mix-Match'[39m,
+  slug: [32m'mix-match'[39m,
+  version: [32m'1.0'[39m,
+  orientation: [32m'portrait'[39m,
+  icon: [32m'./assets/icon.png'[39m,
+  scheme: [32m'mix-match'[39m,
+  userInterfaceStyle: [32m'dark'[39m,
+  plugins: [
+    [32m'expo-router'[39m,
+    [32m'expo-status-bar'[39m,
+    [32m'expo-image'[39m,
+    [
+      [32m'expo-notifications'[39m,
+      {
+        icon: [32m'./assets/icon.png'[39m,
+        color: [32m'#7c3aed'[39m
+      }
+    ],
+    [32m'expo-video'[39m
+  ],
+  owner: [32m'djedgar00'[39m,
+  description: [90mundefined[39m,
+  sdkVersion: [32m'56.0.0'[39m,
+  platforms: [
+    [32m'ios'[39m,
+    [32m'android'[39m
+  ],
+  ios: {
+    supportsTablet: [33mtrue[39m,
+    bundleIdentifier: [32m'com.ten18.mixnmatch'[39m,
+    buildNumber: [32m'32'[39m,
+    infoPlist: {
+      NSMicrophoneUsageDescription: [32m'Mix-Match may access your microphone for voice messages'[39m,
+      NSCameraUsageDescription: [32m'Mix-Match uses your camera to update your profile photo'[39m,
+      NSPhotoLibraryUsageDescription: [32m'Mix-Match accesses your photos for your DJ portfolio'[39m,
+      ITSAppUsesNonExemptEncryption: [33mfalse[39m
+    },
+    entitlements: {
+      [32m'com.apple.developer.associated-domains'[39m: [
+        [32m'applinks:beat-match-production.up.railway.app'[39m
+      ]
+    }
+  },
+  android: {
+    predictiveBackGestureEnabled: [33mfalse[39m,
+    package: [32m'com.ten18.mixnmatch'[39m,
+    adaptiveIcon: {
+      backgroundColor: [32m'#7c3aed'[39m,
+      foregroundImage: [32m'./assets/android-icon-foreground.png'[39m,
+      backgroundImage: [32m'./assets/android-icon-background.png'[39m,
+      monochromeImage: [32m'./assets/android-icon-monochrome.png'[39m
+    }
+  },
+  web: {
+    favicon: [32m'./assets/favicon.png'[39m,
+    bundler: [32m'metro'[39m
+  },
+  experiments: {
+    typedRoutes: [33mtrue[39m
+  },
+  extra: {
+    router: {},
+    eas: {
+      projectId: [32m'bfdd3aa7-f064-4a54-af40-96d154c1dfad'[39m
+    }
+  },
+  runtimeVersion: {
+    policy: [32m'appVersion'[39m
+  },
+  updates: {
+    url: [32m'https://u.expo.dev/bfdd3aa7-f064-4a54-af40-96d154c1dfad'[39m,
+    enabled: [33mfalse[39m,
+    checkAutomatically: [32m'NEVER'[39m
+  }
+}
+

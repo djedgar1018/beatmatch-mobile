@@ -1,0 +1,81 @@
+FILE runlogs/apple_docs/patch-v1-reviewsubmissions-_id_.json
+title=Modify a Review Submission
+has endpoint
+has method
+has url
+has path
+has title
+has abstract
+has parameters
+has response
+"bodyContentType": [ | { | "text": "ReviewSubmissionUpdateRequest", | "kind": "typeIdentifier", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionUpdateRequest",
+"text": "ReviewSubmissionUpdateRequest", | "kind": "typeIdentifier", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionUpdateRequest", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionUpdateRequest" | }
+"kind": "typeIdentifier", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionUpdateRequest", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionUpdateRequest" | } | ]
+"type": [ | { | "text": "ReviewSubmissionResponse", | "kind": "typeIdentifier", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionResponse",
+"text": "ReviewSubmissionResponse", | "kind": "typeIdentifier", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionResponse", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionResponse" | }
+"kind": "typeIdentifier", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionResponse", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionResponse" | } | ],
+"title": "Read Review Submission Information" | }, | "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionResponse": { | "navigatorTitle": [ | {
+"navigatorTitle": [ | { | "text": "ReviewSubmissionResponse", | "kind": "identifier" | }
+} | ], | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionResponse", | "kind": "symbol", | "role": "symbol",
+}, | { | "text": "ReviewSubmissionResponse", | "kind": "identifier" | }
+], | "url": "/documentation/appstoreconnectapi/reviewsubmissionresponse", | "title": "ReviewSubmissionResponse", | "type": "topic" | },
+"type": "topic" | }, | "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionUpdateRequest": { | "type": "topic", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionUpdateRequest",
+"doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionUpdateRequest": { | "type": "topic", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionUpdateRequest", | "fragments": [ | {
+}, | { | "text": "ReviewSubmissionUpdateRequest", | "kind": "identifier" | }
+{ | "kind": "identifier", | "text": "ReviewSubmissionUpdateRequest" | } | ],
+} | ], | "title": "ReviewSubmissionUpdateRequest" | }, | "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/PATCH-v1-reviewSubmissions-_id_": {
+---
+FILE runlogs/apple_docs/post-v1-reviewsubmissionitems.json
+title=Create a Review Submission Item
+has endpoint
+has method
+has url
+has path
+has title
+has abstract
+has parameters
+has response
+"bodyContentType": [ | { | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionItemCreateRequest", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionItemCreateRequest", | "kind": "typeIdentifier",
+{ | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionItemCreateRequest", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionItemCreateRequest", | "kind": "typeIdentifier", | "text": "ReviewSubmissionItemCreateRequest"
+"preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionItemCreateRequest", | "kind": "typeIdentifier", | "text": "ReviewSubmissionItemCreateRequest" | } | ],
+"type": [ | { | "text": "ReviewSubmissionItemResponse", | "kind": "typeIdentifier", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionItemResponse",
+"text": "ReviewSubmissionItemResponse", | "kind": "typeIdentifier", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionItemResponse", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionItemResponse" | }
+"kind": "typeIdentifier", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionItemResponse", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionItemResponse" | } | ],
+}, | "references": { | "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionItemResponse": { | "role": "symbol", | "type": "topic",
+}, | { | "text": "ReviewSubmissionItemResponse", | "kind": "identifier" | }
+} | ], | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionItemResponse", | "kind": "symbol", | "navigatorTitle": [
+"navigatorTitle": [ | { | "text": "ReviewSubmissionItemResponse", | "kind": "identifier" | }
+} | ], | "title": "ReviewSubmissionItemResponse", | "url": "/documentation/appstoreconnectapi/reviewsubmissionitemresponse" | },
+"title": "Create a Review Submission Item" | }, | "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionItemCreateRequest": { | "fragments": [ | {
+}, | { | "text": "ReviewSubmissionItemCreateRequest", | "kind": "identifier" | }
+"navigatorTitle": [ | { | "text": "ReviewSubmissionItemCreateRequest", | "kind": "identifier" | }
+} | ], | "title": "ReviewSubmissionItemCreateRequest", | "abstract": [ | {
+} | ], | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionItemCreateRequest" | }, | "doc://com.apple.documentation/documentation/technologies": {
+---
+FILE runlogs/apple_docs/post-v1-reviewsubmissions.json
+title=Create a Review Submission
+has endpoint
+has method
+has url
+has path
+has title
+has abstract
+has parameters
+has response
+{ | "kind": "typeIdentifier", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionCreateRequest", | "text": "ReviewSubmissionCreateRequest", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionCreateRequest"
+"kind": "typeIdentifier", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionCreateRequest", | "text": "ReviewSubmissionCreateRequest", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionCreateRequest" | }
+"identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionCreateRequest", | "text": "ReviewSubmissionCreateRequest", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionCreateRequest" | } | ]
+"type": [ | { | "text": "ReviewSubmissionResponse", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionResponse", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionResponse",
+{ | "text": "ReviewSubmissionResponse", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionResponse", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionResponse", | "kind": "typeIdentifier"
+"text": "ReviewSubmissionResponse", | "preciseIdentifier": "data:app_store_connect_api:ReviewSubmissionResponse", | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionResponse", | "kind": "typeIdentifier" | }
+], | "references": { | "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionResponse": { | "navigatorTitle": [ | {
+"navigatorTitle": [ | { | "text": "ReviewSubmissionResponse", | "kind": "identifier" | }
+} | ], | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionResponse", | "kind": "symbol", | "role": "symbol",
+}, | { | "text": "ReviewSubmissionResponse", | "kind": "identifier" | }
+], | "url": "/documentation/appstoreconnectapi/reviewsubmissionresponse", | "title": "ReviewSubmissionResponse", | "type": "topic" | },
+"url": "/documentation/appstoreconnectapi/post-v1-reviewsubmissions" | }, | "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionCreateRequest": { | "url": "/documentation/appstoreconnectapi/reviewsubmissioncreaterequest", | "type": "topic",
+} | ], | "identifier": "doc://com.apple.appstoreconnectapi/documentation/AppStoreConnectAPI/ReviewSubmissionCreateRequest", | "fragments": [ | {
+}, | { | "text": "ReviewSubmissionCreateRequest", | "kind": "identifier" | }
+{ | "kind": "identifier", | "text": "ReviewSubmissionCreateRequest" | } | ],
+], | "role": "symbol", | "title": "ReviewSubmissionCreateRequest" | } | },
+---
