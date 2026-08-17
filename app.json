@@ -10,7 +10,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ten18.mixnmatch",
-      "buildNumber": "37",
+      "buildNumber": "38",
       "infoPlist": {
         "NSMicrophoneUsageDescription": "Mix-Match may access your microphone for voice messages",
         "NSCameraUsageDescription": "Mix-Match uses your camera to update your profile photo",
