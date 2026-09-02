@@ -44,3 +44,5 @@ social/.env
 # Expo export artifacts
 .expo-release-export-*/
 expo-export/
+*.ipa
+runlogs/
